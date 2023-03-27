@@ -1,0 +1,106 @@
+@charset "UTF-8";
+div.container{
+  font-size:small;
+  display:flex;
+  justify-content:space-between;
+}
+h5.guide_title{
+  font-weight: bold;
+  margin-bottom:24px;
+}
+
+/* main 시작 */
+div#main{
+  width:100%;
+  margin-left:48px;
+}
+input#email{
+  outline:none;
+  width:50%;
+}
+
+span.guide_content{
+  font-size: 12px;
+  color:#687280;
+}
+
+input[name=agreement]{
+  width:14px;
+  height:14px;
+}
+label[for='agreement']{
+  font-size:14px;
+  position:relative;
+  top:3px;
+}
+
+/* label_update */
+label.label_update{
+  margin-bottom:4px;
+  font-size:12px;
+}
+
+/* input_update */
+input.input_update_passwd,
+input.input_academy_member{
+  height:40px;
+  outline: none;
+  border:solid 1px #DEE2E6;
+}
+input.input_update_passwd::placeholder,
+input.input_academy_member::placeholder{
+  font-size:small;
+}
+
+
+
+/* error_msg */
+p.error{
+  color:red;
+  font-size:small;
+  display:none;
+}
+
+
+
+
+@media screen and (max-width: 768px){
+  div.container{
+    display:block;
+  }
+  
+  /* 메인 시작 */
+  div#main{
+    margin-top:24px;
+    margin-left:0;
+  }
+  /* 메인 끝 */
+}
+
+
+
+
+
+/* Modal */
+button#btn_send_email{
+  font-size:small;
+}
+input#input_certificationCode{
+  height:40px;
+}
+input#input_certificationCode:focus{
+  outline: none;
+}
+input#input_certificationCode::placeholder{
+  font-size:small;
+  
+}
+div#certification_area{
+  display:none;
+}
+span#send_guide{
+  font-size:small;
+  color:gray;
+}
+
+

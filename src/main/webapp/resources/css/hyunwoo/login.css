@@ -1,0 +1,125 @@
+@charset "UTF-8";
+div#login{
+  font-size:small;
+}
+
+div#login{
+  min-width: 300px;
+  width: 380px;
+}
+div#logo_img_box{
+  cursor: pointer;
+  width:100px;
+  height:100px;
+}
+img#logo{
+  width:100%;
+  height:100%;
+}
+
+p#about_content{
+  color:darkgray;
+}
+
+/* sns_login */
+div.sns_login{
+  cursor: pointer;
+  height:38px;
+  width: 50px;
+}
+div.sns_login img{
+  width : 40px;
+  height: 40px;
+}
+svg{
+  width: 20px;
+  height: 20px;
+}
+
+
+.line{
+  display:flex;
+  flex-basis:100%;
+  align-items: center;
+  color:darkgray;
+  font-size:14px;
+  margin:8px 0px;
+}
+
+.line::before{
+  content:"";
+  flex-grow:1;
+  margin:0px 16px;
+  background-color: darkgray;
+  height: 1px;
+  font-size: 0px;
+  line-height: 0px;
+}
+.line::after{
+  content:"";
+  flex-grow:1;
+  margin:0px 16px;
+  background: darkgray;
+  height: 1px;
+  font-size:0px;
+  line-height: 0px;
+}
+
+
+/* input_login */
+input.input_login{
+  height:40px;
+  outline:none;
+}
+input.input_login::placeholder{
+  font-size:small;
+}
+
+
+span.login_error{
+  display:none;
+  color:red;
+  font-size:small;
+}
+
+button#btn_login{
+  height:50px;
+  background-color: #208EC9;
+  font-size:medium;
+  font-weight: bold;
+  color:white;
+}
+
+button#btn_login:hover{
+  background-color: #14587D;
+}
+
+
+
+
+div#find_id{
+  color:#208EC9;
+  cursor:pointer;
+}
+div#find_id:hover{
+	color:#14587D;
+}
+
+
+span#btn_signup{
+  color:#208EC9;
+  cursor:pointer;
+}
+span#btn_signup:hover{
+	color:#14587D;
+}
+
+
+
+@media screen and (max-width: 768px){
+  div#login{
+    width: 90%;
+  }
+}
+
+
