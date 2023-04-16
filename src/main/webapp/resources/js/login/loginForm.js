@@ -1,9 +1,3 @@
-// js파일에서 contextPath를 알아내는 함수
-function getContextPath(){
-  let hostIndex = location.href.indexOf(location.host) + location.host.length;
-  let contextPath = location.href.substring(hostIndex, location.href.indexOf('/',hostIndex+1));
-  return contextPath;
-}
 
 window.onload = function () {
     google.accounts.id.initialize({
@@ -19,14 +13,14 @@ $(document).ready(function(){
 	Kakao.init("7643955cb5fbab2b0481e4b321cff247");
 	
 	//아이디에서 엔터입력이벤트
-	$("input#userid").keydown(function(e){	//아이디에서 값 입력시 이벤트
-	  if(e.keyCode == 13){	//엔터를 했을 경우
+	$("input#userId").keydown(function(e){	//아이디에서 값 입력시 이벤트
+	  if(e.keyCode == 13){	//엔터를 했1을 경우
 		$("button#btn_login").trigger("click");  
 	  }
 	});
 	
 	//패스워드에서 엔터입력이벤트
-	$("input#passwd").keydown(function(e){
+	$("input#password").keydown(function(e){
 	  if(e.keyCode == 13){	//엔터를 했을 경우
 	    $("button#btn_login").trigger("click");  
 	  }
@@ -36,185 +30,43 @@ $(document).ready(function(){
 	$("span#btn_signup").click(()=>{
 		location.href = getContextPath()+'/TOS.do';
 	});
-	
-	
+
 	//로그인버튼 클릭시 이벤트
 	$("button#btn_login").click(function(){
-	  const userid = $("input#userid").val().trim();
-	  const passwd = $("input#passwd").val().trim();
-	  if(userid == ""){	//아이디 값이 비어있다면
-		  $("span#passwd_error").css("display","none");
-		  $("span#userid_error").text("아이디를 입력해주세요");
-	      $("span#userid_error").css("display","block");
+	  const userId = $("input#userId").val().trim();
+	  const password = $("input#password").val().trim();
+	  if(userId == ""){	//아이디 값이 비어있다면
+		  $("span#password_error").css("display","none");
+		  $("span#userId_error").text("아이디를 입력해주세요");
+	      $("span#userId_error").css("display","block");
 	      return;
-	  }
-	  else if(passwd == ""){	//비밀번호 값이 비어있다면
-		  $("span#userid_error").css("display","none");
-		  $("span#passwd_error").text("비밀번호를 입력해주세요");
-		  $("span#passwd_error").css("display","block");
+	  } else if(password == ""){	//비밀번호 값이 비어있다면
+		  $("span#userId_error").css("display","none");
+		  $("span#password_error").text("비밀번호를 입력해주세요");
+		  $("span#password_error").css("display","block");
 		  return;
-	  }
-	  else{	//아이디도 입력하고 비밀번호도 입력했다면
-		  $("span#userid_error").text("");	//아이디 에러 지우기
-		  $("span#passwd_error").text("");	//비밀번호 에러 지우기
-		  $("span#userid_error").css("display","none");
-		  $("span#passwd_error").css("display","none");
+	  } else {	//아이디도 입력하고 비밀번호도 입력했다면
+		  $("span#userId_error").text("");	//아이디 에러 지우기
+		  $("span#password_error").text("");	//비밀번호 에러 지우기
+		  $("span#userId_error").css("display","none");
+		  $("span#password_error").css("display","none");
           const form = document.loginForm;
           form.method="POST";
           form.action= "/login"
           form.submit();
-
-//		  $.ajax({	//아이디존재여부 검사
-//			url:getContextPath()+"/member/idExistCheck.do",
-//			type:"POST",
-//			data:{"userid":userid},
-//		    dataType:"JSON",
-//		    success:function(json){
-//		    	if(!json.idExist){	//존재하지 않는 아이디라면
-//		    		$("span#userid_error").text("존재하지 않는 아이디입니다.");
-//		    		$("span#userid_error").css("display","block");
-//		    		return;
-//		    	}
-//		    	else{	//존재하는 아이디라면
-//		    		$.ajax({
-//		    			url:getContextPath()+"/userExist.do",
-//		    			type:"POST",
-//		    			data:{"userid":userid
-//		    				 ,"passwd":passwd},
-//		    		    dataType:"JSON",
-//		    		    success:function(json){
-//		    		    	if(json.userExist){ //로그인이 성공이라면
-//	    		    			user_status(userid);	//유저의 상태체크
-//		    		    		return;
-//		    		    	}
-//		    		    	else{	//로그인이 실패했다면
-//		    		    		$("span#userid_error").text("");
-//		    		    		$("span#userid_error").css("display","none");
-//		    		    		$("span#passwd_error").text("아이디 또는 비밀번호를 올바르게 입력해주세요.");
-//		    		    		$("span#passwd_error").css("display","block");
-//		    		    		return;
-//		    		    	}
-//		    		    },
-//		    			error: function(request, status, error){
-//		    			    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-//		    			}
-//		    		});//end of ajax
-//		    	}//end of else--
-//
-//			},
-//			error: function(request, status, error){
-//			    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-//			}
-//		});//end of ajax
-	  }
-	});//end of Event--
-	
-	
-	// 카카오로그인 버튼 클릭시 이벤트
-	$("div#kakao_login").click(()=>{
-		kakaoLogin(); 	
-	});//end of Event--
-	
-	
-	// 네이버로그인 버튼 클릭시 이벤트
-	$("div#naver_login").click(()=>{
-		const url = viewNaverLoginFrm();
-		location.href = url;
-	});//end of Event--
-	
-	
-  
+      }
+    });
 });//end of $(document).ready(function(){})
 
 //Function Declaration
 
-
-/**
- * user의 상태 체크
- * @param 사용자가 입력한 userid
- * @returns
- */
-function user_status(userid){
-	$.ajax({	
-		url:getContextPath()+"/statusCheck.do",
-		type:"POST",
-		data:{"userid":userid},
-	    dataType:"JSON",
-	    success:function(json){	
-	    	switch (json.status) {
-				case '활동':
-					login(userid);
-					break;
-					
-				case '정지':
-					if(json.penaltyReason.SIMPLE_PENALTY_REASON != '기타사유'){
-						alert("정지된 회원입니다. \n" +
-							  "정지사유 : "+json.penaltyReason.SIMPLE_PENALTY_REASON + "\n" +
-							  "정지기간 : " + json.penaltyReason.START_DATE + " ~ " + json.penaltyReason.END_DATE + "(" + json.penaltyReason.PERIOD + "일)");
-					}else{
-						alert("정지된 회원입니다. \n" +
-							  "정지사유 : " + json.detailReason + "\n" +
-							  "정지기간 : " + json.penaltyReason.START_DATE + " ~ " + json.penaltyReason.END_DATE + "(" + json.penaltyReason.PERIOD + "일)");
-					}
-					break;
-				case '휴면':
-					let result = confirm("로그인한지 1년이상 지나서 휴면회원으로 전환되었습니다. 휴면을 푸시겠습니까?");
-					if(result){	//휴면을 풀겠다고 했다면
-						$.ajax({	
-							url:getContextPath()+"/login/restRelease.do",
-							type:"POST",
-							data:{"userid":userid},
-						    dataType:"JSON",
-						    success:function(res){
-						    	if(res){
-						    		alert("휴면이 해제되었습니다.\n" +
-						    			  "다시 정상적으로 활동하실 수 있습니다!");
-						    		login(userid);
-						    	} else{
-						    		alert("휴면을 푸는 도중 문제가 발생하였습니다. 다시 시도하여주세요.");
-						    	}
-						    },
-						    error:function(request, status, error){
-							    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-							}
-						});//end of $.ajax({})--
-					}//end of if--
-					break;
-					
-				case '대기':
-					alert("승인대기중인 회원입니다. 관리자가 승인할 때 까지 기다려주세요!\n" +
-						  "승인에는 1~2일정도 소요될 수 있습니다.");
-					break;
-					
-				case '승인거부':
-					alert("승인이 거절되어 일반회원으로 전환되었습니다. \n" +
-						  "거부사유를  상세히 읽고 다시 교육기관회원으로 전환해주세요\n" +
-						  "승인 거부사유  : "+json.refuseReason);
-					login(userid);
-					break;
-				
-				case '비밀번호 변경 권장':
-					alert("비밀번호 변경한지 3개월 이상 지났습니다 비밀번호 변경을 권장합니다.");
-					login(userid);
-					break;
-			}//end of switch-case---
-	    },
-	    error:function(request, status, error){
-		    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		}
-	});//end of $.ajax({})--
-	    	
-}//end of method----
-
-
-
 /**
  * 로그인완료처리하기
  */
-function login(userid){
-	$("input#userid").val(userid);
+function login(userId){
+	$("input#userId").val(userId);
 	const frm = document.login_form;
-	frm.action = getContextPath()+"/login.do";
+	frm.action = "/login";
 	frm.method = "POST";
 	frm.submit();
 }//end of method--
@@ -227,7 +79,7 @@ function login(userid){
  * @returns
  */
 function kakaoLoginPro(response){
-  const userInfo = {userid:response.id,email:response.kakao_account.email,profile_image:response.properties.profile_image,nickname:response.properties.nickname,email_acept:'0'
+  const userInfo = {userId:response.id,email:response.kakao_account.email,profile_image:response.properties.profile_image,nickname:response.properties.nickname,email_acept:'0'
 		  		 ,username:response.properties.nickname,flag:'kakao'}
   $.ajax({
 	type : 'POST',
@@ -237,7 +89,7 @@ function kakaoLoginPro(response){
 	success : function(data){
 		console.log(data)
 		if(data.JavaData == "YES"){
-			user_status(data.userid);
+			user_status(data.userId);
 		}else if(data.JavaData == "register"){// 회원가입을 해야하는경우
 			userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
 		}else{
@@ -250,9 +102,6 @@ function kakaoLoginPro(response){
 	}
   });//end of ajax
 }//end of method---
-
-
-
 
 /**
  * 카카오로그인창 띄우기
@@ -277,8 +126,6 @@ function kakaoLogin(){
 	});
 }//end of method--
 
-
-
 /**
  * 소셜로그인 회원가입시키기
  */
@@ -291,7 +138,7 @@ function userSnsRegisterPro(userInfo){
 	success : function(data){
 		console.log(data)
 		if(data.JavaData == "YES"){
-			user_status(data.userid);
+			user_status(data.userId);
 		}else{
 			alert("로그인에 실패했습니다");
 		}
@@ -339,7 +186,7 @@ function handleCredentialResponse(response) {
 //    console.log("Image URL: " + responsePayload.picture);
 //    console.log("Email: " + responsePayload.email);
     
-    const userInfo = {userid:responsePayload.sub,
+    const userInfo = {userId:responsePayload.sub,
     				  email:responsePayload.email,
     				  profile_image:responsePayload.picture,
     				  nickname:responsePayload.given_name,
@@ -355,7 +202,7 @@ function handleCredentialResponse(response) {
 		success : function(data){
 		  console.log(data)
 		  if(data.JavaData == "YES"){
-			 user_status(data.userid);
+			 user_status(data.userId);
 		  }else if(data.JavaData == "register"){// 회원가입을 해야하는경우
 			 userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
 		  }else{
@@ -385,12 +232,6 @@ function parseJwt (token) {
 };
 
 
-
-
-
-
-
-
 // 페이스북 로그인
 
 //기존 로그인 상태를 가져오기 위해 Facebook에 대한 호출
@@ -408,7 +249,7 @@ function fnFbCustomLogin(){
 				//가져온 데이터 콘솔출력
 //				console.log(fb_data);
 				
-				const userInfo = {userid:fb_data.id
+				const userInfo = {userId:fb_data.id
 								 ,email:fb_data.email
 								 ,profile_image:fb_data.picture.data.url
 								 ,nickname:fb_data.name
@@ -454,7 +295,7 @@ function facebookLoginPro(userInfo){
 	success : function(data){
 		console.log(data)
 		if(data.JavaData == "YES"){
-			user_status(data.userid);	//로그인처리
+			user_status(data.userId);	//로그인처리
 		}else if(data.JavaData == "register"){// 회원가입을 해야하는경우
 			userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
 		}else{

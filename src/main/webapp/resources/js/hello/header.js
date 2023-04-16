@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-	 // 변수선언
+	// 변수선언
     const menu = $("div#slide_menu");
     const mask = $("div#slide_mask");
     const menu_open = $("div#btn_slide_menu_open");
@@ -50,9 +50,7 @@ $(document).ready(function(){
          event.stopPropagation();
      });
      ///////////// 관리자 메뉴 토글 끝 ////////////
-     
-     
-     
+
      // 스크롤되었을 때 보더바텀을 주고, 다시 맨위로갔을때 보더바텀을 없애기
      window.addEventListener('scroll', function(){
        let scrollTop = $(window).scrollTop();
@@ -63,70 +61,50 @@ $(document).ready(function(){
          $("#scroll-to-top").fadeIn();
        }
      });// end of window.addEventListener('scroll', function(){}----
-     
-     
+
      //스크롤을 맨위로 올리는 버튼을 클릭한다면 스크롤을 맨위로 올려주는 함수
      $("#scroll-to-top").click(function(){
 		$( 'html, body' ).animate( { scrollTop : 0 }, 400 );
 		return false;
 	 });
-     
-     
 }); // end of $(document).ready(function() ---------------------------------------
 
-	////// 드롭다운박스 외부클릭시 닫히는 함수 ////////
-	$(document).on("click", function () {
-	    $("#alarm_dropContent").hide();
-	    $("#profile_dropContent").hide();
-	    $("#admin_dropContent").hide();
-	});
-	//////////////////////////////////////
+////// 드롭다운박스 외부클릭시 닫히는 함수 ////////
+$(document).on("click", function () {
+    $("#alarm_dropContent").hide();
+    $("#profile_dropContent").hide();
+    $("#admin_dropContent").hide();
+});
+
 	
-	
-	////// 드롭박스 href 링크로 이동할때 드롭박스 닫히게 하기 시작 ////////
-	function member_controll() {
-		$("#admin_dropContent").hide();
-	}
-	
-	function academy_controll() {
-		$("#admin_dropContent").hide();
-	}
-	
-	
-	
-	function my_account() {
-		$("#profile_dropContent").hide();
-	}
-	
-	function my_info() {
-		$("#profile_dropContent").hide();
-	}
-	
-	function activity_details() {
-		$("#profile_dropContent").hide();
-	}
-	////// 드롭박스 href 링크로 이동할때 드롭박스 닫히게 하기 끝 ////////
-	
-	
-	/*  알림있을때 부분 jsp 완성되면 위와같이 알림리스트 클릭했을때 드롭박스 닫히게 수정하기 !!
-	 
-	function member_controll() {
-		$("#admin_dropContent").hide();
-	}
-	
-	*/
-	
-	
-	// 구글 로그아웃 함수
-	function signOut() {
-	   if(gapi.auth2 != undefined){
-	      let auth2 = gapi.auth2.getAuthInstance();
-	      auth2.signOut().then(function () {
-	      console.log('User signed out.');
-	     });
-	   }
-	   
-	   location.href= getContextPath()+"/logout.do";
-	}
+////// 드롭박스 href 링크로 이동할때 드롭박스 닫히게 하기 시작 ////////
+function member_controll() {
+    $("#admin_dropContent").hide();
+}
+
+function academy_controll() {
+    $("#admin_dropContent").hide();
+}
+
+function my_account() {
+    $("#profile_dropContent").hide();
+}
+
+function my_info() {
+    $("#profile_dropContent").hide();
+}
+
+function activity_details() {
+    $("#profile_dropContent").hide();
+}
+
+//로그아웃
+function logout() {
+    const form = document.logoutForm;
+    form.action = "/logout";
+    form.method = "POST";
+    form.submit();
+}
+////// 드롭박스 href 링크로 이동할때 드롭박스 닫히게 하기 끝 ////////
 
 

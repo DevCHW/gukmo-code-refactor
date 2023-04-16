@@ -1,5 +1,7 @@
 package com.devchw.gukmo;
 
+import com.devchw.gukmo.entity.login.Login;
+import com.devchw.gukmo.entity.member.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,10 +18,10 @@ public class LoginTestDataInit {
 
     private final InitService initService;
 
-//    @PostConstruct
-//    public void init() {
-//        initService.dbInit1();
-//    }
+    @PostConstruct
+    public void init() {
+        initService.dbInit1();
+    }
 
     @Component
     @Transactional
@@ -30,12 +32,24 @@ public class LoginTestDataInit {
         /**
          * 테스트용 아이디 추가
          */
-//        public void dbInit1() {
-//            log.info("테스트 회원 데이터를 추가합니다.");
-//            Member member =  new Member("테스트 회원", "최현우","user.PNG", "ggoma003@naver.com", 0, LocalDateTime.now(), Status.YES, Status.NO, Status.NO, Status.NO, Status.NO, Authority.USER);
-//            MemberLogin memberLogin = new MemberLogin(member, "ggoma003", "qwer1234$", LocalDateTime.now());
-//            em.persist(member);
-//            em.persist(memberLogin);
-//        }
+        public void dbInit1() {
+            log.info("테스트 회원 데이터를 추가합니다.");
+            Member member = Member.builder()
+                    .nickname("테스트 회원")
+                    .username("테스트")
+                    .email("test@naver.com")
+                    .point(0L)
+                    .emailAccept(Member.EmailAccept.NO)
+                    .userRole(Member.UserRole.MEMBER)
+                    .build();
+
+            Login loginMember = Login.builder()
+                    .userId("test123")
+                    .password("qwer1234")
+                    .member(member)
+                    .build();
+            em.persist(member);
+            em.persist(loginMember);
+        }
     }
 }

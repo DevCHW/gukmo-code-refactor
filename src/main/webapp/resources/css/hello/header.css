@@ -369,8 +369,6 @@ div#scroll-to-top:last-child {
 .fa-angle-double-up{
 	font-size:26.25px;
 }
-
-
 /* 스크롤탑버튼 끝 */
 
 
@@ -382,7 +380,6 @@ div#scroll-to-top:last-child {
 div#start_login{
 	display:flex;
 }
-
 
 @media screen and (max-width: 900px){
   div#btn_slide_menu_open{

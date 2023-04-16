@@ -8,7 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!-- 직접만든 javascript -->
-<script type="text/javascript" src="<%=ctxPath%>/resources/js/hasol/alarm.js"></script>
+<script type="text/javascript" src="resources/js/alarm/alarm.js"></script>
 
 <div class="dropdown">
 	<div>

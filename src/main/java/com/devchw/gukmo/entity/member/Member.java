@@ -1,6 +1,5 @@
 package com.devchw.gukmo.entity.member;
 
-import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.login.Oauth;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -51,11 +50,11 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Oauth> oauths = new ArrayList<>();
 
-    private enum EmailAccept {
+    public enum EmailAccept {
         YES, NO
     }
 
-    private enum UserRole {
+    public enum UserRole {
         ADMIN, MEMBER, ACADEMY
     }
 }

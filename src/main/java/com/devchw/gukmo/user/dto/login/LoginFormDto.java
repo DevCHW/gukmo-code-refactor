@@ -1,4 +1,4 @@
-package com.devchw.gukmo.user.dto;
+package com.devchw.gukmo.user.dto.login;
 
 import lombok.Data;
 
