@@ -13,8 +13,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginCheckInterceptor())    //로그인체크 인터셉터 등록
                 .order(1)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/index", "/", "/login", "/logout", "/resources/**", "/*.ico", "/error");
+                .addPathPatterns("") //로그인체크 할 url패턴 등록
+                .excludePathPatterns("/**");
 
         registry.addInterceptor(new AdminCheckInterceptor())    //관리자체크 인터셉터 등록
                 .order(2)

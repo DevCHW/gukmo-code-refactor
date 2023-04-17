@@ -35,7 +35,7 @@ public class LoginTestDataInit {
         public void dbInit1() {
             log.info("테스트 회원 데이터를 추가합니다.");
             Member member = Member.builder()
-                    .nickname("테스트 회원")
+                    .nickname("테스트회원")
                     .username("테스트")
                     .email("test@naver.com")
                     .point(0L)

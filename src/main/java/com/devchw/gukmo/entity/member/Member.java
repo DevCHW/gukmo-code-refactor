@@ -34,8 +34,10 @@ public class Member {
 
     private String email;   //이메일
 
-    private Long point;     //포인트
+    @ColumnDefault("0")
+    private Long point;  //포인트
 
+    @ColumnDefault("sysdate")
     private LocalDateTime joinDate; //가입일자
 
     @Enumerated(EnumType.STRING)

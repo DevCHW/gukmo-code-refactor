@@ -4,11 +4,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<%
+   String ctxPath = request.getContextPath();
+%>
+
 <%-- 직접 만든 CSS --%>
-<link rel="stylesheet" href="resources/css/hello/header.css">
+<link rel="stylesheet" href="<%=ctxPath%>/resources/css/hello/header.css">
 
 <%-- 직접만든 javascript --%>
-<script type="text/javascript" src="resources/js/hello/header.js"></script>
+<script type="text/javascript" src="<%=ctxPath%>/resources/js/hello/header.js"></script>
 
 <%-- navbar --%>
 <nav bar class="mainNav_bar w-100">
@@ -17,12 +21,12 @@
      <div id="slide_menu">
        <div id="menu_close"><i id="btn_menu_close" class="fas fa-light fa-x"></i></div>
        <ul id="menu_list">
-         <li class="border-bottom"><a href="academy/academies.do">국비학원</a></li>
-         <li class="border-bottom"><a href="community/freeBoards.do">커뮤니티</a></li>
-         <li class="border-bottom"><a href="notices.do">공지사항</a></li>
+         <li class="border-bottom"><a href="board/academies">국비학원</a></li>
+         <li class="border-bottom"><a href="board/community/freeBoards.do">커뮤니티</a></li>
+         <li class="border-bottom"><a href="board/notices.do">공지사항</a></li>
 
          <c:if test="${sessionScope.user.authority eq '관리자'}">
-         <li class="border-bottom"><a href="admin/index.do">국모 관리</a></li>
+         <li class="border-bottom"><a href="board/admin/index.do">국모 관리</a></li>
          </c:if>
 
          <c:if test="${not empty sessionScope.loginMember}">
@@ -49,7 +53,7 @@
 			<%-- Brand/logo --%>
 			<a class="navbar-brand"
 			   href="index.do" style="margin-right:52px;"> 
-			   <img src="resources/images/mainLogo.png" style="width:150px; height:43.75px;">
+			   <img src="<%=ctxPath%>/resources/images/mainLogo.png" style="width:150px; height:43.75px;">
 			</a>
 
 			<%-- Links --%>
@@ -81,7 +85,7 @@
 			<c:if test="${empty sessionScope.loginMember}">
 				<div class="non-login">
 					<button type="button" class="btn_login" id="login" onclick="location.href='/login'">로그인</button>
-					<button type="button" class="btn_regist" id="regist" onclick="location.href='TOS.do'">회원가입</button>
+					<button type="button" class="btn_regist" id="regist" onclick="location.href='/tos'">회원가입</button>
 				</div>
 			</c:if>
 			
@@ -96,7 +100,7 @@
 					<div class="dropdown">
 						<div class="dropbtn">
 							<c:if test="${fn:substring(sessionScope.loginMember.profileImage,0,4) != 'http'}">
-			                  <img src="resources/images/${sessionScope.loginMember.profileImage}" onclick="drop_profile()"/>
+			                  <img src="<%=ctxPath%>/resources/images/${sessionScope.loginMember.profileImage}" onclick="drop_profile()"/>
 			                </c:if>
 			                <c:if test="${fn:substring(sessionScope.loginMember.profileImage,0,4) == 'http'}">
 			             	   <img src="${sessionScope.loginMember.profileImage}" onclick="drop_profile()"/>

@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%-- ======= #28. tile2 중 sideinfo 페이지 만들기  ======= --%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <% String ctxPath = request.getContextPath(); %>
+
 <script type="text/javascript">
 //event
 $(document).ready(function(){
@@ -16,7 +14,6 @@ $(document).ready(function(){
   if(questionmarkIdx != -1){
     url = url.substr(0,questionmarkIdx);
   }
-  
   
   /*
   	// == url 정리 == //
@@ -268,13 +265,7 @@ $(document).ready(function(){
             <span>공지</span></a>
     </li>
     <%-------------------------------- 공지사항 작성메뉴 영역 끝--------------------------------------%>
-	
-	
-	
-	
-	
-	
-	
+
 	
 	<%---------------------------------------- 버그메뉴 시작 ------------------------------------------------%>
 	<%-- Divider --%>
@@ -290,9 +281,7 @@ $(document).ready(function(){
          </a>
     </li>
 	<%------------------------------------------ 버그메뉴 끝---------------------------------------%>
-	
-	
-	
+
 	
 	
 	<%-------------------------------- 토글버튼(왼쪽으로 살짝닫기) 영역 시작--------------------------------------%>
@@ -305,13 +294,6 @@ $(document).ready(function(){
     </div>
     
     <%-------------------------------- 토글버튼(왼쪽으로 살짝닫기) 영역 끝--------------------------------------%>
-
-
-
-	
-
-
-
 
 </ul>
 <%-- End of Sidebar --%>

@@ -1,16 +1,12 @@
 package com.devchw.gukmo.user.repository;
 
 import com.devchw.gukmo.entity.member.Member;
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-
 @Repository
-@RequiredArgsConstructor
-public class MemberRepository {
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    Boolean existsByEmail(String email);
 
-    private final EntityManager em;
-
+    Boolean existsByNickname(String nickname);
 }

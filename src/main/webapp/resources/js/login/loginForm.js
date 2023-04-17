@@ -26,9 +26,9 @@ $(document).ready(function(){
 	  }
 	});
 	
-	//회원가입버튼클릭시
+	//회원가입버튼클릭시 회원가입 페이지로 이동
 	$("span#btn_signup").click(()=>{
-		location.href = getContextPath()+'/TOS.do';
+		location.href = '/tos';
 	});
 
 	//로그인버튼 클릭시 이벤트
