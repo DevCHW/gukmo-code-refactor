@@ -150,7 +150,6 @@ $(document).ready(function(){
   $("input#username").keyup(()=>{
 	const username = $("input#username").val();
 	username_ok = false;
-
     if(test_username(username)){  //유효성검사 통과시
     	test_all();
     }
@@ -170,19 +169,13 @@ $(document).ready(function(){
     test_all();
   });//end of Event---
 
-
   //가입하기 버튼 클릭시 이벤트
   $("button#btn_signup").click(()=>{
-      reCAPTCHA();
-      if(recaptcha_ok){	//자동가입방지를 통과했다면
-	    const form = document.signup_form;
+    const form = document.signup_form;
 
-        form.action = "/member/signUp";
-        form.method = "POST";
-        form.submit();
-      } else{	//자동가입방지 봇을 통과하지 못했다면
-    	alert("자동가입방지 봇 통과 후 가입해주세요");
-      }
+    form.action = "/member/signUp";
+    form.method = "POST";
+    form.submit();
   });//end of Event---
 
   //이메일 수신동의 토글스위치 값 변경시 이벤트
@@ -235,7 +228,7 @@ function test_userid(userid){
  */
 function userid_exist_check(userid){
   $.ajax({
-    url:"/member/userIdExistCheck",
+    url:"/api/member/userIdExistCheck",
     data:{"userId": userid},
     type:"get",
     dataType:"json",
@@ -348,7 +341,7 @@ function test_email(email){
  */
 function email_exist_check(email){
   $.ajax({
-    url:"/member/emailExistCheck",
+    url:"/api/member/emailExistCheck",
     data:{"email": email},
     type:"get",
     dataType:"json",
@@ -386,7 +379,7 @@ function email_exist_check(email){
  */
 function sendCertificationCode(email){
 	$.ajax({
-	  url:"/member/sendEmailCertificationCode",
+	  url:"/api/member/sendEmailCertificationCode",
 	  data:{"email": email},
 	  type:"post",
 	  dataType:"json",
@@ -434,7 +427,7 @@ function test_nickname(nickname){
  */
 function nickname_exist_check(nickname){
   $.ajax({
-    url:"/member/nicknameExistCheck",
+    url:"/api/member/nicknameExistCheck",
     data:{"nickname": nickname},
     type:"get",
     dataType:"json",
@@ -517,9 +510,12 @@ function test_all(){
     $("button#btn_signup").css("color","white");
   }
   else{ //유효성 검사를 모두 통과하였다면
-    $("button#btn_signup").attr("disabled",false);
-    $("button#btn_signup").css("background","");
-    $("button#btn_signup").css("color","");
+    reCAPTCHA();
+    if(recaptcha_ok){	//자동가입방지를 통과했다면
+      $("button#btn_signup").attr("disabled",false);
+      $("button#btn_signup").css("background","");
+      $("button#btn_signup").css("color","");
+    }
   }
 }//end of method----
 
@@ -528,7 +524,7 @@ function test_all(){
  */
 function reCAPTCHA(){
 	$.ajax({
-        url: '/member/verifyRecaptcha',
+        url: '/api/recaptcha/verify',
         type: 'post',
         data: {
             recaptcha: $("#g-recaptcha-response").val()

@@ -7,6 +7,7 @@ import com.devchw.gukmo.user.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class MemberController {
      * 일반회원 가입 페이지
      */
     @GetMapping("/member/signUp")
-    public String signUpForm() {
+    public String signUpForm(@ModelAttribute SignUpFormDto form) {
         return "member/signUpForm.tiles1";
     }
 

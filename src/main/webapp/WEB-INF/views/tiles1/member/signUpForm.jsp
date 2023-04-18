@@ -25,13 +25,13 @@
       <form name="signup_form" class="d-flex flex-column">
         <%-- userid (unique,중복체크)--%>
         <label for="userid" class="label_signup mt-3">아이디</label>
-        <input type="text" id="userid" name="userid" class="input_signup rounded pl-2" placeholder="영문 또는 숫자 5~15자 아이디" maxlength="15">
+        <input type="text" id="userid" name="userid" class="input_signup rounded pl-2" placeholder="영문 또는 숫자 5~15자 아이디" maxlength="15" value="${form.userId}">
         <p id="userid_error" class="error"></p>
         <p id="userid_ok" class="ok">사용할 수 있는 아이디입니다.</p>
 
         <%-- passwd --%>
         <label for="passwd" class="label_signup mt-3">비밀번호</label>
-        <input type="password" id="passwd" name="passwd" class="input_signup rounded pl-2" placeholder="소문자,특수문자를 포함한 8~15자 비밀번호" maxlength="15">
+        <input type="password" id="passwd" name="passwd" class="input_signup rounded pl-2" placeholder="소문자,특수문자를 포함한 8~15자 비밀번호" maxlength="15" value="${form.password}">
         <p id="passwd_error" class="error">비밀번호는 소문자,특수문자를 포함한 8~15자이어야 합니다.</p>
 
         <%-- passwd_check --%>
@@ -41,7 +41,7 @@
 
         <%-- email (unique,중복체크)--%>
         <label for="email" class="label_signup mt-3">이메일</label>
-        <input type="text" id="email" name="email" class="input_signup rounded pl-2" placeholder="example@google.com">
+        <input type="text" id="email" name="email" class="input_signup rounded pl-2" placeholder="example@google.com" value="${form.email}">
         <div id="email_error_area">
           <p id="email_error" class="error"><%-- 이미 가입된 이메일입니다. --%></p>
           <p id="email_ok" class="ok">사용할 수 있는 이메일입니다.</p>
@@ -50,12 +50,12 @@
 
         <%-- username --%>
         <label for="username" class="label_signup mt-3">이름</label>
-        <input type="text" id="username" name="username" class="input_signup rounded pl-2" placeholder="ex)홍길동" maxlength="10">
+        <input type="text" id="username" name="username" class="input_signup rounded pl-2" placeholder="ex)홍길동" maxlength="10" value="${form.username}">
 		<p id="username_error" class="error">이름은 특수문자,영어,숫자를 제외한 2~10글자이어야 합니다.</p>
 
         <%-- nickname (unique,중복체크)--%>
         <label for="nickname" class="label_signup mt-3">닉네임</label>
-        <input type="text" id="nickname" name="nickname" class="input_signup rounded pl-2" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10">
+        <input type="text" id="nickname" name="nickname" class="input_signup rounded pl-2" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10" value="${form.nickname}">
         <p id="nickname_error" class="error">닉네임 형식에 맞지 않습니다.</p>
         <p id="nickname_ok" class="ok">사용할 수 있는 닉네임입니다.</p>
 		
@@ -82,7 +82,6 @@
       </div>
 
       <button type="button" id="btn_signup" class="btn border rounded w-100 mt-3">회원가입</button>
-
 
     </div>
     <%-- signupform 끝 --%>

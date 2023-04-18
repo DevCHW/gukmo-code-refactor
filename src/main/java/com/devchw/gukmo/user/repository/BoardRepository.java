@@ -1,14 +1,13 @@
 package com.devchw.gukmo.user.repository;
 
+import com.devchw.gukmo.entity.board.Board;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 
 @Repository
-@RequiredArgsConstructor
-public class BoardRepository {
-
-    private final EntityManager em;
+public interface BoardRepository extends JpaRepository<Board, Long> {
 
 }

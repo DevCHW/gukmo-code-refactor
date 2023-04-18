@@ -19,11 +19,9 @@ public class GoogleMail{
         //    Google Gmail 과 연결할 경우 Gmail 의 email 주소를 지정
         prop.put("mail.smtp.user", "jsangyeong194@gmail.com");
 
-
         // 3. SMTP 서버 정보 설정
         //    Google Gmail 인 경우  smtp.gmail.com
         prop.put("mail.smtp.host", "smtp.gmail.com");
-
 
         prop.put("mail.smtp.port", "465");
         prop.put("mail.smtp.starttls.enable", "true");

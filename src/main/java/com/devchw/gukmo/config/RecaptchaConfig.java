@@ -1,5 +1,6 @@
 package com.devchw.gukmo.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -15,8 +16,8 @@ public class RecaptchaConfig {
 
     private static String secret;
 
-    public static void setSecretKey(String key){
-        secret = key;
+    public static void setSecret(String secret) {
+        RecaptchaConfig.secret = secret;
     }
 
     public static boolean verify(String gRecaptchaResponse) throws IOException {
