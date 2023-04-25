@@ -17,5 +17,5 @@ public class Hashtag {
     @Column(name = "hashtag_id")
     private Long id;
 
-    private String hashtag;
+    private String tagName;
 }

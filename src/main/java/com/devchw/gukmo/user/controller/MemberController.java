@@ -1,11 +1,16 @@
 package com.devchw.gukmo.user.controller;
 
+import com.devchw.gukmo.config.response.BaseResponseStatus;
 import com.devchw.gukmo.entity.member.Member;
+import com.devchw.gukmo.exception.BaseException;
+import com.devchw.gukmo.user.dto.login.LoginMemberDto;
+import com.devchw.gukmo.user.dto.member.MyPageDto;
 import com.devchw.gukmo.user.dto.member.SignUpFormDto;
 import com.devchw.gukmo.user.repository.MemberRepository;
 import com.devchw.gukmo.user.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,5 +64,36 @@ public class MemberController {
 
         memberRepository.save(member);
         return "redirect:/login";
+    }
+
+    /**
+     * 마이페이지 - 내 계정 페이지
+     */
+    @GetMapping("/member/{id}/my/account")
+    public String account(@PathVariable Long id, Model model) {
+        Member loginMember = memberRepository.findById(id).orElseThrow(() -> new BaseException(BaseResponseStatus.BAD_REQUEST));
+        model.addAttribute("myPage",new MyPageDto().toDto(loginMember));
+        return "member/my/account.tiles1";
+    }
+
+    /**
+     * 마이페이지 - 활동 내역 페이지
+     */
+    @GetMapping("/member/{id}/my/activities")
+    public String activities(@PathVariable Long id, Model model) {
+        Member loginMember = memberRepository.findById(id).orElseThrow(() -> new BaseException(BaseResponseStatus.BAD_REQUEST));
+        model.addAttribute("myPage",new MyPageDto().toDto(loginMember));
+        return "member/my/activities.tiles1";
+    }
+
+    /**
+     * 마이페이지 - 내정보 페이지
+     */
+    @GetMapping("/member/{id}/my/info")
+    public String info(@PathVariable Long id, Model model) {
+        Member loginMember = memberRepository.findById(id).orElseThrow(() -> new BaseException(BaseResponseStatus.BAD_REQUEST));
+        log.info("내정보 페이지 호출 member={}", loginMember);
+        model.addAttribute("myPage",new MyPageDto().toDto(loginMember));
+        return "member/my/info.tiles1";
     }
 }

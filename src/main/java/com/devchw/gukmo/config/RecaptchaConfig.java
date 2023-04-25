@@ -2,22 +2,25 @@ package com.devchw.gukmo.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
-
 @Configuration
+@PropertySource("classpath:application-API-KEY.properties")
 public class RecaptchaConfig {
     public static final String url = "https://www.google.com/recaptcha/api/siteverify";
-    private final static String USER_AGENT = "Mozilla/5.0";
+        private final static String USER_AGENT = "Mozilla/5.0";
 
-    private static String secret;
+        @Value("${google-reCAPTCHA-secret}")
+        private static String secret;
 
-    public static void setSecret(String secret) {
-        RecaptchaConfig.secret = secret;
+        public static void setSecret(String secret) {
+            RecaptchaConfig.secret = secret;
     }
 
     public static boolean verify(String gRecaptchaResponse) throws IOException {
@@ -45,9 +48,6 @@ public class RecaptchaConfig {
             wr.close();
 
             int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'POST' request to URL : " + url);
-            System.out.println("Post parameters : " + postParams);
-            System.out.println("Response Code : " + responseCode);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     con.getInputStream()));

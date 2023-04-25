@@ -7,8 +7,9 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import static javax.persistence.FetchType.LAZY;
 
 /**
  * 회원 엔티티
@@ -30,7 +31,7 @@ public class Member {
     private String username;    //회원 이름
 
     @ColumnDefault("'user.PNG'")
-    private String profileImage;    //프로필 이미지
+    private String profileImage;    //저장된 프로필이미지명
 
     private String email;   //이메일
 
@@ -46,10 +47,10 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;    // ADMIN, MEMBER, ACADEMY
 
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", fetch = LAZY)
     private AcademyMember academyMember;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = LAZY)
     private List<Oauth> oauths = new ArrayList<>();
 
     public enum EmailAccept {
@@ -58,5 +59,12 @@ public class Member {
 
     public enum UserRole {
         ADMIN, MEMBER, ACADEMY
+    }
+
+    /**
+     * 저장할 프로필이미지 생성
+     */
+    private String generatedUniqueProfileImageName(String profileImageName) {
+        return UUID.randomUUID().toString() + "." + profileImageName;
     }
 }

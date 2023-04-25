@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
+
 /**
  * OAuth 엔티티
  */
@@ -19,7 +21,7 @@ public class Oauth {
     @Column(name = "oauth_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member; //Member(N:1)
 
@@ -27,7 +29,7 @@ public class Oauth {
 
     private String accessToken; //엑세스 토큰
 
-    private enum Type {
+    public enum Type {
         KAKAO, NAVER, FACEBOOK, GOOGLE
     }
 }

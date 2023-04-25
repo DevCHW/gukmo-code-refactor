@@ -64,6 +64,7 @@ public class LoginController {
             return "redirect:" + redirectURL;
 
         } catch (LoginException e) { //로그인 실패(LoginException 예외 처리)
+            log.info("로그인 실패");
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "login/loginForm.tiles1";
         }

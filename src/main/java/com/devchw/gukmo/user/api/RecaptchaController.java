@@ -19,7 +19,6 @@ public class RecaptchaController {
     public int verify(@RequestParam String recaptcha) {
         log.info("verify 호출 request={}", recaptcha);
 
-        RecaptchaConfig.setSecret("6LdO7zkjAAAAACYEyYOQ0PquIol3BtmcbcGY9PFI");
         try {
             if(RecaptchaConfig.verify(recaptcha)) {
                 return 0; // 성공

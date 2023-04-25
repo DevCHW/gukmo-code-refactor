@@ -4,7 +4,9 @@ import java.util.Random;
 
 public class MyUtil {
     /**
-     * 난수 발생
+     * 난수 발생시키기
+     * @param 난수의 길이
+     * @return 난수(문자열)
      */
     public static String getAuthKey(int size) {
         Random random = new Random();

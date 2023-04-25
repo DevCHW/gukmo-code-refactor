@@ -21,25 +21,25 @@
      <div id="slide_menu">
        <div id="menu_close"><i id="btn_menu_close" class="fas fa-light fa-x"></i></div>
        <ul id="menu_list">
-         <li class="border-bottom"><a href="board/academies">국비학원</a></li>
-         <li class="border-bottom"><a href="board/community/freeBoards.do">커뮤니티</a></li>
-         <li class="border-bottom"><a href="board/notices.do">공지사항</a></li>
+         <li class="border-bottom"><a href="/board/academies">국비학원</a></li>
+         <li class="border-bottom"><a href="/board/community/freeBoards.do">커뮤니티</a></li>
+         <li class="border-bottom"><a href="/board/notices.do">공지사항</a></li>
 
-         <c:if test="${sessionScope.user.authority eq '관리자'}">
+         <c:if test="${loginMember.userRole eq 'ADMIN'}">
          <li class="border-bottom"><a href="board/admin/index.do">국모 관리</a></li>
          </c:if>
 
-         <c:if test="${not empty sessionScope.loginMember}">
-         <li class="border-bottom"><a href="member/myId.do">내 계정</a></li>
-         <li class="border-bottom"><a href="member/myInfo.do">내 정보</a></li>
-         <li class="border-bottom"><a href="member/activities.do">활동내역</a></li>
+         <c:if test="${not empty loginMember}">
+         <li class="border-bottom"><a href="/member/${loginMember.id}/my/info">내 정보</a></li>
+         <li class="border-bottom"><a href="/member/${loginMember.id}/my/account">내 계정</a></li>
+         <li class="border-bottom"><a href="/member/${loginMember.id}/my/activities">활동내역</a></li>
          </c:if>
 
-         <c:if test="${empty sessionScope.loginMember}">
+         <c:if test="${empty loginMember}">
          <li class="border-bottom"><a href="/login">로그인</a></li>
          </c:if>
 
-         <c:if test="${not empty sessionScope.loginMember}">
+         <c:if test="${not empty loginMember}">
          <li class="border-bottom"><a href="#" style="color:red;" onclick="logout()">로그아웃</a></li>
          </c:if>
        </ul>
@@ -51,8 +51,7 @@
 		<%-- 로고 및 메뉴 영역 --%>
 		<div class="main_left">
 			<%-- Brand/logo --%>
-			<a class="navbar-brand"
-			   href="index.do" style="margin-right:52px;"> 
+			<a class="navbar-brand" href="/" style="margin-right:52px;">
 			   <img src="<%=ctxPath%>/resources/images/mainLogo.png" style="width:150px; height:43.75px;">
 			</a>
 
@@ -82,7 +81,7 @@
 			</div>
 			
 			<%-- 비로그인 시 --%>
-			<c:if test="${empty sessionScope.loginMember}">
+			<c:if test="${empty loginMember}">
 				<div class="non-login">
 					<button type="button" class="btn_login" id="login" onclick="location.href='/login'">로그인</button>
 					<button type="button" class="btn_regist" id="regist" onclick="location.href='/tos'">회원가입</button>
@@ -90,31 +89,28 @@
 			</c:if>
 			
 			<%-- 로그인 시 --%>
-			<c:if test="${not empty sessionScope.loginMember}">
+			<c:if test="${not empty loginMember}">
 				<div id="start_login" class="login justify-content-between align-items-center">
 
 					<%-- 알림 --%>
-					<jsp:include page="/WEB-INF/views/tiles1/board/alarm/alarm.jsp" />
+					<jsp:include page="/WEB-INF/views/tiles1/component/alarm.jsp" />
 					
 					<%-- 프로필 drop --%>
 					<div class="dropdown">
 						<div class="dropbtn">
-							<c:if test="${fn:substring(sessionScope.loginMember.profileImage,0,4) != 'http'}">
-			                  <img src="<%=ctxPath%>/resources/images/${sessionScope.loginMember.profileImage}" onclick="drop_profile()"/>
+							<c:if test="${fn:substring(loginMember.profileImage,0,4) != 'http'}">
+			                  <img src="<%=ctxPath%>/resources/images/${loginMember.profileImage}" onclick="drop_profile()"/>
 			                </c:if>
-			                <c:if test="${fn:substring(sessionScope.loginMember.profileImage,0,4) == 'http'}">
-			             	   <img src="${sessionScope.loginMember.profileImage}" onclick="drop_profile()"/>
+			                <c:if test="${fn:substring(loginMember.profileImage,0,4) == 'http'}">
+			             	   <img src="${loginMember.profileImage}" onclick="drop_profile()"/>
 			                </c:if>
 						</div>
 						<div id="profile_dropContent" class="dropdown-content2">
 							<div class="px-1 py-1">
-								<a href="member/myId.do"> <i class="fa-solid fa-user"></i> 내 계정
-								</a> <a href="member/myInfo.do"> <i class="fa-solid fa-gear"></i> 내 정보
-								</a> <a href="member/activities.do"> <i class="fa-solid fa-gear"></i> 활동내역
-							    <form>
-
-							    </form>
-								</a> <a href="#" onclick="logout()">로그아웃</a>
+								<a href="/member/${loginMember.id}/my/info"> <i class="fa-solid fa-gear"></i> 내 정보</a>
+								<a href="/member/${loginMember.id}/my/account"> <i class="fa-solid fa-user"></i> 내 계정</a>
+								<a href="/member/${loginMember.id}/my/activities"> <i class="fa-solid fa-gear"></i> 활동내역</a>
+								<a href="#" onclick="logout()">로그아웃</a>
 							</div>
 						</div>
 					</div>
@@ -133,6 +129,3 @@
     </span>
 </div>
 <%-- end of scrollTop button --%>
-
-<form name="logoutForm">
-</form>

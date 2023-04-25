@@ -1,9 +1,12 @@
 package com.devchw.gukmo.user.service;
 
 import com.devchw.gukmo.config.email.GoogleMail;
+import com.devchw.gukmo.user.dto.member.MyPageDto;
+import com.devchw.gukmo.user.repository.MemberRepository;
 import com.devchw.gukmo.utils.MyUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +14,9 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
-
+    private final MemberRepository memberRepository;
     private final GoogleMail mail;
 
     /**
