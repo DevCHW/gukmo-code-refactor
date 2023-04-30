@@ -1,13 +1,11 @@
 package com.devchw.gukmo.user.dto.board;
 
 import com.devchw.gukmo.entity.board.Board;
-import com.devchw.gukmo.entity.board.BoardHashtag;
+import com.devchw.gukmo.utils.MyUtil;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 public class BoardListDto {
@@ -17,13 +15,12 @@ public class BoardListDto {
     private String secondCategory;  //두번째 카테고리
     private String subject;         //제목
     private String content;         //내용
-    private LocalDateTime writeDate;       //작성일자
+    private String writeDate;       //작성일자
     private Long views;             //조회수
     private String profileImage;    //작성자 프로필이미지
     private Long writerPoint; 	//작성자 활동점수
-    private int commentCount;		//댓글수
-    private List<BoardHashtag> hashtags = new ArrayList<>();   //해시태그 리스트
-    private int likeCount;  //좋아요 수
+    private Long commentCount;		//댓글수
+    private Long likeCount;  //좋아요 수
 
     @QueryProjection
     public BoardListDto(Long id,
@@ -36,21 +33,19 @@ public class BoardListDto {
                         Long views,
                         String profileImage,
                         Long writerPoint,
-                        int commentCount,
-                        List<BoardHashtag> hashtags,
-                        int likeCount) {
+                        Long commentCount,
+                        Long likeCount) {
         this.id = id;
         this.nickname = nickname;
         this.firstCategory = firstCategory;
         this.secondCategory = secondCategory;
         this.subject = subject;
         this.content = content;
-        this.writeDate = writeDate;
+        this.writeDate = MyUtil.calculateTime(writeDate);
         this.views = views;
         this.profileImage = profileImage;
         this.writerPoint = writerPoint;
         this.commentCount = commentCount;
-        this.hashtags = hashtags;
         this.likeCount = likeCount;
     }
 
@@ -64,10 +59,11 @@ public class BoardListDto {
         this.secondCategory = board.getSecondCategory();
         this.subject = board.getSubject();
         this.content = board.getContent();
-//        this.write_date = board.getCreateDate();
+        this.writeDate = MyUtil.calculateTime(board.getWriteDate());
         this.views = board.getViews();
         this.profileImage = board.getMember().getProfileImage();
-        this.commentCount = board.getComments().size();
+        this.commentCount = board.getCommentCount();
+        this.likeCount = board.getLikeCount();
 
         return this;
     }

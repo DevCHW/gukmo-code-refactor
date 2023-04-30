@@ -2,14 +2,15 @@ package com.devchw.gukmo.entity.board;
 
 import com.devchw.gukmo.entity.member.Member;
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -35,7 +36,7 @@ public class Board {
     private List<Comments> comments = new ArrayList<>(); //댓글
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<BoardHashtag> boardHashtags = new ArrayList<>(); //해시태그
+    private Set<BoardHashtag> boardHashtags = new HashSet<>(); //해시태그
 
     private String subject; //글제목
 
@@ -51,10 +52,12 @@ public class Board {
     @ColumnDefault("0")
     private Long views; //조회수
 
+    @ColumnDefault("0")
+    private Long commentCount; //댓글 수
+
+    @ColumnDefault("0")
+    private Long likeCount; //좋아요 수
+
     @ColumnDefault("sysdate")
     private LocalDateTime writeDate;
-
-    private int getCommentCount(List<Comments> comments) {
-        return comments.size();
-    }
 }

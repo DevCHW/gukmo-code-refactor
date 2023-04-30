@@ -10,21 +10,21 @@
 <!-- 직접만든 javascript -->
 <script type="text/javascript">
   $(document).ready(function(){
-    const category = "${category}";
-    switch (category) {
-	  case "free" :	//보고있는 페이지가 "자유게시판"일 경우 .active 추가
+    let secondCategory = "${boardRequest.secondCategory}";
+    switch (secondCategory) {
+	  case "자유" :	//보고있는 페이지가 "자유게시판"일 경우 .active 추가
 		  $("div#freeBoards").addClass("active");
 		  break;
-	  case "question" : //보고있는 페이지가 "Q&A"일 경우 .active 추가
+	  case "질문" : //보고있는 페이지가 "Q&A"일 경우 .active 추가
 		  $("div#questions").addClass("active");
 		  break;
-	  case "studies" : //보고있는 페이지가 "스터디"일 경우 .active 추가
+	  case "스터디" : //보고있는 페이지가 "스터디"일 경우 .active 추가
 		  $("div#studies").addClass("active");
 		  break;
-	  case "hobbies" : //보고있는 페이지가 "취미모임"일 경우 .active 추가
+	  case "취미모임" : //보고있는 페이지가 "취미모임"일 경우 .active 추가
 		  $("div#hobbies").addClass("active");
 		  break;
-	  case "reviews" : //보고있는 페이지가 "수강/취업후기"일 경우 .active 추가
+	  case "수강/취업후기" : //보고있는 페이지가 "수강/취업후기"일 경우 .active 추가
 		  $("div#reviews").addClass("active");
 		  break;
 	}//end of switch-case---
@@ -35,19 +35,19 @@
 		const id = target.attr("id");
 		switch (id) {
 		  case "freeBoards" :
-			  location.href="<%=ctxPath%>/boards?category=community&category=freeBoards";
+			  location.href="<%=ctxPath%>/boards?firstCategory=커뮤니티&secondCategory=자유";
 			  break;
 		  case "questions" :
-			  location.href="<%=ctxPath%>/boards?category=community&category=questions";
+			  location.href="<%=ctxPath%>/boards?firstCategory=커뮤니티&secondCategory=질문";
 			  break;
 		  case "studies" :
-			  location.href="<%=ctxPath%>/boards?category=community&category=studies";
+			  location.href="<%=ctxPath%>/boards?firstCategory=커뮤니티&secondCategory=스터디";
 			  break;
 		  case "hobbies" :
-			  location.href="<%=ctxPath%>/boards?category=community&category=hobbies";
+			  location.href="<%=ctxPath%>/boards?firstCategory=커뮤니티&secondCategory=취미모임";
 			  break;
 		  case "reviews" :
-			  location.href="<%=ctxPath%>/boards?category=community&category=reviews";
+			  location.href="<%=ctxPath%>/boards?firstCategory=커뮤니티&secondCategory=수강/취업후기";
 			  break;
 		}
 	});//end of Event---

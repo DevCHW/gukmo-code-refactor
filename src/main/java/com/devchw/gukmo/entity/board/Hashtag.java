@@ -2,10 +2,8 @@ package com.devchw.gukmo.entity.board;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -18,4 +16,7 @@ public class Hashtag {
     private Long id;
 
     private String tagName;
+
+    @OneToMany(mappedBy = "hashtag")
+    private List<BoardHashtag> boardHashtag;
 }

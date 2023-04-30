@@ -59,7 +59,7 @@
       <div class="d-flex align-items-center my-2">
         <%-- 작성자 프로필사진 --%>
         <a href="#" class="writer_image_box border">
-          <img src="<%=ctxPath %>/resources/images/${board.profile_image}"/>
+          <img src="<%=ctxPath %>/resources/images/${board.profileImage}"/>
         </a>
 
         <%-- 작성자 닉네임 --%>
@@ -71,33 +71,34 @@
         <%-- 작성자 활동점수 --%>
         <div class="writer_point ml-2">
           <i class="fa-solid fa-bolt"></i>
-          <span>${board.writer_point}</span>
+          <span>${board.writerPoint}</span>
         </div>
 
         <%-- 작성일자 --%>
         <div class="write_date ml-2">
-          ${board.write_date}
+          ${board.writeDate}
         </div>
       </div>
 
       <%-- 글제목 --%>
-      <a href="<%=ctxPath%>/board/${board.boardNum}" class="subject align-items-center my-2">
+      <a href="<%=ctxPath%>/boards/${board.id}" class="subject align-items-center my-2">
         ${board.subject}
       </a>
 
       <div class="d-flex justify-content-between align-items-center my-2">
         <div class="d-flex align-items-center">
-          <%-- 게시판상세카테고리 클릭하면 해당 게시판으로 이동하게 하세요 변수 말고 아예 값 박아도 됨--%>
+          <%-- 게시판상세카테고리 클릭 -> 해당 게시판으로 이동--%>
           <div class="detail_category border rounded px-2 py-1">
-          	  ${board.detail_category}
+          	  ${board.secondCategory}
           </div>
           <div class="hashtag ml-1">
-            <%-- 해시태그 리스트 들어갈 곳--%>
-            <%-- 해시태그리스트 반복문시작 --%>
-            <c:forEach var="hashtag" items="${board.hashtags}">
-            <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+            <%-- 해시태그리스트 시작 --%>
+            <c:forEach var="hashtag" items="${hashtags}">
+                <c:if test="${board.id == hashtag.boardId}">
+                <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+                </c:if>
             </c:forEach>
-            <%-- 해시태그리스트 반복문 끝--%>
+            <%-- 해시태그리스트 끝 --%>
           </div>
         </div>
 
@@ -112,13 +113,13 @@
           <%-- 댓글수 --%>
           <div class="ml-2">
             <i class="fa-solid fa-comment-dots"></i>
-            <span>${board.comment_cnt}</span>
+            <span>${board.commentCount}</span>
           </div>
 
           <%-- 추천수 --%>
           <div class="ml-2">
             <i class="fa-solid fa-heart"></i>
-            <span>${board.like_cnt}</span>
+            <span>${board.likeCount}</span>
           </div>
         </div>
       </div>
@@ -133,7 +134,7 @@
 
       <div id="total_cnt">
         <%-- 총 건수 변수 들어갈 곳--%>
-        총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
+        총&nbsp;<span style="font-weight:bold;">${total}&nbsp;</span>건
       </div>
 
       <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do'">
