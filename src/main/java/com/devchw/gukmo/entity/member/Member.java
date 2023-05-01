@@ -1,5 +1,7 @@
 package com.devchw.gukmo.entity.member;
 
+import com.devchw.gukmo.entity.board.Board;
+import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.login.Oauth;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -47,11 +49,14 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;    // ADMIN, MEMBER, ACADEMY
 
-    @OneToOne(mappedBy = "member", fetch = LAZY)
+    @OneToOne(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     private AcademyMember academyMember;
 
-    @OneToMany(mappedBy = "member", fetch = LAZY)
-    private List<Oauth> oauths = new ArrayList<>();
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
+    private Login login;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<Board> boards = new ArrayList<>();
 
     public enum EmailAccept {
         YES, NO
@@ -62,9 +67,29 @@ public class Member {
     }
 
     /**
-     * 저장할 프로필이미지 생성
+     * 저장할 프로필이미지 파일명 생성(고유한 값)
      */
-    private String generatedUniqueProfileImageName(String profileImageName) {
+    public String generatedUniqueProfileImageName(String profileImageName) {
         return UUID.randomUUID().toString() + "." + profileImageName;
+    }
+
+    /** 회원 정보 수정 1.*/
+    public void changeMemberInfo(String username, String nickname, String profileImage, EmailAccept emailAccept) {
+        this.username = username;
+        this.nickname = nickname;
+        this.profileImage = profileImage;
+        this.emailAccept = emailAccept;
+    }
+
+    /** 회원 정보 수정 2.*/
+    public void changeMemberInfo(String username, String nickname, EmailAccept emailAccept) {
+        this.username = username;
+        this.nickname = nickname;
+        this.emailAccept = emailAccept;
+    }
+
+    /** 회원 정보 수정 3.*/
+    public void changeMemberInfo(String email) {
+        this.email = email;
     }
 }

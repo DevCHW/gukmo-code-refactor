@@ -21,7 +21,7 @@ public class BoardLike {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
 }

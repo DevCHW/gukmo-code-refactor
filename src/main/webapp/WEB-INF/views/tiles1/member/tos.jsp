@@ -2,14 +2,14 @@
 	pageEncoding="UTF-8"%>
 
 <%-- 직접 만든 CSS --%>
-<link rel="stylesheet" type="text/css" href="resources/css/member/tos.css" />
+<link rel="stylesheet" type="text/css" href="/resources/css/member/tos.css" />
 <%-- 직접만든 javascript --%>
-<script type="text/javascript" src="resources/js/member/tos.js" ></script>
+<script type="text/javascript" src="/resources/js/member/tos.js" ></script>
 
 <div class="container my-5">
   <div>
     <h5 class="title">이용약관</h5>
-    <iframe class="border rounded mt-1 w-100" src="resources/TOS/TOStext.html" frameborder="2"></iframe>
+    <iframe class="border rounded mt-1 w-100" src="/resources/TOS/TOStext.html" frameborder="2"></iframe>
     <div class="d-flex align-items-center">
       <input class="ml-2" name="agreement" type="checkbox" id="TOS_agree">
       <label class="ml-2" for="TOS_agree">위 이용약관에 동의합니다.</label>
@@ -20,7 +20,7 @@
   <%-- guide --%>
   <div class="mt-3">
     <h5 class="title">개인정보 수집 및 이용에 대한 안내</h5>
-    <iframe class="border rounded mt-1 w-100" src="resources/TOS/guide.html" frameborder="2"></iframe>
+    <iframe class="border rounded mt-1 w-100" src="/resources/TOS/guide.html" frameborder="2"></iframe>
     <div class="d-flex align-items-center">
       <input class="ml-2" name="agreement" type="checkbox" id="guide_agree">
       <label class="ml-2" for="guide_agree">위와 같이 개인정보 수집 및 이용에 동의합니다.</label>

@@ -78,19 +78,13 @@
 
       <%-- Google reCAPTCHA --%>
       <div class="d-flex justify-content-center my-2">
-        <div class="g-recaptcha" data-sitekey="6LdO7zkjAAAAAFk660Urlo0EbazNdIIW9aFnJXLH"></div>
+        <div class="g-recaptcha" data-callback="callBackRecaptcha" data-sitekey="6LdO7zkjAAAAAFk660Urlo0EbazNdIIW9aFnJXLH"></div>
       </div>
 
       <button type="button" id="btn_signup" class="btn border rounded w-100 mt-3">회원가입</button>
 
     </div>
     <%-- signupform 끝 --%>
-    
-    <%-- 유효성검사 테스트 버튼 --%>
-    <%--
-    <button type="button" id="btn_test">유효성검사 테스트</button>
-    --%>
-
   </div>
 
 

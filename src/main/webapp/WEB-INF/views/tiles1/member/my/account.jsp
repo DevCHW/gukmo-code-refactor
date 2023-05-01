@@ -15,10 +15,8 @@
   <div class="container my-4">
 
     <%-------------------- 사이드바 시작 ----------------------%>
-
     <%-- sidebar 호출 --%>
 	<jsp:include page="/WEB-INF/views/tiles1/member/my/sidebar.jsp" />
-
     <%-------------------- 사이드바 끝 ----------------------%>
 
 
@@ -27,7 +25,7 @@
       <%-- email --%>
       <h5 class="guide_title">이메일 정보</h5>
       <div class="d-flex justify-content-between mb-2">
-        <input type="text" id="email" name="email" class="border rounded pl-2" value="" placeholder="이메일을 입력해주세요"/>
+        <input type="text" id="email" name="email" class="border rounded pl-2" value="${memberInfo.email}" placeholder="이메일을 입력해주세요"/>
         <button type="button" id="btn_email_certification" class="btn border rounded" data-toggle="modal" data-target="#email_certification" data-dismiss="modal" disabled>
           <%-- 이메일인증 모달 띄우기 --%>
           	이메일인증
@@ -70,7 +68,7 @@
 
 
       <%-- 교육기관회원이 아닌 일반회원일 경우에만 --%>
-      <c:if test="${empty sessionScope.user.academy_name}">
+      <c:if test="${loginMember.userRole eq 'MEMBER'}">
       <br>
       <hr>
       <br>
@@ -124,8 +122,6 @@
 
       </div>
 	  </c:if>
-
-
 
 	  <br>
       <hr>
@@ -189,21 +185,6 @@
     </div>
   </div>
 
+  <input id="memberId" type="hidden" value="${loginMember.id}">
+  <input id="loginId" type="hidden" value="${memberInfo.loginId}"/>
 
-<script type="text/javascript">
-    function getEmail() {
-        let email = "";
-        $.ajax({
-            url:"/api/get/member/{loginMember.id}/email",
-            type:"get",
-            dataType:"json",
-            success:function(res){
-                email = res.email;
-            },//end of success
-            error: function(request,status,error){ //error
-              alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-            }
-        });// end of $.ajax({})--
-        $("input#email").val(email);
-    }
-</script>

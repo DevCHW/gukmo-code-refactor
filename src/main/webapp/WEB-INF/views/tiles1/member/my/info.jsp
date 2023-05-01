@@ -10,8 +10,8 @@
 
 <script type="text/javascript">
 	sessionStorage.setItem("id",'${loginMember.id}');
-	sessionStorage.setItem("username",'${myPage.username}');
-	sessionStorage.setItem("nickname",'${myPage.nickname}');
+	sessionStorage.setItem("username",'${memberInfo.username}');
+	sessionStorage.setItem("nickname",'${memberInfo.nickname}');
 </script>
 
 <%-- 직접 만든 CSS --%>
@@ -35,24 +35,24 @@
         <div id="section1" class="justify-content-between mb-5">
           <div id="input_box" class="d-flex flex-column">
             <label for="username" class="input_label">이름</label>
-            <input type="text" id="username" name="username" class="rounded pl-2" value='${myPage.username}' placeholder="이름을 입력해주세요" maxlength="10">
+            <input type="text" id="username" name="username" class="rounded pl-2" value='${memberInfo.username}' placeholder="이름을 입력해주세요" maxlength="10">
             <p id="username_error" class="error">이름은 특수문자,영어,숫자를 제외한 2~10글자이어야 합니다.</p>
 
             <%-- 닉네임 --%>
             <label for="nickname" class="input_label mt-3">닉네임</label>
-            <input type="text" id="nickname" name="nickname" class="rounded pl-2" value='${myPage.nickname}' placeholder="닉네임을 입력해주세요(10자이내)" maxlength="9">
+            <input type="text" id="nickname" name="nickname" class="rounded pl-2" value='${memberInfo.nickname}' placeholder="닉네임을 입력해주세요(10자이내)" maxlength="9">
             <p id="nickname_error" class="error">닉네임 형식에 맞지 않습니다.</p>
             <p id="nickname_ok" class="ok">사용할 수 있는 닉네임입니다.</p>
           </div>
           <%-- 프사 --%>
           <div class="d-flex align-items-baseline">
             <div id="profile_img_box" class="border">
-              <c:if test="${fn:substring(myPage.profileImage,0,4) != 'http'}">
-                <img id="profile_img" src="<%=ctxPath %>/resources/images/${myPage.profileImage}"/>
+              <c:if test="${fn:substring(memberInfo.profileImage,0,4) != 'http'}">
+                <img id="profile_img" src="<%=ctxPath %>/resources/images/${memberInfo.profileImage}"/>
               </c:if>
 
-               <c:if test="${fn:substring(myPage.profileImage,0,4) == 'http'}">
-             	  <img id="profile_img" src="${myPage.profileImage}"/>
+               <c:if test="${fn:substring(memberInfo.profileImage,0,4) == 'http'}">
+             	  <img id="profile_img" src="${memberInfo.profileImage}"/>
                </c:if>
               <div id="img_mask" class="justify-content-center align-items-center">
                 <span style="color:white; font-weight:bold;">이미지 변경</span>
@@ -81,8 +81,8 @@
             <input type="checkbox" id="email_agreement" name="email_agreement">
             <span class="slider round"></span>
           </label>
-          <input type="hidden" id="emailAccept" name="emailAccept" value="${myPage.emailAccept}"/>
-          <input type="hidden" name="nickname" value="${myPage.nickname}"/>
+          <input type="hidden" id="emailAccept" name="emailAccept" value="${memberInfo.emailAccept}"/>
+          <input type="hidden" name="nickname" value="${memberInfo.nickname}"/>
         </div>
 
         <hr>

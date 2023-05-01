@@ -6,7 +6,6 @@ function getContextPath(){
   return contextPath;
 }
 
-
 //=========================== field Declaration ===========================//
 
 //타이머 관련 field
@@ -34,8 +33,11 @@ let academy_name_ok = false;
 //=========================== field Declaration ===========================//
 
 
-
 $(document).ready(function(){
+  const originEmail = $("input#email").val();
+  const memberId = $("input#memberId").val();
+  const loginId = $("input#loginId").val();
+
   //이메일인증 버튼 비활성화
   $("button#btn_email_certification").attr("disabled",true); //이메일인증 버튼 비활성화
   $("button#btn_email_certification").css("background","#EBEBEB");
@@ -61,7 +63,7 @@ $(document).ready(function(){
 
         if(result) {
            //yes
-  	      delete_member();
+  	      delete_member(memberId);
         } else {
            //no
         }
@@ -77,7 +79,7 @@ $(document).ready(function(){
     email_ok = false;
     let email = $("input#email").val();
     if(test_email(email)){ //이메일 유효성검사 통과시
-      if(sessionStorage.getItem("email") == email){
+      if(originEmail == email){
 	    $("input#email").css("border","");  //빨간색 테두리 없애기
 	    $("div#email_error_area").css("justify-content","");
 	    $("p#email_error").text("");
@@ -148,7 +150,7 @@ $(document).ready(function(){
         clearInterval(setTimer);
         $("button[data-dismiss='modal']").trigger("click");	//이메일인증 모달창 닫기
         const email = $("input#email").val();
-        editEmail(email);
+        editEmail(email, memberId);
       }
       else{ //이메일 인증실패시
         alert(`이메일인증 실패!<br>
@@ -166,7 +168,7 @@ $(document).ready(function(){
 	let passwd = $("input#passwd").val().trim();
     let passwd_check = $("input#passwd_check").val().trim();
     if(test_passwd(passwd)&&passwd_check != ""){ //비밀번호 유효성검사통과시
-      if(!samePasswdCheck(passwd)){ //기존 비밀번호와 다른지 확인하고 다르다면,
+      if(!samePasswdCheck(passwd, loginId)){ //기존 비밀번호와 다른지 확인하고 다르다면,
     	test_passwd_check(); //비밀번호 칸과 비밀번호확인칸 값이 같은지 확인
       }else{
     	test_editPasswdAll();
@@ -174,8 +176,6 @@ $(document).ready(function(){
     };
     test_editPasswdAll();
   });//end of Event---
-
-
 
 
   //비밀번호 확인 값 입력시 이벤트처리
@@ -190,7 +190,7 @@ $(document).ready(function(){
   //비밀번호 변경버튼 클릭시 이벤트처리
   $("button#btn_edit_passwd").click(function(){
 	const passwd = $("input#passwd").val();
-	editPasswd(passwd);	//비밀번호 변경 메소드 호출
+	editPasswd(passwd, loginId);	//비밀번호 변경 메소드 호출
   });//end of Event--
 
 
@@ -322,26 +322,21 @@ function test_editPasswdAll(){
 }//end of method----
 
 
-
-
-
 /**
  * 계정 삭제하기
  */
-function delete_member(){
+function delete_member(memberId){
 	$.ajax({
-	    url:getContextPath()+"/member/delete.do",
-	    type:"post",
-	    dataType:"JSON",
-	    success:function(json){
-	      if(json.result == 1){
+	    url:"/api/v1/members/"+memberId,
+	    type:"delete",
+	    dataType:"json",
+	    success:function(res){
+	      if(res.result){
 	    	alert("계정삭제가 완료되었습니다!");
-	    	location.href = getContextPath()+"/index.do";
-	      }
-	      else{
+            location.reload();
+	      } else{
 	        alert("계정삭제가 실패하였습니다. 다시 시도해주세요");
 	      }
-
 	    },//end of success
 	    //success 대신 error가 발생하면 실행될 코드
 	    error: function(request,status,error){
@@ -358,13 +353,13 @@ function delete_member(){
  */
 function sendCertificationCode(email){
 	$.ajax({
-	  url:getContextPath()+"/sendEmailCertificationCode.do",
+	  url:"/api/v1/email/certificationCode",
 	  data:{"email": email},
 	  type:"post",
 	  dataType:"json",
-	  success:function(json){
-	    if(json.sendMailSuccess){	//이메일 전송에 성공했다면
-	      certificationCode = json.certificationCode;
+	  success:function(res){
+	    if(res.result.sendMailSuccess){	//이메일 전송에 성공했다면
+	      certificationCode = res.result.certificationCode;
 	    } else {	//이메일 전송에 실패했다면
 	      $("span#send_guide").html("입력하신 이메일로 전송을 실패했습니다.입력하신 이메일을 다시한번 확인해주세요");
 	    }
@@ -386,13 +381,13 @@ function sendCertificationCode(email){
  */
 function email_exist_check(email){
   $.ajax({
-    url:getContextPath()+"/member/emailExistCheck.do",
+    url:"/api/v1/members/email/exist",
     data:{"email": email},
-    type:"post",
+    type:"get",
     dataType:"json",
     async:false,
-    success:function(json){
-      if(json.emailExist){	//이메일이 존재한다면
+    success:function(res){
+      if(res.result){	//이메일이 존재한다면
         $("input#email").css("border","solid 1px red");  //빨간색 테두리
         $("p#email_error").text("이미 가입된 이메일입니다.");
         $("p#email_error").css("display","block");  //에러문구
@@ -416,7 +411,7 @@ function email_exist_check(email){
 
     //success 대신 error가 발생하면 실행될 코드
     error: function(request,status,error){
-      alert["error"]("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });// end of $.ajax({})---
 }//end of method----
@@ -424,20 +419,18 @@ function email_exist_check(email){
 
 
 /**
- * 이메일 변경시 업데이트해주기
+ * 이메일 변경
  */
-function editEmail(email){
+function editEmail(email, memberId){
 	$.ajax({
-	  url:getContextPath()+"/member/editEmail.do",
+	  url:`/api/v1/members/${memberId}/email`,
 	  data:{"email": email},
-	  type:"post",
+	  type:"patch",
 	  dataType:"json",
-	  success:function(json){
-	    if(json.editEmailSuccess){	//이메일 업데이트에 성공했다면
-	    	alert("이메일 변경 성공!");
-	    	location.reload();
-	    } else {	//이메일 업데이트에 실패했다면
-	    	alert("이메일 변경 실패하였습니다. 다시 시도해주세요")
+	  success:function(res){
+	    if(res.success) {
+	        alert(res.message);
+	        location.reload();
 	    }
 	  },//end of success
 	  //success 대신 error가 발생하면 실행될 코드
@@ -503,7 +496,7 @@ function test_passwd_check(){
     $("p#passwd_check_error").css("display","");  //에러문구 없애기
     $("label[for='passwd_check']").css("color","");  //라벨 빨간색 없애기
     passwd_ok = true;
-    samePasswdCheck(input_passwd);
+    samePasswdCheck(input_passwd, $("input#loginId").val());
   }
 }// end of method---
 
@@ -516,14 +509,14 @@ function test_passwd_check(){
  * 비밀번호 변경해주기
  * @param 사용자가 입력한 passwd
  */
-function editPasswd(passwd){
+function editPasswd(passwd,loginId){
 	$.ajax({
-	  url:getContextPath()+"/member/editPasswdWithUserid.do",
-	  data:{"passwd": passwd},
-	  type:"post",
+	  url:`/api/v1/login/${loginId}/password`,
+	  data:{"password": passwd},
+	  type:"patch",
 	  dataType:"json",
-	  success:function(json){
-	    if(json.editPasswdSuccess){	//비밀번호 변경에 성공했다면
+	  success:function(res){
+	    if(res.success){	//비밀번호 변경에 성공했다면
 	    	alert("비밀번호 변경 성공!");
 	    	location.reload();
 	    } else {	//비밀번호 변경에 실패했다면
@@ -544,15 +537,15 @@ function editPasswd(passwd){
  * 기존비밀번호와 같은지 확인하기
  * @param 사용자가 입력한 passwd
  */
-function samePasswdCheck(passwd){
+function samePasswdCheck(password, loginId){
 	$.ajax({
-	  url:getContextPath()+"/member/samePasswdCheck.do",
-	  data:{"passwd": passwd},
-	  type:"post",
+	  url:`/api/v1/login/${loginId}/password`,
+	  data:{"password": password},
+	  type:"get",
 	  dataType:"json",
 	  async:false,
-	  success:function(json){
-	    if(json.samePasswd){	//기존비밀번호와 같다면
+	  success:function(res){
+	    if(res.result){	//기존비밀번호와 같다면
 	    	$("input#passwd").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)
 	    	$("p#passwd_error").text("기존비밀번호와 같습니다.");
 	        $("p#passwd_error").css("display","block");  //에러문구(비밀번호 칸)

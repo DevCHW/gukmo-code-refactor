@@ -18,9 +18,9 @@ public class BoardListDto {
     private String writeDate;       //작성일자
     private Long views;             //조회수
     private String profileImage;    //작성자 프로필이미지
-    private Long writerPoint; 	//작성자 활동점수
+    private Long writerPoint; 	    //작성자 활동점수
     private Long commentCount;		//댓글수
-    private Long likeCount;  //좋아요 수
+    private Long likeCount;         //좋아요 수
 
     @QueryProjection
     public BoardListDto(Long id,

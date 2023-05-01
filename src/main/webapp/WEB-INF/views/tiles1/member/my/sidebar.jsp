@@ -29,9 +29,9 @@
 <div id="sidebar">
   <h5 id="sidebar_title">내 계정</h5>
   <ul class="pl-3 pt-3">
-    <li id="li_myInfo" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/member/${loginMember.id}/my/info'">회원정보</li>
-    <li id="li_myId" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/member/${loginMember.id}/my/account'">계정</li>
-    <li id="li_activities" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/member/${loginMember.id}/my/activities'">활동 내역</li>
+    <li id="li_myInfo" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/members/${loginMember.id}/my/info'">회원정보</li>
+    <li id="li_myId" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/members/${loginMember.id}/my/account'">계정</li>
+    <li id="li_activities" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/members/${loginMember.id}/my/activities'">활동 내역</li>
   </ul>
 </div>
 <%-- 사이드바 끝 --%>

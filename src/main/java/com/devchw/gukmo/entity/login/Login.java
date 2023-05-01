@@ -27,7 +27,7 @@ public class Login {
 
     private String password; //비밀번호
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -37,5 +37,10 @@ public class Login {
 
     public enum Status {
         REST, SUSPENSION, ACTIVE, WAIT
+    }
+
+    /** 비밀번호 수정 */
+    public void changePassword(String password) {
+        this.password = password;
     }
 }

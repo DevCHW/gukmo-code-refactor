@@ -173,7 +173,7 @@ $(document).ready(function(){
   $("button#btn_signup").click(()=>{
     const form = document.signup_form;
 
-    form.action = "/member/signUp";
+    form.action = "/members/signUp";
     form.method = "POST";
     form.submit();
   });//end of Event---
@@ -191,11 +191,13 @@ $(document).ready(function(){
 
 
 
-
-
-
 // =========================== Function Declaration =========================== //
 
+// 로봇이 아닙니다 클릭시
+function callBackRecaptcha(){
+    reCAPTCHA();
+    test_all();
+}
 
 /**
  * 아이디 유효성검사(5~15자)
@@ -228,13 +230,13 @@ function test_userid(userid){
  */
 function userid_exist_check(userid){
   $.ajax({
-    url:"/api/member/userIdExistCheck",
+    url:"/api/v1/signUp/userId/exist",
     data:{"userId": userid},
     type:"get",
     dataType:"json",
     async:false,
     success:function(res){
-      if(res){	//아이디가 존재한다면
+      if(res.result){	//아이디가 존재한다면
         $("input#userid").css("border","solid 1px red");  //빨간색 테두리
         $("p#userid_error").text("이미 가입된 아이디입니다.");
         $("p#userid_error").css("display","block");  //에러문구
@@ -279,7 +281,6 @@ function test_passwd(passwd){
     return true;
   }
 }// end of method---
-
 
 
 /**
@@ -341,13 +342,13 @@ function test_email(email){
  */
 function email_exist_check(email){
   $.ajax({
-    url:"/api/member/emailExistCheck",
+    url:"/api/v1/members/email/exist",
     data:{"email": email},
     type:"get",
     dataType:"json",
     async:false,
     success:function(res) {
-      if(res){	//이메일이 존재한다면
+      if(res.result){	//이메일이 존재한다면
         $("input#email").css("border","solid 1px red");  //빨간색 테두리
         $("p#email_error").text("이미 가입된 이메일입니다.");
         $("p#email_error").css("display","block");  //에러문구
@@ -379,13 +380,13 @@ function email_exist_check(email){
  */
 function sendCertificationCode(email){
 	$.ajax({
-	  url:"/api/member/sendEmailCertificationCode",
+	  url:"/api/v1/email/certificationCode",
 	  data:{"email": email},
 	  type:"post",
 	  dataType:"json",
-	  success:function(json){
-	    if(json.sendMailSuccess){	//이메일 전송에 성공했다면
-	      certificationCode = json.certificationCode;
+	  success:function(res){
+	    if(res.result.sendMailSuccess){	//이메일 전송에 성공했다면
+	      certificationCode = res.result.certificationCode;
 	    } else {	//이메일 전송에 실패했다면
 	      $("span#send_guide").html("입력하신 이메일로 전송을 실패했습니다.입력하신 이메일을 다시한번 확인해주세요");
 	    }
@@ -427,13 +428,13 @@ function test_nickname(nickname){
  */
 function nickname_exist_check(nickname){
   $.ajax({
-    url:"/api/member/nicknameExistCheck",
+    url:"/api/v1/members/nickname/exist",
     data:{"nickname": nickname},
     type:"get",
     dataType:"json",
     async:false,
     success:function(res){
-      if(res){	//닉네임이 존재한다면
+      if(res.result){	//닉네임이 존재한다면
         $("input#nickname").css("border","solid 1px red");  //빨간색 테두리
         $("p#nickname_error").text("이미 존재하는 닉네임입니다.");
         $("p#nickname_error").css("display","block");  //에러문구
@@ -504,18 +505,14 @@ const timer = function timer(){
  */
 function test_all(){
   if(!userid_ok || !passwd_ok || !email_ok || !nickname_ok ||
-     !email_certification || !username_ok) { // 유효성검사를 하나라도 통과하지 못했다면
+     !email_certification || !username_ok || !recaptcha_ok) { // 유효성검사를 하나라도 통과하지 못했다면
     $("button#btn_signup").attr("disabled",true);
     $("button#btn_signup").css("background","#EBEBEB");
     $("button#btn_signup").css("color","white");
-  }
-  else{ //유효성 검사를 모두 통과하였다면
-    reCAPTCHA();
-    if(recaptcha_ok){	//자동가입방지를 통과했다면
-      $("button#btn_signup").attr("disabled",false);
-      $("button#btn_signup").css("background","");
-      $("button#btn_signup").css("color","");
-    }
+  } else{ //유효성 검사를 모두 통과하였다면
+    $("button#btn_signup").attr("disabled",false);
+    $("button#btn_signup").css("background","");
+    $("button#btn_signup").css("color","");
   }
 }//end of method----
 
@@ -524,14 +521,14 @@ function test_all(){
  */
 function reCAPTCHA(){
 	$.ajax({
-        url: '/api/recaptcha/verify',
+        url: '/api/v1/recaptcha/verify',
         type: 'post',
         data: {
             recaptcha: $("#g-recaptcha-response").val()
         },
         async:false,
-        success: function(data) {
-            switch (data) {
+        success: function(res) {
+            switch (res.result) {
                 case 0:
                     console.log("자동 가입 방지 봇 통과");
                     recaptcha_ok = true;

@@ -7,7 +7,6 @@
 <%
    String ctxPath = request.getContextPath();
 %>
-
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/hello/header.css">
 
@@ -30,9 +29,9 @@
          </c:if>
 
          <c:if test="${not empty loginMember}">
-         <li class="border-bottom"><a href="/member/${loginMember.id}/my/info">내 정보</a></li>
-         <li class="border-bottom"><a href="/member/${loginMember.id}/my/account">내 계정</a></li>
-         <li class="border-bottom"><a href="/member/${loginMember.id}/my/activities">활동내역</a></li>
+         <li class="border-bottom"><a href="/members/${loginMember.id}/my/info">내 정보</a></li>
+         <li class="border-bottom"><a href="/members/${loginMember.id}/my/account">내 계정</a></li>
+         <li class="border-bottom"><a href="/members/${loginMember.id}/my/activities">활동내역</a></li>
          </c:if>
 
          <c:if test="${empty loginMember}">
@@ -84,7 +83,7 @@
 			<c:if test="${empty loginMember}">
 				<div class="non-login">
 					<button type="button" class="btn_login" id="login" onclick="location.href='/login'">로그인</button>
-					<button type="button" class="btn_regist" id="regist" onclick="location.href='/tos'">회원가입</button>
+					<button type="button" class="btn_regist" id="regist" onclick="location.href='/members/tos'">회원가입</button>
 				</div>
 			</c:if>
 			
@@ -107,9 +106,9 @@
 						</div>
 						<div id="profile_dropContent" class="dropdown-content2">
 							<div class="px-1 py-1">
-								<a href="/member/${loginMember.id}/my/info"> <i class="fa-solid fa-gear"></i> 내 정보</a>
-								<a href="/member/${loginMember.id}/my/account"> <i class="fa-solid fa-user"></i> 내 계정</a>
-								<a href="/member/${loginMember.id}/my/activities"> <i class="fa-solid fa-gear"></i> 활동내역</a>
+								<a href="/members/${loginMember.id}/my/info"> <i class="fa-solid fa-gear"></i> 내 정보</a>
+								<a href="/members/${loginMember.id}/my/account"> <i class="fa-solid fa-user"></i> 내 계정</a>
+								<a href="/members/${loginMember.id}/my/activities"> <i class="fa-solid fa-gear"></i> 활동내역</a>
 								<a href="#" onclick="logout()">로그아웃</a>
 							</div>
 						</div>

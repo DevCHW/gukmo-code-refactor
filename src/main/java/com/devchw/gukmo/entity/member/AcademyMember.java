@@ -21,7 +21,7 @@ public class AcademyMember {
     private Long id;
 
     @MapsId //Member.member_id와 매핑
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
 

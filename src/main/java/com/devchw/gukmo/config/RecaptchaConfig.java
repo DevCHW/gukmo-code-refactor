@@ -11,18 +11,15 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
 @Configuration
-@PropertySource("classpath:application-API-KEY.properties")
 public class RecaptchaConfig {
     public static final String url = "https://www.google.com/recaptcha/api/siteverify";
-        private final static String USER_AGENT = "Mozilla/5.0";
+    private final static String USER_AGENT = "Mozilla/5.0";
 
-        @Value("${google-reCAPTCHA-secret}")
-        private static String secret;
-
-        public static void setSecret(String secret) {
-            RecaptchaConfig.secret = secret;
+    private static String secret;
+    @Value("${google-reCAPTCHA-secret}")
+    public void setSecretKey(String key){
+        secret = key;
     }
-
     public static boolean verify(String gRecaptchaResponse) throws IOException {
         if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {
             return false;

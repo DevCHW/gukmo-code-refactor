@@ -11,7 +11,7 @@ $(document).ready(function(){
       return;
     }
     else if(check_length == 2){
-      location.href = "/member/signUp";
+      location.href = "/members/signUp";
     }
   });
 
@@ -26,7 +26,7 @@ $(document).ready(function(){
       return;
     }
     else if(check_length == 2){
-      location.href = "/member/academy/signUp";
+      location.href = "/members/academy/signUp";
     }
   });
   

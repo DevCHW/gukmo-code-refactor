@@ -8,9 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -32,11 +30,11 @@ public class Board {
     @JoinColumn(name = "member_id")
     private Member member; //작성자
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Comments> comments = new ArrayList<>(); //댓글
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private Set<BoardHashtag> boardHashtags = new HashSet<>(); //해시태그
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<BoardHashtag> boardHashtags = new ArrayList<>(); //해시태그
 
     private String subject; //글제목
 
@@ -46,7 +44,7 @@ public class Board {
 
     private String secondCategory; //두번째 카테고리
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<BoardLike> boardLikes; //좋아요
 
     @ColumnDefault("0")

@@ -1,23 +1,41 @@
 package com.devchw.gukmo.user.service;
 
+import com.devchw.gukmo.config.response.BaseResponseStatus;
+import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.member.Member;
+import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.exception.LoginException;
+import com.devchw.gukmo.user.dto.api.login.PasswordRequest;
 import com.devchw.gukmo.user.repository.LoginRepository;
+import com.devchw.gukmo.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class LoginService {
     private final LoginRepository loginRepository;
 
-    /**
-     * 로그인 처리
-     */
+    /** 로그인 처리 */
     public Member login(String userId, String password) throws LoginException {
         return loginRepository.findByUserId(userId)
                 .filter(l -> l.getPassword().equals(password))
                 .orElseThrow(LoginException::new)
                 .getMember();
+    }
+
+    /** 변경하려는 비밀번호가 기존 비밀번호와 같은지 확인(암호화 필요) */
+    public boolean EqualsOriginPasswordCheck(Long id, String password) {
+        String findPassword = loginRepository.findPasswordById(id);
+        return findPassword.equals(password);
+    }
+
+    /** 비밀번호 변경 */
+    @Transactional
+    public void editPassword(Long id, String password) {
+        Login login = loginRepository.findById(id).orElseThrow(() -> new BaseException(BaseResponseStatus.BAD_REQUEST));
+        login.changePassword(password);
     }
 }

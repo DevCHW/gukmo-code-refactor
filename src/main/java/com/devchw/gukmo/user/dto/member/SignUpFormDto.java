@@ -1,5 +1,6 @@
 package com.devchw.gukmo.user.dto.member;
 
+import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.member.Member;
 import lombok.Data;
 
@@ -28,7 +29,15 @@ public class SignUpFormDto {
     /**
      * Dto -> Entity 변환
      */
-    public Member toEntity() {
+    public Login toLoginEntity(Member saveMember) {
+        return Login.builder()
+                .userId(userid)
+                .member(saveMember)
+                .password(passwd)
+                .build();
+    }
+
+    public Member toMemberEntity() {
         if(emailAccept.equals("YES")) {
             return Member.builder()
                     .nickname(nickname)
