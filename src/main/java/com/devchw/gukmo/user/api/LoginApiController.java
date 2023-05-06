@@ -27,7 +27,7 @@ public class LoginApiController {
     }
 
     /** 비밀번호 변경하기 */
-    @PatchMapping(value = "/{id}/password")
+    @PatchMapping("/{id}/password")
     public BaseResponse<String> editPassword (@PathVariable("id") Long id,
                                               @RequestParam String password) {
         log.info("비밀번호 변경요청 id={}", id);

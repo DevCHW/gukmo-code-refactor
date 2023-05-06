@@ -141,13 +141,13 @@ function saveMember(){
     let id = sessionStorage.getItem("id");
     let data = $("form[name=myInfoFrm]").serialize();
     $("form[name=myInfoFrm]").ajaxForm({
-         url : `/api/member/${id}`,
+         url : `/api/v1/members/${id}`,
     	 data:data,
  		 enctype:"multipart/form-data",
  		 type:"PATCH",
  		 dataType:"JSON",
          success:function(res) {
-    	   if(res.result){
+    	   if(res.success){
     	     alert("회원정보 수정 성공!");
     	     location.reload();
     	   } else{
@@ -176,8 +176,7 @@ function test_nickname(nickname){
     $("p#nickname_error").css("display","block");  //에러문구
     $("label[for='nickname']").css("color","red");  //라벨 빨간색
     return false;
-  }
-  else{ //유효성검사 통과시
+  } else{ //유효성검사 통과시
     $("input#nickname").css("border","");  //빨간색 테두리 없애기
     $("p#nickname_error").css("display","");  //에러문구 없애기
     $("label[for='nickname']").css("color","");  //라벨 빨간색 없애기
@@ -192,13 +191,13 @@ function test_nickname(nickname){
  */
 function nickname_exist_check(nickname){
   $.ajax({
-    url:getContextPath()+"/member/nicknameExistCheck.do",
+    url:"/api/v1/members/nickname/exist",
     data:{"nickname": nickname},
-    type:"post",
+    type:"get",
     dataType:"json",
     async:false,
-    success:function(json){
-      if(json.nicknameExist){	//닉네임이 존재한다면
+    success:function(res){
+      if(res.result){	//닉네임이 존재한다면
         $("input#nickname").css("border","solid 1px red");  //빨간색 테두리
         $("p#nickname_error").text("이미 존재하는 닉네임입니다.");
         $("p#nickname_error").css("display","block");  //에러문구

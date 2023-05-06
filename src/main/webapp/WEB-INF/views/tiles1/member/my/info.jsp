@@ -82,7 +82,6 @@
             <span class="slider round"></span>
           </label>
           <input type="hidden" id="emailAccept" name="emailAccept" value="${memberInfo.emailAccept}"/>
-          <input type="hidden" name="nickname" value="${memberInfo.nickname}"/>
         </div>
 
         <hr>
@@ -93,10 +92,6 @@
           <button type="button" id=btn_save class="btn btn-info rounded">저장</button>
         </div>
       </form>
-
-
     </div>
     <%-- 내정보 끝 --%>
-
-
   </div>

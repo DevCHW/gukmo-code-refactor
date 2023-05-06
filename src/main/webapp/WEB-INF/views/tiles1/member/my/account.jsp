@@ -148,9 +148,6 @@
   </div>
 
 
-
-
-
   <%-- 이메일인증 Modal --%>
   <div class="modal fade" id="email_certification">
     <div class="modal-dialog">

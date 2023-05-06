@@ -331,7 +331,7 @@ function delete_member(memberId){
 	    type:"delete",
 	    dataType:"json",
 	    success:function(res){
-	      if(res.result){
+	      if(res.success){
 	    	alert("계정삭제가 완료되었습니다!");
             location.reload();
 	      } else{
@@ -499,9 +499,6 @@ function test_passwd_check(){
     samePasswdCheck(input_passwd, $("input#loginId").val());
   }
 }// end of method---
-
-
-
 
 
 
