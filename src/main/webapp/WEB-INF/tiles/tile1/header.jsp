@@ -20,9 +20,9 @@
      <div id="slide_menu">
        <div id="menu_close"><i id="btn_menu_close" class="fas fa-light fa-x"></i></div>
        <ul id="menu_list">
-         <li class="border-bottom"><a href="/board/academies">국비학원</a></li>
-         <li class="border-bottom"><a href="/board/community/freeBoards.do">커뮤니티</a></li>
-         <li class="border-bottom"><a href="/board/notices.do">공지사항</a></li>
+         <li class="border-bottom"><a href="/boards?firstCategory=국비학원">국비학원</a></li>
+         <li class="border-bottom"><a href="/boards?firstCategory=커뮤니티&secondCategory=자유">커뮤니티</a></li>
+         <li class="border-bottom"><a href="/boards?firstCategory=공지사항">공지사항</a></li>
 
          <c:if test="${loginMember.userRole eq 'ADMIN'}">
          <li class="border-bottom"><a href="board/admin/index.do">국모 관리</a></li>
@@ -39,7 +39,7 @@
          </c:if>
 
          <c:if test="${not empty loginMember}">
-         <li class="border-bottom"><a href="#" style="color:red;" onclick="logout()">로그아웃</a></li>
+         <li class="border-bottom"><a href="#" onclick="logout()" style="color:red;">로그아웃</a></li>
          </c:if>
        </ul>
      </div>
@@ -57,10 +57,9 @@
 			<%-- Links --%>
 			<nav>
 				<ul class="mainCate">
-					<li><a class="nav-link" href="academy/academies.do">국비학원</a></li>
-					<li><a class="nav-link"
-						href="community/freeBoards.do">커뮤니티</a></li>
-					<li><a class="nav-link" href="notices.do">공지사항</a></li>
+					<li><a class="nav-link" href="/boards?firstCategory=국비학원">국비학원</a></li>
+					<li><a class="nav-link" href="/boards?firstCategory=커뮤니티&secondCategory=자유">커뮤니티</a></li>
+					<li><a class="nav-link" href="/boards?firstCategory=공지사항">공지사항</a></li>
 
 					<%-- 관리자로 로그인 했을 경우 추가 메뉴 --%>
 					<c:if test="${sessionScope.loginMember.userRole eq 'ADMIN'}">
@@ -128,3 +127,6 @@
     </span>
 </div>
 <%-- end of scrollTop button --%>
+
+<form name="logoutForm">
+</form>

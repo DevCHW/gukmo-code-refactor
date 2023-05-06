@@ -17,8 +17,12 @@
 	  //검색버튼 클릭이벤트
 	  $("button#btn_search").click(function(){
 		const keyword = $("input#searchWord").val();
-		saveKeyword(keyword);
-		location.href="?page=1&sort="+sort+"&searchWord="+keyword;
+		//saveKeyword(keyword);
+
+		const firstCategory = "${boardRequest.firstCategory}";
+		const secondCategory = "${boardRequest.secondCategory}";
+		const sort = "${boardRequest.sort}";
+		location.href="?firstCategory=" + firstCategory + "&secondCategory=" + secondCategory +"&keyword=" + keyword +"&sort=" + sort;
 	  });
 
 	  //검색창에서 엔터눌렀을 시
@@ -34,6 +38,8 @@
   /**
    * 검색하면 검색어 결과 저장하기.
    */
+
+  /** 일단 주석
   function saveKeyword(keyword){
 	  const data = {keyword:keyword,
 			  		userid : '${sessionScope.user.userid}',
@@ -51,11 +57,12 @@
 		}
 	  });//end of ajax
   }
+   */
 </script>
 
     <!-- 검색창 영역 -->
    <div class="searchBar d-flex my-3 justify-content-center">
-     <input type="text" id="searchWord" class="pl-3" value="${requestScope.searchWord}" placeholder="검색어를 입력해주세요"></input>
+     <input type="text" id="searchWord" class="pl-3" value="${boardRequest.keyword}" placeholder="검색어를 입력해주세요"></input>
      <button type="button" id="btn_search">
        <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
      </button>

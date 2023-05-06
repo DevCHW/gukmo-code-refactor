@@ -18,10 +18,8 @@ $(document).ready(function(){
   $("div#sort_option span").click(e=>{
     const target = $(e.currentTarget);
     const sort = target.text();
-
-    location.href="?page="+sessionStorage.getItem("page")+"&searchWord="+sessionStorage.getItem("searchWord")+"&sort="+sort;
+    location.href="?firstCategory="+sessionStorage.getItem("firstCategory")+"&secondCategory="+sessionStorage.getItem("secondCategory")+"&keyword="+sessionStorage.getItem("keyword")+"&sort="+sort;
   });
-
 });// end of $(document).ready()
 
 

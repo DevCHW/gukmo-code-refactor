@@ -77,7 +77,6 @@ $(document).on("click", function () {
 });
 
 	
-////// 드롭박스 href 링크로 이동할때 드롭박스 닫히게 하기 시작 ////////
 function member_controll() {
     $("#admin_dropContent").hide();
 }
@@ -105,6 +104,5 @@ function logout() {
     form.method = "POST";
     form.submit();
 }
-////// 드롭박스 href 링크로 이동할때 드롭박스 닫히게 하기 끝 ////////
 
 

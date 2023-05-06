@@ -9,9 +9,10 @@
 <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/board/communityList.css" />
 
 <script type="text/javascript">
-  sessionStorage.setItem("page","${requestScope.page}");
-  sessionStorage.setItem("searchWord","${requestScope.searchWord}");
-  sessionStorage.setItem("sort","${requestScope.sort}");
+  sessionStorage.setItem("keyword","${boardRequest.keyword}");
+  sessionStorage.setItem("sort","${boardRequest.sort}");
+  sessionStorage.setItem("firstCategory","${boardRequest.firstCategory}");
+  sessionStorage.setItem("secondCategory","${boardRequest.secondCategory}");
 </script>
 
 <%-- 직접만든 javascript --%>
@@ -36,7 +37,7 @@
         <div id="mask"></div>
         <div id="sort" class="d-flex border rounded justify-content-center align-items-center">
           <i class="fa-solid fa-arrow-down-short-wide"></i>
-          <span id=current_sort></span>
+          <span id=current_sort>${boardRequest.sort}</span>
           <div id="sort_option" class="border rounded px-3 py-2">
             <span>최신순</span>
             <span>추천순</span>
@@ -144,11 +145,9 @@
 
 
     <%----------------------------------------------------------- 페이지 바 시작 ---------------------------------------------%>
-    <!--
     <nav aria-label="...">
-      ${requestScope.pageBar}
+      ${pageBar}
     </nav>
-    -->
 	<%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
 
   </div>
