@@ -24,9 +24,9 @@
 	  <%-- 등록용 정보 --%>
 	  <input type="hidden" name="memberId" value="${loginMember.id}" />
 	  <input type="hidden" name="firstCategory" value="커뮤니티"/>
-	  <input type="hidden" name="orgin_hashTag" value="<c:forEach var="hashtags" items="${requestScope.boardvo.hashtags}">
-	  ${hashtags.hashtag}">
-	  </c:forEach>"
+	  <input type="hidden" name="orgin_hashTag"
+	         value="<c:forEach var="hashtags" items="${requestScope.boardvo.hashtags}">${hashtags.hashtag}></c:forEach>"
+	         />
 	  <input type="hidden" id="hashtags" name="hashtags" value=""/>
 	  <input type="hidden" id="board_num" name="board_num" value="${requestScope.boardvo.board_num}"/>
 

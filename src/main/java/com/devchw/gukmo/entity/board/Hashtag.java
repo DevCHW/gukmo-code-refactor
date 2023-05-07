@@ -17,6 +17,6 @@ public class Hashtag {
 
     private String tagName;
 
-    @OneToMany(mappedBy = "hashtag")
-    private List<BoardHashtag> boardHashtag;
+//    @OneToMany(mappedBy = "hashtag")
+//    private List<BoardHashtag> boardHashtag;
 }
