@@ -1,8 +1,8 @@
 package com.devchw.gukmo.user.repository.custom;
 
 import com.devchw.gukmo.entity.board.BoardHashtag;
-import com.devchw.gukmo.user.dto.board.BoardListDto;
-import com.devchw.gukmo.user.dto.board.BoardRequestDto;
+import com.devchw.gukmo.user.dto.board.get.BoardListDto;
+import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
 import com.devchw.gukmo.user.dto.board.QBoardListDto;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;

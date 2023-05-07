@@ -92,7 +92,7 @@
   <div class="modal fade" id="email_certification">
     <div class="modal-dialog">
       <div class="modal-content">
-      
+
         <%-- Modal header --%>
         <div class="modal-header">
           <h5 class="modal-title">이메일인증코드 발송</h5>
@@ -119,6 +119,5 @@
           <button type="button" class="btn border email_certification_close" data-dismiss="modal">Close</button>
         </div>
       </div>
-      
     </div>
   </div>

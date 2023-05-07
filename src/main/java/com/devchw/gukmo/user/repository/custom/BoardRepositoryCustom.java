@@ -1,8 +1,8 @@
 package com.devchw.gukmo.user.repository.custom;
 
 import com.devchw.gukmo.entity.board.BoardHashtag;
-import com.devchw.gukmo.user.dto.board.BoardListDto;
-import com.devchw.gukmo.user.dto.board.BoardRequestDto;
+import com.devchw.gukmo.user.dto.board.get.BoardListDto;
+import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

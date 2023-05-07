@@ -41,7 +41,6 @@ public class LoginController {
     public String login(@Valid @ModelAttribute LoginFormDto form, BindingResult bindingResult,
                         @RequestParam(defaultValue = "/") String redirectURL,
                         HttpServletRequest request) {
-
         if (bindingResult.hasErrors()) {    // LoginFormDto 검증
             return "login/loginForm.tiles1";
         }
@@ -51,10 +50,7 @@ public class LoginController {
             Member loginMember = loginService.login(form.getUserId(), form.getPassword());
 
             //Member -> LoginMemberDto 변환
-            LoginMemberDto loginMemberDto = new LoginMemberDto();
-            loginMemberDto.setId(loginMember.getId());
-            loginMemberDto.setProfileImage(loginMember.getProfileImage());
-            loginMemberDto.setUserRole(loginMember.getUserRole());
+            LoginMemberDto loginMemberDto = new LoginMemberDto().toDto(loginMember);
 
             //session에 필요한 값만 저장.
             HttpSession session = request.getSession();
@@ -62,7 +58,6 @@ public class LoginController {
 
             log.info("로그인 성공, member{}", loginMemberDto);
             return "redirect:" + redirectURL;
-
         } catch (LoginException e) { //로그인 실패(LoginException 예외 처리)
             log.info("로그인 실패");
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");

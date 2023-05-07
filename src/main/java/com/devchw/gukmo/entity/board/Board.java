@@ -38,6 +38,7 @@ public class Board {
 
     private String subject; //글제목
 
+    @Lob
     private String content; //글내용
 
     private String firstCategory; //첫번째 카테고리

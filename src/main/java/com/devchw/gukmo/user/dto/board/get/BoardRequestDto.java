@@ -1,4 +1,4 @@
-package com.devchw.gukmo.user.dto.board;
+package com.devchw.gukmo.user.dto.board.get;
 
 import lombok.Data;
 

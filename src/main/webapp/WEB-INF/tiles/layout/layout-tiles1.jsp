@@ -38,7 +38,7 @@
   <%-- Optional JavaScript --%>
   <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery-3.6.0.min.js"></script>
   <script type="text/javascript" src="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
-  <script type="text/javascript" src="<%= ctxPath%>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script> 
+  <script type="text/javascript" src="<%= ctxPath%>/resources/smartEditor/js/HuskyEZCreator.js" charset="utf-8"></script>
   
   <%-- jquery-ui --%>
   <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/jquery-ui-1.13.1.custom/jquery-ui.css" />

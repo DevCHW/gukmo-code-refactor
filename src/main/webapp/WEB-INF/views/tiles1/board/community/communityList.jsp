@@ -6,7 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%-- 직접 만든 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/board/communityList.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/board/community/communityList.css" />
 
 <script type="text/javascript">
   sessionStorage.setItem("keyword","${boardRequest.keyword}");
@@ -16,7 +16,7 @@
 </script>
 
 <%-- 직접만든 javascript --%>
-<script type="text/javascript" src="<%=ctxPath%>/resources/js/board/communityList.js" ></script>
+<script type="text/javascript" src="<%=ctxPath%>/resources/js/board/community/communityList.js" ></script>
 
   <div class="container mt-4">
 
@@ -138,7 +138,7 @@
         총&nbsp;<span style="font-weight:bold;">${total}&nbsp;</span>건
       </div>
 
-      <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do'">
+      <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='/boards/community/new'">
         <i class="fa-sharp fa-solid fa-plus"></i><span>글쓰기</span>
       </button>
     </div>
