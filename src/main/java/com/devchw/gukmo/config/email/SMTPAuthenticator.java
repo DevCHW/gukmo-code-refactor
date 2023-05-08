@@ -15,8 +15,6 @@ public class SMTPAuthenticator extends Authenticator{
     
     @Override
     public PasswordAuthentication getPasswordAuthentication() {
-        System.out.println("sender = " + sender);
-        System.out.println("password = " + password);
         // Gmail 의 경우 @gmail.com 을 제외한 아이디만 입력한다.(첫번째 파라미터)
         // 두번째 파라미터에는 발급받은 앱 비밀번호를 입력한다.
         return new PasswordAuthentication(sender, password);

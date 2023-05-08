@@ -31,6 +31,7 @@ public enum BaseResponseStatus {
      */
     VALIDATED_ERROR(false, 3000, "VALIDATED_ERROR"), // @Valid 예외 처리
     NOT_FOUND_MEMBER(false, 3001, "없는 회원입니다."),
+    NOT_FOUND_BOARD(false, 3002, "없는 게시물입니다."),
 
     /**
      * 4000 : Database, Server 오류

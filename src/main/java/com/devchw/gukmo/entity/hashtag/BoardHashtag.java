@@ -1,5 +1,6 @@
-package com.devchw.gukmo.entity.board;
+package com.devchw.gukmo.entity.hashtag;
 
+import com.devchw.gukmo.entity.board.Board;
 import lombok.*;
 
 import javax.persistence.*;

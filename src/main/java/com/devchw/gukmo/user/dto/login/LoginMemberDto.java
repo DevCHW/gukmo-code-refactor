@@ -16,6 +16,8 @@ public class LoginMemberDto {
     private String profileImage;    //프로필이미지
 
     private Member.UserRole userRole; //권한
+    
+    private String nickname;    //닉네임
 
     /**
      * Entity -> Dto
@@ -25,6 +27,7 @@ public class LoginMemberDto {
                .id(member.getId())
                .profileImage(member.getProfileImage())
                .userRole(member.getUserRole())
+               .nickname(member.getNickname())
                .build();
     }
 }

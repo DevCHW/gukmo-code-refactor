@@ -1,7 +1,10 @@
-package com.devchw.gukmo.entity.board;
+package com.devchw.gukmo.entity.comment;
 
+import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.member.Member;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -17,6 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
+@DynamicInsert
 public class Comments {
     @Id @GeneratedValue
     @Column(name = "comments_id")
@@ -24,14 +28,17 @@ public class Comments {
 
     @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "board_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)  //DB에서 처리됨.
     private Board board;
 
     @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)  //DB에서 처리됨.
     private Member member;
 
     private String content; //댓글내용
 
+    @ColumnDefault("sysdate")
     private LocalDateTime writeDate; //작성일자
 
     @Enumerated(EnumType.STRING)
@@ -44,6 +51,9 @@ public class Comments {
 
     @OneToMany(mappedBy = "parent")
     private List<Comments> child = new ArrayList<>();
+
+    @ColumnDefault("0")
+    private Long likeCount; //좋아요 개수
 
     public enum Blind {
         YES, NO

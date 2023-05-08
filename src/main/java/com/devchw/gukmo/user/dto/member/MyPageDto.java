@@ -21,7 +21,7 @@ public class MyPageDto {
     /**
      * Entity -> Dto
      */
-    public static MyPageDto toDto(Member member) {
+    public MyPageDto toDto(Member member) {
         return MyPageDto.builder()
                 .username(member.getUsername())
                 .nickname(member.getNickname())

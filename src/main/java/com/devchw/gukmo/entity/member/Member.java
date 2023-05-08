@@ -52,7 +52,7 @@ public class Member {
     @OneToOne(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     private AcademyMember academyMember;
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToOne(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     private Login login;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)

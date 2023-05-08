@@ -1,4 +1,4 @@
-package com.devchw.gukmo.entity.board;
+package com.devchw.gukmo.entity.hashtag;
 
 import lombok.*;
 

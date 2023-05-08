@@ -1,9 +1,9 @@
 package com.devchw.gukmo.user.repository.custom;
 
-import com.devchw.gukmo.entity.board.BoardHashtag;
+import com.devchw.gukmo.entity.hashtag.BoardHashtag;
 import com.devchw.gukmo.user.dto.board.get.BoardListDto;
 import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
-import com.devchw.gukmo.user.dto.board.QBoardListDto;
+import com.devchw.gukmo.user.dto.board.get.QBoardListDto;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.devchw.gukmo.entity.board.QBoard.*;
-import static com.devchw.gukmo.entity.board.QBoardHashtag.*;
 import static com.devchw.gukmo.entity.member.QMember.*;
 import static org.springframework.util.StringUtils.*;
 
@@ -38,16 +37,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return new PageImpl<>(boardList, pageable, total);
     }
 
-    /** 게시글 번호에 맞는 해시태그 조회 */
-    @Override
-    public List<BoardHashtag> findBoardHashtagByBoardId(List<Long> boardIds) {
-        return queryFactory
-                .select(boardHashtag)
-                .from(boardHashtag)
-                .join(boardHashtag.board, board)
-                .where(board.id.in(boardIds))
-                .fetch();
-    }
 
     /** 게시물 리스트 조회 */
     private List<BoardListDto> getBoardList(BoardRequestDto request, Pageable pageable) {

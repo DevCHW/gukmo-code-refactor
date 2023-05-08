@@ -1,6 +1,7 @@
 package com.devchw.gukmo.user.controller;
 
-import com.devchw.gukmo.entity.board.Board;
+import com.devchw.gukmo.user.dto.MessageResponse;
+import com.devchw.gukmo.user.dto.board.get.BoardDto;
 import com.devchw.gukmo.user.dto.board.get.BoardHashtagDto;
 import com.devchw.gukmo.user.dto.board.get.BoardListDto;
 import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
@@ -16,8 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -29,6 +30,7 @@ import static org.springframework.util.StringUtils.hasText;
 public class BoardController {
     private final BoardService boardService;
     private final BoardRepository boardRepository;
+
 
     /** 게시글 리스트 조회(페이징) */
     @GetMapping()
@@ -55,6 +57,7 @@ public class BoardController {
         return "board/community/communityList.tiles1";
     }
 
+
     /** queryString 만들기 */
     private String createQueryString(BoardRequestDto boardRequest) {
         StringBuffer queryStringBuffer = new StringBuffer().append("firstCategory="+ boardRequest.getFirstCategory()).append("&");
@@ -70,16 +73,19 @@ public class BoardController {
         return queryStringBuffer.toString();
     }
 
+
     /** 게시글 단건 조회 */
     @GetMapping("/{id}")
-    public String board(@PathVariable Long id, Model model) {
+    public String board(@PathVariable Long id, HttpSession session, Model model) {
         log.info("게시글 단건 조회 요청");
-        Optional<Board> board = boardRepository.findById(id);
-        log.info("조회된 게시글 정보 ={}", board);
-        return "board/board.tiles1";
+        BoardDto boardDto = boardService.findBoardById(id, session);
+
+        model.addAttribute("board", boardDto);
+        return "board/boardDetail.tiles1";
     }
 
-    /** 커뮤니티 작성 페이지 매핑 */
+
+    /** 커뮤니티 작성 폼 페이지 */
     @GetMapping("/community/new")
     public String boardForm() {
         return "board/community/communityForm.tiles1";
@@ -89,12 +95,15 @@ public class BoardController {
     /** 커뮤니티 글작성 */
     @PostMapping("/community/new")
     public String boardForm(@ModelAttribute BoardFormDto form, Model model) {
+        //글 저장
         Long savedId = boardService.save(form);
-        String loc = "/boards/" + savedId;
-        String message = "글작성 성공!";
 
-        model.addAttribute("loc", loc);
-        model.addAttribute("message", message);
+        MessageResponse messageResponse = MessageResponse.builder()
+                .loc("/boards/" + savedId)
+                .message("글작성 성공!")
+                .build();
+
+        model.addAttribute("messageResponse", messageResponse);
         return "msg.tiles1";
     }
 }

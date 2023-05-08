@@ -5,8 +5,8 @@
 %>
 
 <script type="text/javascript">
-   const message = "${message}";
-   const loc = "${loc}";
+   const message = "${messageResponse.message}";
+   const loc = "${messageResponse.loc}";
    alert(message);  // 메시지 출력해주기
    location.href = loc; // 페이지 이동
 
