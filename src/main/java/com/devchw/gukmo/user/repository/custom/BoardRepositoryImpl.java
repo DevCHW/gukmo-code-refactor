@@ -101,16 +101,18 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private OrderSpecifier[] createOrderSpecifier(BoardRequestDto request) {
         List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
         if(request.getSort().equals("최신순")) {
-            orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.writeDate));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.id));
         } else if(request.getSort().equals("추천순")) {
             orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.likeCount));
-            orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.writeDate));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.id));
         } else if(request.getSort().equals("댓글순")) {
             orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.commentCount));
-            orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.writeDate));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.id));
         } else if(request.getSort().equals("조회순")) {
             orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.views));
-            orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.writeDate));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.id));
+        } else {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.id));
         }
         return orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]);
     }

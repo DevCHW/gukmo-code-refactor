@@ -20,10 +20,10 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardReposi
                    " from " +
                    " ( " +
                    "    select board_id, " +
-                   "           lag(board_id, 1, 0) over(order by board_id asc) as previousId, " +
-                   "           lag(subject, 1, '이전글이 없습니다.') over (order by board_id asc) as previousSubject," +
-                   "           lead(board_id, 1, 0) over(order by board_id asc) as nextId, "+
-                   "           lead(subject, 1, '다음글이 없습니다.') over (order by board_id asc) as nextSubject " +
+                   "           lag(board_id, 1, 0) over(order by board_id desc) as previousId, " +
+                   "           lag(subject, 1, '이전글이 없습니다.') over (order by board_id desc) as previousSubject," +
+                   "           lead(board_id, 1, 0) over(order by board_id desc) as nextId, "+
+                   "           lead(subject, 1, '다음글이 없습니다.') over (order by board_id desc) as nextSubject " +
                    "    from (select board_id,subject from board " +
                    "          where first_category = :firstCategory and second_category = :secondCategory) A" +
                    " ) " +
@@ -39,10 +39,10 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardReposi
                    " from " +
                    " ( " +
                    "    select board_id, " +
-                   "           lag(board_id, 1, 0) over(order by board_id asc) as previousId, " +
-                   "           lag(subject, 1, '이전글이 없습니다.') over (order by board_id asc) as previousSubject," +
-                   "           lead(board_id, 1, 0) over(order by board_id asc) as nextId, "+
-                   "           lead(subject, 1, '다음글이 없습니다.') over (order by board_id asc) as nextSubject " +
+                   "           lag(board_id, 1, 0) over(order by board_id desc) as previousId, " +
+                   "           lag(subject, 1, '이전글이 없습니다.') over (order by board_id desc) as previousSubject," +
+                   "           lead(board_id, 1, 0) over(order by board_id desc) as nextId, "+
+                   "           lead(subject, 1, '다음글이 없습니다.') over (order by board_id desc) as nextSubject " +
                    "    from (select board_id,subject from board " +
                    "          where first_category = :firstCategory) A" +
                    " ) " +
