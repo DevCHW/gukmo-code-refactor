@@ -25,6 +25,7 @@ public enum BaseResponseStatus {
     MEMBER_INFO_CHANGE_SUCCESS(true, 2502, "회원 정보 변경에 성공하였습니다."),
     MEMBER_DELETE_SUCCESS(true, 2503, "회원 삭제에 성공하였습니다."),
     PASSWORD_CHANGE_SUCCESS(true, 2504, "비밀번호 변경에 성공하였습니다."),
+    NAVER_LOGIN_SUCCESS(true, 2505, "네이버 로그인에 성공하였습니다."),
 
     /**
      * 3000 : Response 오류

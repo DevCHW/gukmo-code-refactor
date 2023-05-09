@@ -57,6 +57,9 @@ public class Member {
     @OneToOne(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     private Login login;
 
+    @OneToOne(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    private Oauth oauth;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Board> boards = new ArrayList<>();
 

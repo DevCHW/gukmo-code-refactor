@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 public class OauthLoginRequest {
 
-    private Long oauthId;
+    private String authId;
     private String email;
     private String profileImage;
     private String username;
@@ -27,7 +27,7 @@ public class OauthLoginRequest {
 
     public Oauth toOauthEntity(Member savedMember) {
         return Oauth.builder()
-                .id(oauthId)
+                .authId(authId)
                 .type(oauthTypeConverter())
                 .member(savedMember)
                 .build();

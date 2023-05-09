@@ -17,9 +17,11 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 public class Oauth {
 
-    @Id
+    @Id @GeneratedValue
     @Column(name = "oauth_id")
     private Long id;
+
+    private String authId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")

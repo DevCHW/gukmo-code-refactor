@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface OAuthRepository extends JpaRepository<Oauth, Long> {
 
-    @Query("select o from Oauth o join fetch o.member where o.id = :oauthId and o.type = :type")
-    Optional<Oauth> findByIdAndType(@Param("oauthId") Long oauthId, @Param("type") Oauth.Type type);
+    @Query("select o from Oauth o where o.authId = :authId and o.type = :type")
+    Optional<Oauth> findByAuthIdAndType(@Param("authId") String authId, @Param("type") Oauth.Type type);
 }

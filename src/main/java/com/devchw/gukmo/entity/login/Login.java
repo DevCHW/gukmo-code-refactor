@@ -27,7 +27,7 @@ public class Login {
 
     private String password; //비밀번호
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

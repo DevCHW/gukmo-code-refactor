@@ -61,6 +61,12 @@ $(document).ready(function(){
     $("div#kakao_login").click(()=>{
         kakaoLogin();
     });//end of Event--
+
+    // 네이버로그인 버튼 클릭시 이벤트
+    $("div#naver_login").click(()=>{
+        const url = viewNaverLoginFrm();
+        location.href = url;
+    });//end of Event--
 });//end of $(document).ready(function(){})
 
 //Function Declaration
@@ -85,7 +91,7 @@ function login(userId){
  * @returns
  */
 function kakaoLoginPro(response){
-  const userInfo = {oauthId:response.id,
+  const userInfo = {authId:response.id,
                     email:response.kakao_account.email,
                     profileImage:response.properties.profile_image,
 		  		    username:response.properties.nickname,
@@ -140,22 +146,22 @@ function kakaoLogin(){
  */
 function viewNaverLoginFrm(){
 	let url="/login";
+	const redirectURL = {redirectURL:sessionStorage.getItem("redirectURL")};
 	$.ajax({
 		type : 'get',
-		url : getContextPath()+'/naverLogin.do',
+		url : '/api/v1/oauth/naver/url',
+		data : redirectURL,
 		dataType : 'json',
 		async:false,
-		success : function(json){
-			url = json.naverUrl;
+		success : function(res){
+			url = res.result;
 		},
 		error: function(status, error){
-			alert("네이버로그인이 현재 불안정한 상태입니다. 다시 시도해주세요"+error);
+			alert("현재 네이버로그인이 불안정한 상태입니다. 다시 시도해주세요"+error);
 		}
 	  });//end of ajax
 	return url;
 }//end of method--
-
-
 
 
 //구글로그인 핸들러

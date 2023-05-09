@@ -17,7 +17,7 @@ public class GoogleMail{
     private final Authenticator smtpAuth;    //만든 SMTPAuthenticator 주입
 
     @Value("${email.address}")
-    String sender; //보내는 사람 메일 주소
+    public String sender; //보내는 사람 메일 주소
 
     public void sendmail(String recipient,String subject,String message) throws Exception {
 

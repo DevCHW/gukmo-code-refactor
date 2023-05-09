@@ -6,6 +6,7 @@ import com.devchw.gukmo.exception.LoginException;
 import com.devchw.gukmo.user.dto.login.LoginMemberDto;
 import com.devchw.gukmo.user.dto.login.LoginFormDto;
 import com.devchw.gukmo.user.service.LoginService;
+import com.devchw.gukmo.user.service.NaverLoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import javax.validation.Valid;
 public class LoginController {
 
     private final LoginService loginService;
+    private final NaverLoginService naverLoginService;
 
     /**
      * 로그인페이지
@@ -33,6 +35,7 @@ public class LoginController {
     @GetMapping("/login")
     public String loginForm(@ModelAttribute("loginForm") LoginFormDto form,
                             @RequestParam(defaultValue = "/") String redirectURL,
+                            HttpSession session,
                             Model model) {
         model.addAttribute("redirectURL", redirectURL);
         return "login/loginForm.tiles1";

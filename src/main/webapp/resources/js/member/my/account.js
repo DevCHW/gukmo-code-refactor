@@ -333,7 +333,7 @@ function delete_member(memberId){
 	    success:function(res){
 	      if(res.success){
 	    	alert("계정삭제가 완료되었습니다!");
-            location.reload();
+	    	location.href="/";
 	      } else{
 	        alert("계정삭제가 실패하였습니다. 다시 시도해주세요");
 	      }

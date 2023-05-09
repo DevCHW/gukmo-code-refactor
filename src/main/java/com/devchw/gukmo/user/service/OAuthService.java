@@ -28,23 +28,23 @@ public class OAuthService {
 
     /** 카카오로그인 */
     @Transactional
-    public Member kakaoLogin(OauthLoginRequest kakaoLoginRequest) {
-        Oauth.Type type = kakaoLoginRequest.oauthTypeConverter();
-        Optional<Oauth> findOAuth = oauthRepository.findByIdAndType(kakaoLoginRequest.getOauthId(), type);
-        Optional<Member> findMember = memberRepository.findByEmail(kakaoLoginRequest.getEmail());
+    public Member oauthLogin(OauthLoginRequest oauthLoginRequest) {
+        Oauth.Type type = oauthLoginRequest.oauthTypeConverter();
+        Optional<Oauth> findOAuth = oauthRepository.findByAuthIdAndType(oauthLoginRequest.getAuthId(), type);
+        Optional<Member> findMember = memberRepository.findByEmail(oauthLoginRequest.getEmail());
 
         if(findOAuth.isEmpty()) {   //기존 Oauth 회원이 아니라면
             if(findMember.isEmpty()) {  //기존 회원도 아니라면
-                Member saveMember = kakaoLoginRequest.toMemberEntity(randomNicknameGenerated());
+                Member saveMember = oauthLoginRequest.toMemberEntity(randomNicknameGenerated());
 
                 Member savedMember = memberRepository.save(saveMember);
-                Oauth oauth = kakaoLoginRequest.toOauthEntity(savedMember);
+                Oauth oauth = oauthLoginRequest.toOauthEntity(savedMember);
                 oauthRepository.save(oauth);
                 return savedMember;
             } else {    //기존 회원이지만 Oauth 회원이 아니라면 연동.
                 Member saveMember = findMember.orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
                 Oauth oauth = Oauth.builder()
-                        .id(kakaoLoginRequest.getOauthId())
+                        .authId(oauthLoginRequest.getAuthId())
                         .type(type)
                         .member(saveMember)
                         .build();
