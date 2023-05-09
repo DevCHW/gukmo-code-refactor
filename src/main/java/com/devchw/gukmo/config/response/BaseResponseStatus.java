@@ -37,8 +37,7 @@ public enum BaseResponseStatus {
      * 4000 : Database, Server 오류
      */
     INTERNAL_SERVER_ERROR(false, 4000, "서버 오류입니다"),
-    JSON_PROCESSING_ERROR(false, 4001, "JSON을 처리하는 과정 중 오류가 발생했습니다."),
-    FILE_UPLOAD_ERROR(false, 4002, "파일을 업로드 하는 과정 중에 에러가 발생했습니다.");
+    JSON_PROCESSING_ERROR(false, 4001, "JSON을 처리하는 과정 중 오류가 발생했습니다.");
     private final boolean success;
     private final int status;
     private final String message;

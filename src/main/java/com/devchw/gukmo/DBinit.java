@@ -46,7 +46,6 @@ public class DBinit {
                     .nickname("테스트회원1")
                     .username("테스트1")
                     .email("test@naver.com")
-                    .point(0L)
                     .emailAccept(Member.EmailAccept.NO)
                     .userRole(Member.UserRole.MEMBER)
                     .build();
@@ -55,7 +54,6 @@ public class DBinit {
                     .nickname("테스트회원2")
                     .username("테스트2")
                     .email("test@naver.com")
-                    .point(0L)
                     .emailAccept(Member.EmailAccept.YES)
                     .userRole(Member.UserRole.MEMBER)
                     .build();

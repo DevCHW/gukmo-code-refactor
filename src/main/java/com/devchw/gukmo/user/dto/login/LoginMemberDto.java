@@ -22,7 +22,7 @@ public class LoginMemberDto {
     /**
      * Entity -> Dto
      */
-    public LoginMemberDto toDto(Member member) {
+    public static LoginMemberDto toDto(Member member) {
        return LoginMemberDto.builder()
                .id(member.getId())
                .profileImage(member.getProfileImage())

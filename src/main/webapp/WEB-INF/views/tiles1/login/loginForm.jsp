@@ -9,6 +9,11 @@
   <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v10.0&appId=5826169730780578" nonce="SiOBIhLG"></script>
   <%-- 직접 만든 CSS --%>
   <link rel="stylesheet" type="text/css" href="resources/css/login/login.css" />
+
+  <script type="text/javascript">
+    sessionStorage.setItem("redirectURL",'${redirectURL}');
+  </script>
+
   <%-- 직접만든 javascript --%>
   <script type="text/javascript" src="resources/js/login/loginForm.js" ></script>
 
@@ -76,7 +81,7 @@
       </div>
 
       <%-- findId --%>
-      <div id="find_id" class="ml-auto my-4" onclick="location.href='/member/findId.do'">계정찾기</div>
+      <div id="find_id" class="ml-auto my-4" onclick="location.href='/members/findId.do'">계정찾기</div>
 
       <%-- btn_login --%>
       <button id="btn_login" type="button" class="btn border rounded">로그인</button>

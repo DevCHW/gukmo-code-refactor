@@ -3,7 +3,6 @@ package com.devchw.gukmo.user.service;
 import com.devchw.gukmo.config.SessionConst;
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.comment.Comments;
-import com.devchw.gukmo.entity.comment.CommentsLike;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
 import com.devchw.gukmo.entity.hashtag.Hashtag;
 import com.devchw.gukmo.entity.member.Member;
@@ -16,7 +15,8 @@ import com.devchw.gukmo.user.dto.comments.CommentsDto;
 import com.devchw.gukmo.user.dto.login.LoginMemberDto;
 import com.devchw.gukmo.user.dto.member.WriterDto;
 import com.devchw.gukmo.user.repository.*;
-import com.devchw.gukmo.utils.MyUtil;
+import com.devchw.gukmo.utils.DateUtil;
+import com.devchw.gukmo.utils.NumberUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_BOARD;
@@ -142,7 +141,7 @@ public class BoardService {
                 .commentCount(board.getCommentCount())
                 .likeCount(board.getLikeCount())
                 .views(board.getViews())
-                .writeDate(MyUtil.calculateTime(board.getWriteDate()))
+                .writeDate(DateUtil.calculateTime(board.getWriteDate()))
                 .comments(commentsDtoList)
                 .hashtags(hashtags)
                 .prevAndNextBoardDto(prevAndNextBoardDto)

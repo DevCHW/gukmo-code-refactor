@@ -6,7 +6,7 @@ window.onload = function () {
     });
 //    google.accounts.id.prompt();
    // One Tap 기능을 사용하지 않기 때문에 주석처리하였다.
-  };
+};
 
 $(document).ready(function(){
 	// 카카오 로그인 초기화
@@ -28,7 +28,7 @@ $(document).ready(function(){
 	
 	//회원가입버튼클릭시 회원가입 페이지로 이동
 	$("span#btn_signup").click(()=>{
-		location.href = '/tos';
+		location.href = '/members/tos';
 	});
 
 	//로그인버튼 클릭시 이벤트
@@ -56,9 +56,15 @@ $(document).ready(function(){
           form.submit();
       }
     });
+
+    // 카카오로그인 버튼 클릭시 이벤트
+    $("div#kakao_login").click(()=>{
+        kakaoLogin();
+    });//end of Event--
 });//end of $(document).ready(function(){})
 
 //Function Declaration
+
 
 /**
  * 로그인완료처리하기
@@ -79,29 +85,30 @@ function login(userId){
  * @returns
  */
 function kakaoLoginPro(response){
-  const userInfo = {userId:response.id,email:response.kakao_account.email,profile_image:response.properties.profile_image,nickname:response.properties.nickname,email_acept:'0'
-		  		 ,username:response.properties.nickname,flag:'kakao'}
+  const userInfo = {oauthId:response.id,
+                    email:response.kakao_account.email,
+                    profileImage:response.properties.profile_image,
+		  		    username:response.properties.nickname,
+		  		    redirectURL:sessionStorage.getItem("redirectURL"),
+		  		    type:'KAKAO'}
   $.ajax({
 	type : 'POST',
-	url : getContextPath()+'/kakaoLoginPro.do',
+	url : '/api/v1/oauth/kakao',
 	data : userInfo,
 	dataType : 'json',
-	success : function(data){
-		console.log(data)
-		if(data.JavaData == "YES"){
-			user_status(data.userId);
-		}else if(data.JavaData == "register"){// 회원가입을 해야하는경우
-			userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
-		}else{
+	success : function(res){
+		if(res.success){
+			location.href = res.result.redirectURL;
+		} else {
 			alert("로그인에 실패했습니다");
 		}
-		
 	},
 	error: function(xhr, status, error){
 		alert("로그인에 실패했습니다."+error);
 	}
   });//end of ajax
 }//end of method---
+
 
 /**
  * 카카오로그인창 띄우기
@@ -109,47 +116,22 @@ function kakaoLoginPro(response){
 function kakaoLogin(){
 	Kakao.Auth.login({
 		success: function (response) {
-		Kakao.API.request({
-			url: '/v2/user/me',
-			success: function (response) {
-				console.log(response);
-				kakaoLoginPro(response);
-			},
-			fail: function (error) {
-				console.log(error)
-			},
-		})
-	},
+		    console.log(response);
+            Kakao.API.request({
+                url: '/v2/user/me',
+                success: function (response) {
+                    kakaoLoginPro(response);
+                },
+                fail: function (error) {
+                    console.log(error)
+                },
+            })
+	    },
 		fail: function (error) {
 			console.log(error)
 		},
 	});
 }//end of method--
-
-/**
- * 소셜로그인 회원가입시키기
- */
-function userSnsRegisterPro(userInfo){
-  $.ajax({
-	type : 'POST',
-	url : getContextPath()+'/userSnsRegisterPro.do',
-	data : userInfo,
-	dataType : 'json',
-	success : function(data){
-		console.log(data)
-		if(data.JavaData == "YES"){
-			user_status(data.userId);
-		}else{
-			alert("로그인에 실패했습니다");
-		}
-		
-	},
-	error: function(xhr, status, error){
-		alert("로그인에 실패했습니다."+error);
-	}
-  });//end of ajax
-}//end of method---
-
 
 
 /**
@@ -157,7 +139,7 @@ function userSnsRegisterPro(userInfo){
  * @return 네이버로그인 폼 URL 을 반환한다.
  */
 function viewNaverLoginFrm(){
-	let url=getContextPath()+"/login.do";
+	let url="/login";
 	$.ajax({
 		type : 'get',
 		url : getContextPath()+'/naverLogin.do',

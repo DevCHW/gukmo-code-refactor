@@ -142,7 +142,7 @@
         <%-- 활동내역이 없다면 --%>
 	    <c:if test="${fn:length(requestScope.activities) == 0}">
 	      <div class="d-flex justify-content-center align-items-center border-top" style="height:300px;">
-	      	<div style="font-size:25px; font-weight:bold;">아직활동내역이 없습니다.</div>
+	      	<div style="font-size:18px; font-weight:bold;">활동내역이 없습니다.</div>
 	      </div>
 	    </c:if>
 

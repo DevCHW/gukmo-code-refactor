@@ -72,10 +72,14 @@ $(document).ready(function(){
     }else{	//이메일수신동의 체크해제시
     	$("input#emailAccept").val("0");
     }
+
+    test_nickname($("input#nickname").val());
+    test_username($("input#username").val());
+    test_all();
   });//end of Event--
 
 
-//회원정보수정 저장버튼 클릭시 이벤트
+  //회원정보수정 저장버튼 클릭시 이벤트
   $("button#btn_save").click(function(){
 	saveMember();
   });//end of Event--
@@ -170,7 +174,7 @@ function saveMember(){
  */
 function test_nickname(nickname){
   nickname = nickname + "";
-  const regExp = /^[가-힣]{2,15}$/;
+  const regExp = /^[가-힣a-zA-Z0-9]{1,10}$/;
   if(nickname == "" || !regExp.test(nickname) || nickname.length < 2){ //유효성검사를 통과하지 못할시
     $("input#nickname").css("border","solid 1px red");  //빨간색 테두리
     $("p#nickname_error").css("display","block");  //에러문구

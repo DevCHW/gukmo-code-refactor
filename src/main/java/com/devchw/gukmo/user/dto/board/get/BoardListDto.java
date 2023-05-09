@@ -1,7 +1,6 @@
 package com.devchw.gukmo.user.dto.board.get;
 
-import com.devchw.gukmo.entity.board.Board;
-import com.devchw.gukmo.utils.MyUtil;
+import com.devchw.gukmo.utils.DateUtil;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
@@ -41,30 +40,11 @@ public class BoardListDto {
         this.secondCategory = secondCategory;
         this.subject = subject;
         this.content = content;
-        this.writeDate = MyUtil.calculateTime(writeDate);
+        this.writeDate = DateUtil.calculateTime(writeDate);
         this.views = views;
         this.profileImage = profileImage;
         this.writerPoint = writerPoint;
         this.commentCount = commentCount;
         this.likeCount = likeCount;
-    }
-
-    /**
-     * Entity -> Dto
-     */
-    public BoardListDto toDto(Board board) {
-        this.id = board.getId();
-        this.nickname = board.getMember().getNickname();
-        this.firstCategory = board.getFirstCategory();
-        this.secondCategory = board.getSecondCategory();
-        this.subject = board.getSubject();
-        this.content = board.getContent();
-        this.writeDate = MyUtil.calculateTime(board.getWriteDate());
-        this.views = board.getViews();
-        this.profileImage = board.getMember().getProfileImage();
-        this.commentCount = board.getCommentCount();
-        this.likeCount = board.getLikeCount();
-
-        return this;
     }
 }

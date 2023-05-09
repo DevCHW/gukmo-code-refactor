@@ -96,15 +96,15 @@
           <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
             <div id="update_or_delete" class="border rounded px-3 py-2">
              <c:if test="${board.firstCategory == '커뮤니티'}">
-              <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
              <c:if test="${board.firstCategory == '국비학원'}">
-              <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
              <c:if test="${not empty board.secondCategory && board.secondCategory == '교육과정'}">
-              <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
               <span id="board_delete" onclick="del_board(${board.id})">삭제하기</span>
@@ -116,22 +116,22 @@
           <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
             <div id="update_or_delete" class="border rounded px-3 py-2">
               <c:if test="${board.category == '커뮤니티'}">
-              <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
              <c:if test="${board.detail_category == '국비학원'}">
-              <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
              <c:if test="${board.detail_category == '교육과정'}">
-              <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
              <c:if test="${board.category == '공지사항'}">
-              <span onclick="location.href='<%=ctxPath %>/admin/notice/edit.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/admin/notice/edit.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
-              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
+              <span id="board_delete" onclick="del_board(${board.id})">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -141,15 +141,15 @@
           <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
             <div id="update_or_delete" class="border rounded px-3 py-2">
             <c:if test="${requestScope.board.category == '공지사항'}">
-              <span onclick="location.href='<%=ctxPath %>/admin/notice/edit.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/admin/notice/edit.do?boardNum=${board.id}'">수정하기</span>
             </c:if>
             <c:if test="${requestScope.board.category == '교육과정'}">
-              <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.id}'">수정하기</span>
             </c:if>
             <c:if test="${requestScope.board.category == '국비학원'}">
-              <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.id}'">수정하기</span>
             </c:if>
-              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
+              <span id="board_delete" onclick="del_board(${board.id})">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -213,13 +213,12 @@
              </div>
 
 
-            <input id="userid"  type="hidden" name="userId" value="${loginMember.id}"  />
-            <input id="board_num"  type="hidden" name="boardId" value="${board.id}"  />
+            <input id="userId"  type="hidden" name="userId" value="${loginMember.id}"  />
+            <input id="boardId"  type="hidden" name="boardId" value="${board.id}"  />
             <input id="nickname"  type="hidden" name="nickname" value="${loginMember.nickname}" />
             <input id="board_subject"  type="hidden" name="subject" value="${board.subject}" />
             <input id="detail_category"  type="hidden" name="firstCategory" value="${board.firstCategory}" />
             <input id="board_writer_nick" type="hidden" name="writerNickname" value="${board.writer.nickname}" />
-
       </div>
     </div>
     <%-------------------- 글 본문 끝 ------------------%>

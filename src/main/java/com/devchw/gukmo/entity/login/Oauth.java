@@ -17,7 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 public class Oauth {
 
-    @Id @GeneratedValue
+    @Id
     @Column(name = "oauth_id")
     private Long id;
 
@@ -25,9 +25,8 @@ public class Oauth {
     @JoinColumn(name = "member_id")
     private Member member; //Member(N:1)
 
+    @Enumerated(EnumType.STRING)
     private Type type; //소셜로그인 타입
-
-    private String accessToken; //엑세스 토큰
 
     public enum Type {
         KAKAO, NAVER, FACEBOOK, GOOGLE

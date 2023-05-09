@@ -44,9 +44,11 @@ public class Member {
     private LocalDateTime joinDate; //가입일자
 
     @Enumerated(EnumType.STRING)
+    @ColumnDefault("'NO'")
     private EmailAccept emailAccept;    //이메일수신동의 여부 YES, NO
 
     @Enumerated(EnumType.STRING)
+    @ColumnDefault("'MEMBER'")
     private UserRole userRole;    // ADMIN, MEMBER, ACADEMY
 
     @OneToOne(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)

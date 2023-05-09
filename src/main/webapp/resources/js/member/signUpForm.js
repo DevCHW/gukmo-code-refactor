@@ -405,7 +405,7 @@ function sendCertificationCode(email){
  * @returns 유효성검사를 통과하면 true, 통과하지 못하면 false를 반환
  */
 function test_nickname(nickname){
-  const regExp = /^[가-힣]{2,15}$/;
+  const regExp = /^[가-힣a-zA-Z0-9]{1,10}$/;
   nickname = nickname + "";
   if(nickname == "" || !regExp.test(nickname) || nickname.length < 2){ //유효성검사를 통과하지 못할시
     $("input#nickname").css("border","solid 1px red");  //빨간색 테두리

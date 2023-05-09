@@ -9,6 +9,7 @@ import com.devchw.gukmo.user.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,7 +31,10 @@ public class LoginController {
      * 로그인페이지
      */
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginForm") LoginFormDto form) {
+    public String loginForm(@ModelAttribute("loginForm") LoginFormDto form,
+                            @RequestParam(defaultValue = "/") String redirectURL,
+                            Model model) {
+        model.addAttribute("redirectURL", redirectURL);
         return "login/loginForm.tiles1";
     }
 
@@ -50,7 +54,7 @@ public class LoginController {
             Member loginMember = loginService.login(form.getUserId(), form.getPassword());
 
             //Member -> LoginMemberDto 변환
-            LoginMemberDto loginMemberDto = new LoginMemberDto().toDto(loginMember);
+            LoginMemberDto loginMemberDto = LoginMemberDto.toDto(loginMember);
 
             //session에 필요한 값만 저장.
             HttpSession session = request.getSession();

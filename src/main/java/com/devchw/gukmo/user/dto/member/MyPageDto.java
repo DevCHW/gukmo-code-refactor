@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Null;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,13 +24,23 @@ public class MyPageDto {
      * Entity -> Dto
      */
     public MyPageDto toDto(Member member) {
-        return MyPageDto.builder()
-                .username(member.getUsername())
-                .nickname(member.getNickname())
-                .email(member.getEmail())
-                .profileImage(member.getProfileImage())
-                .emailAccept(member.getEmailAccept())
-                .loginId(member.getLogin().getId())
-                .build();
+        try {
+            return MyPageDto.builder()
+                    .username(member.getUsername())
+                    .nickname(member.getNickname())
+                    .email(member.getEmail())
+                    .profileImage(member.getProfileImage())
+                    .emailAccept(member.getEmailAccept())
+                    .loginId(member.getLogin().getId())
+                    .build();
+        } catch (NullPointerException e) {  //소셜로그인 시 Login 없을 수 있음.
+            return MyPageDto.builder()
+                    .username(member.getUsername())
+                    .nickname(member.getNickname())
+                    .email(member.getEmail())
+                    .profileImage(member.getProfileImage())
+                    .emailAccept(member.getEmailAccept())
+                    .build();
+        }
     }
 }

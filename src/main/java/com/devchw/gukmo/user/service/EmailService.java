@@ -2,7 +2,7 @@ package com.devchw.gukmo.user.service;
 
 import com.devchw.gukmo.config.email.GoogleMail;
 import com.devchw.gukmo.user.dto.api.member.SendEmailResponse;
-import com.devchw.gukmo.utils.MyUtil;
+import com.devchw.gukmo.utils.NumberUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class EmailService {
         String subject = "[국비의모든것] 회원가입을 환영합니다.";
 
         // 이메일인증코드 생성(10자리의 난수)
-        String certificationCode = MyUtil.getAuthKey(10);
+        String certificationCode = NumberUtil.createRandomNumber(10);
 
         // 이메일에 보낼 메세지(계정을찾을수있는 링크 보내주기)
         String message = "<div style=\"font-family: 'Apple SD Gothic Neo', 'sans-serif' !important; width: 540px; height: 600px; border-top: 4px solid #208EC9; margin: 100px auto; padding: 30px 0; box-sizing: border-box;\">"

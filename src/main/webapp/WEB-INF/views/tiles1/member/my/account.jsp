@@ -38,7 +38,12 @@
       <i class="fa-solid fa-envelope"></i>
 
 
-	  <br>
+
+
+      <%-- 소셜로그인 회원이 아닌 사이트 회원일 경우에만 --%>
+      <c:if test="${not empty memberInfo.loginId}">
+
+      <br>
       <hr>
       <br>
 
@@ -64,8 +69,7 @@
 	      <button type="button" id="btn_edit_passwd" class="btn border rounded" disabled>비밀번호 변경</button>
 	    </div>
 	  </div>
-
-
+	  </c:if>
 
       <%-- 교육기관회원이 아닌 일반회원일 경우에만 --%>
       <c:if test="${loginMember.userRole eq 'MEMBER'}">
