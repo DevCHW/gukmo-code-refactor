@@ -174,35 +174,31 @@ function handleCredentialResponse(response) {
 //    console.log("Image URL: " + responsePayload.picture);
 //    console.log("Email: " + responsePayload.email);
     
-    const userInfo = {userId:responsePayload.sub,
+    const userInfo = {authId:responsePayload.sub,
     				  email:responsePayload.email,
-    				  profile_image:responsePayload.picture,
-    				  nickname:responsePayload.given_name,
-    				  email_acept:'0',
+    				  profileImage:responsePayload.picture,
     				  username:responsePayload.name,
-    				  flag:'google'}
+    				  redirectURL:sessionStorage.getItem("redirectURL"),
+    				  type:'GOOGLE'}
+    console.log(userInfo);
     $.ajax({
 		type : 'post',
-		url : getContextPath()+'/googleLoginPro.do',
+		url : '/api/v1/oauth/google',
 		data : userInfo,
 		dataType : 'json',
 		async:false,
-		success : function(data){
-		  console.log(data)
-		  if(data.JavaData == "YES"){
-			 user_status(data.userId);
-		  }else if(data.JavaData == "register"){// 회원가입을 해야하는경우
-			 userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
-		  }else{
-		    alert("로그인에 실패했습니다");
-		  }
+		success : function(res){
+		  if(res.success){
+              location.href = res.result.redirectURL;
+          } else {
+              alert("로그인에 실패했습니다");
+          }
 		},
 		error: function(xhr, status, error){
 			alert("로그인에 실패했습니다."+error);
 		}
 	});//end of ajax
 }//end of method--
-
 
 
 /**
@@ -230,20 +226,20 @@ function statusChangeCallback(res){
 function fnFbCustomLogin(){
 	FB.login(function(response) {
 		if (response.status === 'connected') {
-			console.log(response);
-			FB.api('/me', 'get', {fields: 'name,email,picture'}, function(response) {
+//			console.log(response);
+			FB.api('/me', 'get', {fields: 'id,name,email,picture'},
+			function(response) {
 				let fb_data = jQuery.parseJSON(JSON.stringify(response));
 				
 				//가져온 데이터 콘솔출력
 //				console.log(fb_data);
 				
-				const userInfo = {userId:fb_data.id
+				const userInfo = {authId:fb_data.id
 								 ,email:fb_data.email
-								 ,profile_image:fb_data.picture.data.url
-								 ,nickname:fb_data.name
-								 ,email_acept:'0'
+								 ,profileImage:fb_data.picture.data.url
 			  		 			 ,username:fb_data.name
-			  		 			 ,flag:'facebook'};
+			  		 			 ,redirectURL:sessionStorage.getItem("redirectURL")
+			  		 			 ,type:'FACEBOOK'};
 				//페이스북 로그인 처리 메소드 호출
 				facebookLoginPro(userInfo);
 			})
@@ -275,21 +271,18 @@ window.fbAsyncInit = function() {
  * @returns
  */
 function facebookLoginPro(userInfo){
+  console.log(userInfo);
   $.ajax({
 	type : 'POST',
-	url : getContextPath()+'/facebookLoginPro.do',
+	url : '/api/v1/oauth/facebook',
 	data : userInfo,
 	dataType : 'json',
-	success : function(data){
-		console.log(data)
-		if(data.JavaData == "YES"){
-			user_status(data.userId);	//로그인처리
-		}else if(data.JavaData == "register"){// 회원가입을 해야하는경우
-			userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
-		}else{
-			alert("로그인에 실패했습니다");
-		}
-		
+	success : function(res){
+		if(res.success){
+            location.href = res.result.redirectURL;
+        } else {
+            alert("로그인에 실패했습니다");
+        }
 	},
 	error: function(xhr, status, error){
 		alert("로그인에 실패했습니다."+error);

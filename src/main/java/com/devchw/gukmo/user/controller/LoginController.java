@@ -64,6 +64,7 @@ public class LoginController {
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMemberDto);
 
             log.info("로그인 성공, member{}", loginMemberDto);
+            log.info("redirectURL={}", redirectURL);
             return "redirect:" + redirectURL;
         } catch (LoginException e) { //로그인 실패(LoginException 예외 처리)
             log.info("로그인 실패");
@@ -76,12 +77,13 @@ public class LoginController {
      * 로그아웃 처리
      */
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    public String logout(HttpServletRequest request,
+                         @RequestParam(defaultValue = "/") String redirectURL) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             log.info("로그아웃 memberId={}", session.getAttribute(SessionConst.LOGIN_MEMBER));
             session.invalidate();
         }
-        return "redirect:/";
+        return "redirect:" + redirectURL;
     }
 }

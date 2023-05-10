@@ -38,6 +38,36 @@ public class OAuthApiController {
         return new BaseResponse<>(kakaoLoginResponse);
     }
 
+    /** 페이스북로그인 */
+    @PostMapping("/facebook")
+    public BaseResponse<OauthLoginResponse> facebookLogin(OauthLoginRequest facebookLoginRequest, HttpSession session) {
+        Member member = oauthService.oauthLogin(facebookLoginRequest);
+
+        LoginMemberDto loginMemberDto = LoginMemberDto.toDto(member);
+
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMemberDto);
+
+        OauthLoginResponse facebookLoginResponse = OauthLoginResponse.builder()
+                .redirectURL(facebookLoginRequest.getRedirectURL())
+                .build();
+        return new BaseResponse<>(facebookLoginResponse);
+    }
+
+    /** 구글로그인 */
+    @PostMapping("/google")
+    public BaseResponse<OauthLoginResponse> googleLogin(OauthLoginRequest googleLoginRequest, HttpSession session) {
+        Member member = oauthService.oauthLogin(googleLoginRequest);
+
+        LoginMemberDto loginMemberDto = LoginMemberDto.toDto(member);
+
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMemberDto);
+
+        OauthLoginResponse googleLoginResponse = OauthLoginResponse.builder()
+                .redirectURL(googleLoginRequest.getRedirectURL())
+                .build();
+        return new BaseResponse<>(googleLoginResponse);
+    }
+
 
     /** 네이버로그인 폼 url 얻기 */
     @GetMapping("/naver/url")

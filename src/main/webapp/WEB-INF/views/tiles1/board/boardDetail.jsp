@@ -442,8 +442,8 @@
 			            <%-- 댓글 좋아요 갯수 --%>
 			            <span id="${comment.likeCount}" class="comment_like_cnt">${comment.likeCount}</span>
 			          </div>
-			          <input type="hidden" id="" value="${comment.nickname}" />
-		          	  <input type="hidden" id="" value="${comment.comment_num}" />
+			          <input type="hidden" id="" value="${comment.writer.nickname}" />
+		          	  <input type="hidden" id="" value="${comment.id}" />
 			          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area" style="width:0px;">
 			          	<span class="comment_btn_report ml-auto">&#x1F6A8;</span>
 			          </div>
@@ -576,7 +576,7 @@
             <div class="d-flex justify-content-end mt-2" id = "asdf1">
               <button type="button" class="btn_big_comment_close btn btn-light border rounded mr-3">취소</button>
               <button type="button" class="btn_big_comment_write btn btn-info">댓글 쓰기</button>
-              <input type="hidden" class="fk_com_num" value="${bcommentList.comment_num}" />
+              <input type="hidden" class="fk_com_num" value="${comment.id}" />
             </div>
           </div>
 

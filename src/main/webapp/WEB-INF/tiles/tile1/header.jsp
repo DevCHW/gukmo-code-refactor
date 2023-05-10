@@ -12,11 +12,24 @@
 
 <%-- 직접만든 javascript --%>
 <script type="text/javascript">
-    const redirectURL = window.location.pathname;
-
+    const redirectURL = window.location.pathname + window.location.search;
+    alert(queryString);
+    //로그인 버튼 클릭시 이동
     function goLoginPage() {
         location.href='/login?redirectURL=' + redirectURL;
     }
+
+    //로그아웃
+    function logout() {
+        const form = document.logoutForm;
+        form.action = "/logout";
+        form.method = "POST";
+        form.submit();
+    }
+    $(document).ready(function(){
+        $("input#redirectURL").val(redirectURL);
+    });
+
 </script>
 
 <script type="text/javascript" src="<%=ctxPath%>/resources/js/hello/header.js"></script>
@@ -137,4 +150,5 @@
 <%-- end of scrollTop button --%>
 
 <form name="logoutForm">
+    <input id="redirectURL" name="redirectURL" type="hidden" value=""/>
 </form>

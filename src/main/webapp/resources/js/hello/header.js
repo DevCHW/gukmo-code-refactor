@@ -97,12 +97,6 @@ function activity_details() {
     $("#profile_dropContent").hide();
 }
 
-//로그아웃
-function logout() {
-    const form = document.logoutForm;
-    form.action = "/logout";
-    form.method = "POST";
-    form.submit();
-}
+
 
 
