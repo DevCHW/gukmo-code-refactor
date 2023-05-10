@@ -26,7 +26,7 @@ public class OAuthService {
     private final OAuthRepository oauthRepository;
     private final MemberRepository memberRepository;
 
-    /** 카카오로그인 */
+    /** OAuth 로그인, 회원가입 */
     @Transactional
     public Member oauthLogin(OauthLoginRequest oauthLoginRequest) {
         Oauth.Type type = oauthLoginRequest.oauthTypeConverter();

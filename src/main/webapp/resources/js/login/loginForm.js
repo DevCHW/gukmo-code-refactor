@@ -122,7 +122,6 @@ function kakaoLoginPro(response){
 function kakaoLogin(){
 	Kakao.Auth.login({
 		success: function (response) {
-		    console.log(response);
             Kakao.API.request({
                 url: '/v2/user/me',
                 success: function (response) {
@@ -180,7 +179,6 @@ function handleCredentialResponse(response) {
     				  username:responsePayload.name,
     				  redirectURL:sessionStorage.getItem("redirectURL"),
     				  type:'GOOGLE'}
-    console.log(userInfo);
     $.ajax({
 		type : 'post',
 		url : '/api/v1/oauth/google',
@@ -226,14 +224,10 @@ function statusChangeCallback(res){
 function fnFbCustomLogin(){
 	FB.login(function(response) {
 		if (response.status === 'connected') {
-//			console.log(response);
 			FB.api('/me', 'get', {fields: 'id,name,email,picture'},
 			function(response) {
 				let fb_data = jQuery.parseJSON(JSON.stringify(response));
-				
-				//가져온 데이터 콘솔출력
-//				console.log(fb_data);
-				
+
 				const userInfo = {authId:fb_data.id
 								 ,email:fb_data.email
 								 ,profileImage:fb_data.picture.data.url
@@ -271,7 +265,6 @@ window.fbAsyncInit = function() {
  * @returns
  */
 function facebookLoginPro(userInfo){
-  console.log(userInfo);
   $.ajax({
 	type : 'POST',
 	url : '/api/v1/oauth/facebook',

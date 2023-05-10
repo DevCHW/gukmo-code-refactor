@@ -73,8 +73,6 @@ $(document).ready(function(){
     	$("input#emailAccept").val("0");
     }
 
-    test_nickname($("input#nickname").val());
-    test_username($("input#username").val());
     test_all();
   });//end of Event--
 
@@ -95,10 +93,9 @@ $(document).ready(function(){
         $("p#nickname_error").css("display","block");  //에러문구
         $("label[for='nickname']").css("color","red");  //라벨 빨간색
         $("p#nickname_ok").css("display","none");  //에러문구(비밀번호 칸)
-        test_all();
 		return;
 	} else{
-		$("p#nickname_error").text("닉네임 형식에 맞지 않습니다.")
+		$("p#nickname_error").text("닉네임 형식에 맞지 않습니다.");
 	}
 
     $("p#nickname_ok").css("display","");
@@ -128,6 +125,9 @@ $(document).ready(function(){
 
     if(test_username(username)){  //유효성검사 통과시
     	test_all();
+    } else {
+        nickname_ok = false;
+        test_all();
     }
   });//end of Event---
 
@@ -179,6 +179,7 @@ function test_nickname(nickname){
     $("input#nickname").css("border","solid 1px red");  //빨간색 테두리
     $("p#nickname_error").css("display","block");  //에러문구
     $("label[for='nickname']").css("color","red");  //라벨 빨간색
+
     return false;
   } else{ //유효성검사 통과시
     $("input#nickname").css("border","");  //빨간색 테두리 없애기
@@ -206,6 +207,8 @@ function nickname_exist_check(nickname){
         $("p#nickname_error").text("이미 존재하는 닉네임입니다.");
         $("p#nickname_error").css("display","block");  //에러문구
         $("label[for='nickname']").css("color","red");  //라벨 빨간색
+        nickname_ok = false;
+        test_all();
       }
       else{	//닉네임이 존재하지 않는다면
         $("input#nickname").css("border","");  //빨간색 테두리 없애기

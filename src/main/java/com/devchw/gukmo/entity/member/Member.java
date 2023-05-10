@@ -51,14 +51,15 @@ public class Member {
     @ColumnDefault("'MEMBER'")
     private UserRole userRole;    // ADMIN, MEMBER, ACADEMY
 
-    @OneToOne(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @JoinColumn(name = "academy_member_id")
     private AcademyMember academyMember;
 
     @OneToOne(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     private Login login;
 
-    @OneToOne(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
-    private Oauth oauth;
+    @OneToMany(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<Oauth> oauth;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Board> boards = new ArrayList<>();

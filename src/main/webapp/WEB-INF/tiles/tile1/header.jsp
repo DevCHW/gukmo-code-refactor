@@ -13,10 +13,9 @@
 <%-- 직접만든 javascript --%>
 <script type="text/javascript">
     const redirectURL = window.location.pathname + window.location.search;
-    alert(queryString);
     //로그인 버튼 클릭시 이동
     function goLoginPage() {
-        location.href='/login?redirectURL=' + redirectURL;
+        location.href='/login?redirectURL=' + encodeURIComponent(redirectURL);
     }
 
     //로그아웃
@@ -27,7 +26,7 @@
         form.submit();
     }
     $(document).ready(function(){
-        $("input#redirectURL").val(redirectURL);
+        $("input#redirectURL").val(encodeURIComponent(redirectURL));
     });
 
 </script>

@@ -63,6 +63,7 @@ public class OAuthController {
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMemberDto);
 
             String redirectURL = (String) session.getAttribute("redirectURL");
+            log.info("redirectURL="+redirectURL);
             session.removeAttribute("redirectURL");
             return "redirect:" + redirectURL;
         } catch (JsonProcessingException e) {

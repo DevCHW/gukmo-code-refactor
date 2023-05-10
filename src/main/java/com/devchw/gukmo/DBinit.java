@@ -79,14 +79,70 @@ public class DBinit {
          * 2. 테스트 게시글 넣기
          */
         public void dbInit2() {
-            for(int i=1; i<=1000; i++) {
+            for(int i=1; i<=100; i++) {
                 Member member = memberRepository.findById(1L).get();
 
                 Board board = Board.builder()
-                        .subject("테스트 글제목"+i)
-                        .content("테스트 글내용"+i)
+                        .subject("테스트 글제목 자유게시판"+i)
+                        .content("테스트 글내용 자유게시판"+i)
                         .firstCategory("커뮤니티")
                         .secondCategory("자유")
+                        .member(member)
+                        .build();
+
+                em.persist(board);
+            }//end of for--
+
+            for(int i=1; i<=100; i++) {
+                Member member = memberRepository.findById(1L).get();
+
+                Board board = Board.builder()
+                        .subject("테스트 글제목 QnA"+i)
+                        .content("테스트 글내용 QnA"+i)
+                        .firstCategory("커뮤니티")
+                        .secondCategory("QnA")
+                        .member(member)
+                        .build();
+
+                em.persist(board);
+            }//end of for--
+
+            for(int i=1; i<=100; i++) {
+                Member member = memberRepository.findById(1L).get();
+
+                Board board = Board.builder()
+                        .subject("테스트 글제목 스터디"+i)
+                        .content("테스트 글내용 스터디"+i)
+                        .firstCategory("커뮤니티")
+                        .secondCategory("스터디")
+                        .member(member)
+                        .build();
+
+                em.persist(board);
+            }//end of for--
+
+            for(int i=1; i<=100; i++) {
+                Member member = memberRepository.findById(2L).get();
+
+                Board board = Board.builder()
+                        .subject("테스트 글제목 취미모임"+i)
+                        .content("테스트 글내용 취미모임"+i)
+                        .firstCategory("커뮤니티")
+                        .secondCategory("취미모임")
+                        .member(member)
+                        .build();
+
+                em.persist(board);
+            }//end of for--
+
+            for(int i=1; i<=100; i++) {
+                Member member = memberRepository.findById(2L).get();
+
+                Board board = Board.builder()
+                        .subject("테스트 글제목 수강/취업후기"+i)
+                        .content("테스트 글내용 수강/취업후기"+i)
+                        .firstCategory("커뮤니티")
+                        .secondCategory("수강/취업후기")
                         .member(member)
                         .build();
 

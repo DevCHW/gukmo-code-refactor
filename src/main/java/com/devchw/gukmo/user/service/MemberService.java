@@ -4,7 +4,7 @@ import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.dto.member.SignUpFormDto;
-import com.devchw.gukmo.user.dto.member.UpdateInfoRequest;
+import com.devchw.gukmo.user.dto.api.member.UpdateInfoRequest;
 import com.devchw.gukmo.user.repository.LoginRepository;
 import com.devchw.gukmo.user.repository.MemberRepository;
 import com.devchw.gukmo.utils.FileManager;

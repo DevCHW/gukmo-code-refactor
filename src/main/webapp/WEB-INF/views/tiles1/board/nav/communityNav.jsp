@@ -15,7 +15,7 @@
 	  case "자유" :	//보고있는 페이지가 "자유게시판"일 경우 .active 추가
 		  $("div#freeBoards").addClass("active");
 		  break;
-	  case "질문" : //보고있는 페이지가 "Q&A"일 경우 .active 추가
+	  case "QnA" : //보고있는 페이지가 "Q&A"일 경우 .active 추가
 		  $("div#questions").addClass("active");
 		  break;
 	  case "스터디" : //보고있는 페이지가 "스터디"일 경우 .active 추가
@@ -27,6 +27,9 @@
 	  case "수강/취업후기" : //보고있는 페이지가 "수강/취업후기"일 경우 .active 추가
 		  $("div#reviews").addClass("active");
 		  break;
+      default :
+          $("div#freeBoards").addClass("active");
+          break;
 	}//end of switch-case---
 
 
@@ -38,7 +41,7 @@
 			  location.href="<%=ctxPath%>/boards?firstCategory=커뮤니티&secondCategory=자유";
 			  break;
 		  case "questions" :
-			  location.href="<%=ctxPath%>/boards?firstCategory=커뮤니티&secondCategory=질문";
+			  location.href="<%=ctxPath%>/boards?firstCategory=커뮤니티&secondCategory=QnA";
 			  break;
 		  case "studies" :
 			  location.href="<%=ctxPath%>/boards?firstCategory=커뮤니티&secondCategory=스터디";

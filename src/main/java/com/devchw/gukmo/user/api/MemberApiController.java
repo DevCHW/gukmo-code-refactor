@@ -2,7 +2,7 @@ package com.devchw.gukmo.user.api;
 
 import com.devchw.gukmo.config.response.BaseResponse;
 import com.devchw.gukmo.user.dto.login.LoginMemberDto;
-import com.devchw.gukmo.user.dto.member.UpdateInfoRequest;
+import com.devchw.gukmo.user.dto.api.member.UpdateInfoRequest;
 import com.devchw.gukmo.user.repository.MemberRepository;
 import com.devchw.gukmo.user.service.MemberService;
 import com.devchw.gukmo.utils.FileManager;

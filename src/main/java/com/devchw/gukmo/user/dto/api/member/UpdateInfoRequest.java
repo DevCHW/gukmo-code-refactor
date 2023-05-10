@@ -1,4 +1,4 @@
-package com.devchw.gukmo.user.dto.member;
+package com.devchw.gukmo.user.dto.api.member;
 
 import com.devchw.gukmo.entity.member.Member;
 import lombok.Data;

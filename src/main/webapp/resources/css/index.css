@@ -1,0 +1,250 @@
+@charset "UTF-8";
+
+a {
+	padding: 0;
+}
+
+
+.carousel-inner img {
+  position: absolute;
+  width: 100%;
+  /* height: 100%; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+ }
+
+
+
+
+/* ----- 학원 정보 영역 CSS 시작 ----- */
+.academy-carousel {
+	min-height: 320px;
+}
+
+.div_academy {
+	width: 100%;
+}
+
+.academy_title > span {
+	font-size:25px;
+	font-weight: 700;
+}
+
+.academy_title > a {
+	font-size:15px;
+	font-weight: 400;
+	color: gray;
+	padding-top: 17px;
+}
+
+
+/* 학원 정보 영역 content */
+
+
+.card_1 {
+	padding: 0;
+}
+
+
+.card {
+	width:266px;
+}
+
+.card:hover {
+	background-color: #BFEBFD;
+}
+
+
+
+
+.card {
+	margin: 5px 0 5px 7px;
+}
+
+.card:hover {
+	cursor: pointer;
+}
+
+.card-body {
+	padding: 5px 15px;
+}
+
+.card-title {
+	margin: 5px 0 5px 0;
+}
+
+.card-text {
+	max-width: 250px;
+	display:flex;
+	align-items: center;
+	white-space: normal;
+	overflow: hidden;
+	word-wrap: break-word;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical
+}
+
+.card-sub-text {
+	color: lightgrey;
+	font-size: 8px;
+}
+
+.card-link {
+	margin: 5px 0 0 0;
+	padiing: 0;
+	float: right;
+	color: #208EC9;
+}
+
+.icon_prev{
+	left:-85px;
+}
+
+.icon_next{
+	right:-90px;
+}
+
+.icon_arrow {
+	color: #F5F5F6;
+}
+
+.icon_arrow:hover {
+	color: #208EC9;
+	cursor: pointer;
+}
+
+/* ========== 학원 정보 영역 CSS 끝 ========== */
+
+/* ========== 게시판 정보 영역 CSS 시작 ========== */
+
+
+/* 인기 검색어 영역 */
+div.div_searchRank {
+	/*    border: solid 1px blue; */
+	height: 300px;
+	margin-left:0.3%;
+}
+
+div.div2_searchRank {
+	height: 100%;
+}
+
+div.title_searchRank {
+	height: 45px;
+	border-radius: 5px 5px 0 0;
+	padding-left: 0.5em;
+	background-color: #F5F5F6;
+}
+
+div.title_searchRank p {
+	font-size: 15px;
+	font-weight: 500;
+	margin: 0;
+}
+
+div.list_searchRank {
+	border: solid 1px #E1E2E1;
+	border-radius: 0 0 5px 5px;
+	border-top: none;
+	padding: 0.5em;
+}
+
+div.list_searchRank a {
+	padding: 0.8em 0;
+	color: black;
+}
+
+
+
+/* ------------------------------------- */
+
+/* 게시글 CSS */
+div.div_writerInfo {
+	font-size:12px;
+}
+
+div.writer_image_box {
+	width: 18px;
+	height: 18px;
+	border-radius: 70%;
+}
+
+div.writer_image_box img {
+	vertical-align: top;
+	width: 100%;
+	height: 100%;
+	border-radius: 70%;
+}
+
+div.write_date {
+	font-size: 12px;
+	color: darkgray;
+}
+
+a.writer_nickname {
+	color: #424242
+}
+
+a.writer_nickname:hover {
+	color: #0090F9;
+	text-decoration: none;
+}
+
+div.board_info_box {
+	/* color:#374151; */
+	color: #424242;
+	width: 100px;
+}
+
+/* 게시판 리스트 css */
+div.div_board {
+	width: 82%;
+}
+
+div.div_tbl_board {
+	width: 48%;
+	margin: 0 0 3% 2%
+}
+
+span#no_write_list {
+    padding-top: 130px;
+    padding-left: 115px;
+    font-size: 18px;
+}
+
+.title_board {
+	height: 45px;
+	border-radius: 5px 5px 0 0;
+	padding-left: 0.5em;
+	background-color: #208EC9;
+}
+
+.list_board {
+	border: solid 1px #208EC9;
+	border-radius: 0 0 5px 5px;
+	border-top: none;
+	padding: 0.5em;
+	height: 310px;
+}
+
+.list_board > .div_boardList:not(:nth-child(5)) {
+	border-bottom:solid 1px lightgrey;
+}
+
+a.subject {
+	font-size: 16px;
+	font-weight: 500;
+	color: black;
+	line-height: 16px;
+	max-height: 16px;
+	max-width: 300px;
+	overflow: hidden;
+	word-wrap: break-word;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical
+}
+
+/* ========== 게시판 정보 영역 CSS 끝 ========= */

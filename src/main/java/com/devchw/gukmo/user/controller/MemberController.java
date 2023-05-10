@@ -59,7 +59,7 @@ public class MemberController {
     /** 마이페이지 - 내정보 페이지 */
     @GetMapping("/{id}/my/info")
     public String info(@PathVariable Long id, Model model) {
-        Member loginMemberInfo = memberRepository.findMemberWithLoginById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+        Member loginMemberInfo = memberRepository.findMemberById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         MyPageDto memberInfo = new MyPageDto().toDto(loginMemberInfo);
         log.info("마이페이지 - 내 정보 페이지 member={}", memberInfo);
         model.addAttribute("memberInfo", memberInfo);
@@ -69,7 +69,7 @@ public class MemberController {
     /** 마이페이지 - 내 계정 페이지 */
     @GetMapping("/{id}/my/account")
     public String account(@PathVariable Long id, Model model) {
-        Member loginMemberInfo = memberRepository.findMemberWithLoginById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+        Member loginMemberInfo = memberRepository.findMemberById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         MyPageDto memberInfo = new MyPageDto().toDto(loginMemberInfo);
         log.info("마이페이지 - 내 계정 페이지 member={}", memberInfo);
         model.addAttribute("memberInfo", memberInfo);
@@ -79,7 +79,7 @@ public class MemberController {
     /** 마이페이지 - 활동 내역 페이지 */
     @GetMapping("/{id}/my/activities")
     public String activities(@PathVariable Long id, Model model) {
-        Member loginMemberInfo = memberRepository.findMemberWithLoginById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+        Member loginMemberInfo = memberRepository.findMemberById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         MyPageDto memberInfo = new MyPageDto().toDto(loginMemberInfo);
         log.info("마이페이지 - 활동내역 페이지 member={}", memberInfo);
         model.addAttribute("memberInfo", memberInfo);

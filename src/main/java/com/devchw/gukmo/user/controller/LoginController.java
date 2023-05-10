@@ -1,7 +1,9 @@
 package com.devchw.gukmo.user.controller;
 
 import com.devchw.gukmo.config.SessionConst;
+import com.devchw.gukmo.config.response.BaseResponseStatus;
 import com.devchw.gukmo.entity.member.Member;
+import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.exception.LoginException;
 import com.devchw.gukmo.user.dto.login.LoginMemberDto;
 import com.devchw.gukmo.user.dto.login.LoginFormDto;
@@ -20,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
+import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 
 @Slf4j
 @Controller
@@ -65,11 +71,15 @@ public class LoginController {
 
             log.info("로그인 성공, member{}", loginMemberDto);
             log.info("redirectURL={}", redirectURL);
-            return "redirect:" + redirectURL;
+            return "redirect:" + URLDecoder.decode(redirectURL, "UTF-8");
         } catch (LoginException e) { //로그인 실패(LoginException 예외 처리)
+
             log.info("로그인 실패");
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "login/loginForm.tiles1";
+
+        } catch (UnsupportedEncodingException e) {
+            throw new BaseException(ENCODING_ERROR);
         }
     }
 
@@ -84,6 +94,10 @@ public class LoginController {
             log.info("로그아웃 memberId={}", session.getAttribute(SessionConst.LOGIN_MEMBER));
             session.invalidate();
         }
-        return "redirect:" + redirectURL;
+        try {
+            return "redirect:" + URLDecoder.decode(redirectURL, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new BaseException(ENCODING_ERROR);
+        }
     }
 }

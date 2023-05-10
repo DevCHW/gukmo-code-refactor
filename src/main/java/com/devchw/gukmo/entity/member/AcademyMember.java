@@ -17,13 +17,9 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 public class AcademyMember {
 
-    @Id
+    @Id @GeneratedValue
+    @Column(name = "academy_member_id")
     private Long id;
-
-    @MapsId //Member.member_id와 매핑
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
-    private Member member;
 
     private String academy_name;    //교육기관명
 
