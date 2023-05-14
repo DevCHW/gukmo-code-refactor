@@ -1,10 +1,7 @@
 package com.devchw.gukmo.user.controller;
 
 import com.devchw.gukmo.user.dto.MessageResponse;
-import com.devchw.gukmo.user.dto.board.get.BoardDto;
-import com.devchw.gukmo.user.dto.board.get.BoardHashtagDto;
-import com.devchw.gukmo.user.dto.board.get.BoardListDto;
-import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
+import com.devchw.gukmo.user.dto.board.get.*;
 import com.devchw.gukmo.user.dto.board.post.BoardFormDto;
 import com.devchw.gukmo.user.repository.BoardRepository;
 import com.devchw.gukmo.user.service.BoardService;
@@ -18,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,17 +36,46 @@ public class BoardController {
                          Pageable pageable,
                          Model model) {
 
-        Page<BoardListDto> boards = boardRepository.findBoardList(boardRequest, pageable);
-        List<BoardHashtagDto> hashtags = boardService.findBoardHashtagByBoardId(boards).stream()
+        List<Long> boardIds = new ArrayList<>();
+        int totalPage = 0;
+        int totalElements = 0;
+        if(boardRequest.getFirstCategory().equals("커뮤니티")) { //커뮤니티
+            Page<CommunityListDto> boards = boardRepository.findCommunityList(boardRequest, pageable);
+            boardIds = boards.getContent().stream().map(b -> b.getId()).collect(Collectors.toList());
+            totalPage = boards.getTotalPages();
+            totalElements = (int) boards.getTotalElements();
+            model.addAttribute("boards", boards.getContent());  //결과물
+        } else if(boardRequest.getFirstCategory().equals("공지사항")) { //공지사항
+            Page<NoticeListDto> boards = boardRepository.findNoticeList(boardRequest, pageable);
+            boardIds = boards.getContent().stream().map(b -> b.getId()).collect(Collectors.toList());
+            totalPage = boards.getTotalPages();
+            totalElements = (int) boards.getTotalElements();
+            model.addAttribute("boards", boards.getContent());  //결과물
+        } else if(boardRequest.getFirstCategory().equals("국비학원")) {
+            if(boardRequest.getSecondCategory().equals("교육과정")) {   //국비학원-교육과정
+                Page<CurriculumListDto> boards = boardRepository.findCurriculumList(boardRequest, pageable);
+                boardIds = boards.getContent().stream().map(b -> b.getId()).collect(Collectors.toList());
+                totalPage = boards.getTotalPages();
+                totalElements = (int) boards.getTotalElements();
+                model.addAttribute("boards", boards.getContent());  //결과물
+            } else {    //국비학원
+                Page<AcademyListDto> boards = boardRepository.findAcademyList(boardRequest, pageable);
+                boardIds = boards.getContent().stream().map(b -> b.getId()).collect(Collectors.toList());
+                totalPage = boards.getTotalPages();
+                totalElements = (int) boards.getTotalElements();
+                model.addAttribute("boards", boards.getContent());  //결과물
+            }
+        }
+
+        List<BoardHashtagDto> hashtags = boardService.findBoardHashtagByBoardId(boardIds).stream()
                 .map(BoardHashtagDto::toDto).collect(Collectors.toList());
 
         // 페이지 바 만들기
         String queryString = createQueryString(boardRequest);
         String url = "/boards";
-        String pageBar = PageBarUtil.createPageBar(pageable.getPageNumber(), boards.getTotalPages(), url, queryString);
+        String pageBar = PageBarUtil.createPageBar(pageable.getPageNumber(), totalPage, url, queryString);
 
-        model.addAttribute("boards", boards.getContent());  //결과물
-        model.addAttribute("total", boards.getTotalElements()); //총갯수
+        model.addAttribute("total", totalElements); //총갯수
         model.addAttribute("hashtags", hashtags);   //해시태그
         model.addAttribute("boardRequest", boardRequest);
         model.addAttribute("pageBar", pageBar); //페이지 바

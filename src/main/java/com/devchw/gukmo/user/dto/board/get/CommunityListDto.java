@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class BoardListDto {
+public class CommunityListDto {
     private Long id;     	        //게시글번호
     private String nickname;        //작성자닉네임
     private String firstCategory;   //첫번째 카테고리
@@ -22,18 +22,18 @@ public class BoardListDto {
     private Long likeCount;         //좋아요 수
 
     @QueryProjection
-    public BoardListDto(Long id,
-                        String nickname,
-                        String firstCategory,
-                        String secondCategory,
-                        String subject,
-                        String content,
-                        LocalDateTime writeDate,
-                        Long views,
-                        String profileImage,
-                        Long writerPoint,
-                        Long commentCount,
-                        Long likeCount) {
+    public CommunityListDto(Long id,
+                            String nickname,
+                            String firstCategory,
+                            String secondCategory,
+                            String subject,
+                            String content,
+                            LocalDateTime writeDate,
+                            Long views,
+                            String profileImage,
+                            Long writerPoint,
+                            Long commentCount,
+                            Long likeCount) {
         this.id = id;
         this.nickname = nickname;
         this.firstCategory = firstCategory;

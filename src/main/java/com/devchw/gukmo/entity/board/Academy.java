@@ -1,11 +1,13 @@
 package com.devchw.gukmo.entity.board;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.Entity;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Getter
 public class Academy extends Board {
     private String representativeName; //대표자 이름

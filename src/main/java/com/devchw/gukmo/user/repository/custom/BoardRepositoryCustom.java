@@ -1,15 +1,16 @@
 package com.devchw.gukmo.user.repository.custom;
 
-import com.devchw.gukmo.entity.hashtag.BoardHashtag;
-import com.devchw.gukmo.user.dto.board.get.BoardListDto;
-import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
+import com.devchw.gukmo.user.dto.board.get.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public interface BoardRepositoryCustom {
-    Page<BoardListDto> findBoardList(BoardRequestDto request, Pageable pageable);
+    Page<CommunityListDto> findCommunityList(BoardRequestDto request, Pageable pageable);
 
+    Page<NoticeListDto> findNoticeList(BoardRequestDto boardRequest, Pageable pageable);
+
+    Page<CurriculumListDto> findCurriculumList(BoardRequestDto boardRequest, Pageable pageable);
+
+    Page<AcademyListDto> findAcademyList(BoardRequestDto boardRequest, Pageable pageable);
 
 }

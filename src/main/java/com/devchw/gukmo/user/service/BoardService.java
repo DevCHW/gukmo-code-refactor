@@ -8,7 +8,7 @@ import com.devchw.gukmo.entity.hashtag.Hashtag;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.dto.board.get.BoardDto;
-import com.devchw.gukmo.user.dto.board.get.BoardListDto;
+import com.devchw.gukmo.user.dto.board.get.CommunityListDto;
 import com.devchw.gukmo.user.dto.board.get.PrevAndNextBoardDto;
 import com.devchw.gukmo.user.dto.board.post.BoardFormDto;
 import com.devchw.gukmo.user.dto.comments.CommentsDto;
@@ -16,7 +16,6 @@ import com.devchw.gukmo.user.dto.login.LoginMemberDto;
 import com.devchw.gukmo.user.dto.member.WriterDto;
 import com.devchw.gukmo.user.repository.*;
 import com.devchw.gukmo.utils.DateUtil;
-import com.devchw.gukmo.utils.NumberUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -47,9 +46,8 @@ public class BoardService {
     private final BoardLikeRepository boardLikeRepository;
 
     /** 게시글 번호에 맞는 해시태그 리스트 조회 */
-    public List<BoardHashtag> findBoardHashtagByBoardId(Page<BoardListDto> boards) {
+    public List<BoardHashtag> findBoardHashtagByBoardId(List<Long> boardIds) {
         // 게시글들 id값 뽑아서 해시태그 조회하기
-        List<Long> boardIds = boards.getContent().stream().map(b -> b.getId()).collect(Collectors.toList());
         return boardHashtagRepository.findBoardHashtagByBoardIdList(boardIds);
     }
 

@@ -1,9 +1,6 @@
 package com.devchw.gukmo.user.repository.custom;
 
-import com.devchw.gukmo.entity.hashtag.BoardHashtag;
-import com.devchw.gukmo.user.dto.board.get.BoardListDto;
-import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
-import com.devchw.gukmo.user.dto.board.get.QBoardListDto;
+import com.devchw.gukmo.user.dto.board.get.*;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,7 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.devchw.gukmo.entity.board.QAcademy.*;
 import static com.devchw.gukmo.entity.board.QBoard.*;
+import static com.devchw.gukmo.entity.board.QCurriculum.curriculum;
+import static com.devchw.gukmo.entity.board.QNotice.*;
 import static com.devchw.gukmo.entity.member.QMember.*;
 import static org.springframework.util.StringUtils.*;
 
@@ -29,20 +29,145 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    /** 게시판 리스트 조회 */
+    /** 커뮤니티 리스트 조회 */
     @Override
-    public Page<BoardListDto> findBoardList(BoardRequestDto request, Pageable pageable) {
-        List<BoardListDto> boardList = getBoardList(request, pageable);
-        long total = getTotal(request);
+    public Page<CommunityListDto> findCommunityList(BoardRequestDto boardRequest, Pageable pageable) {
+        List<CommunityListDto> boardList = getCommunityList(boardRequest, pageable);
+        long total = getTotal(boardRequest);
+        return new PageImpl<>(boardList, pageable, total);
+    }
+
+    /** 공지사항 리스트 조회 */
+    @Override
+    public Page<NoticeListDto> findNoticeList(BoardRequestDto boardRequest, Pageable pageable) {
+        List<NoticeListDto> boardList = getNoticeList(boardRequest, pageable);
+        long total = getTotal(boardRequest);
+        return new PageImpl<>(boardList, pageable, total);
+    }
+
+    /** 교육과정 리스트 조회 */
+    @Override
+    public Page<CurriculumListDto> findCurriculumList(BoardRequestDto boardRequest, Pageable pageable) {
+        List<CurriculumListDto> boardList = getCurriculumList(boardRequest, pageable);
+        long total = getTotal(boardRequest);
         return new PageImpl<>(boardList, pageable, total);
     }
 
 
+
+
+    /** 국비학원 리스트 조회 */
+    @Override
+    public Page<AcademyListDto> findAcademyList(BoardRequestDto boardRequest, Pageable pageable) {
+        OrderSpecifier[] orderSpecifiers = createOrderSpecifier(boardRequest);
+//        return queryFactory
+//                .select(new QAcademyListDto(academy.id,
+//                        member.nickname,
+//                        academy.firstCategory,
+//                        academy.secondCategory,
+//                        academy.subject,
+//                        academy.content,
+//                        academy.writeDate,
+//                        academy.views,
+//                        member.profileImage,
+//                        member.point.as("writerPoint"),
+//                        academy.commentCount,
+//                        academy.likeCount,
+//                        academy.representativeName,
+//                        academy.address,
+//                        academy.phone,
+//                        academy.jurisdiction,
+//                        academy.homepage,
+//                        academy.academyImage))
+//                .from(academy)
+//                .where(
+//                        firstCategoryEq(boardRequest.getFirstCategory()),
+//                        secondCategoryEq(boardRequest.getSecondCategory()),
+//                        subjectContainsKeyword(boardRequest.getKeyword())
+//                )
+//                .join(academy.member, member)   //ManyToOne
+//                .orderBy(orderSpecifiers)
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+//                .fetch();
+        return null;
+    }
+
+
+    private List<CurriculumListDto> getCurriculumList(BoardRequestDto boardRequest, Pageable pageable) {
+        OrderSpecifier[] orderSpecifiers = createOrderSpecifier(boardRequest);
+        return queryFactory
+                .select(new QCurriculumListDto(curriculum.id,
+                        member.nickname,
+                        curriculum.firstCategory,
+                        curriculum.secondCategory,
+                        curriculum.subject,
+                        curriculum.content,
+                        curriculum.writeDate,
+                        curriculum.views,
+                        member.profileImage,
+                        member.point.as("writerPoint"),
+                        curriculum.commentCount,
+                        curriculum.likeCount,
+                        curriculum.coreTechnology,
+                        curriculum.academyName,
+                        curriculum.curriculumStartDate,
+                        curriculum.curriculumEndDate,
+                        curriculum.recruitmentStartDate,
+                        curriculum.recruitmentEndDate,
+                        curriculum.recruitsCount,
+                        curriculum.url,
+                        curriculum.recruitmentPeriod,
+                        curriculum.curriculumPeriod))
+                .from(curriculum)
+                .where(
+                        firstCategoryEq(boardRequest.getFirstCategory()),
+                        secondCategoryEq(boardRequest.getSecondCategory()),
+                        subjectContainsKeyword(boardRequest.getKeyword())
+                )
+                .join(curriculum.member, member)   //ManyToOne
+                .orderBy(orderSpecifiers)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
+
+    private List<NoticeListDto> getNoticeList(BoardRequestDto boardRequest, Pageable pageable) {
+        OrderSpecifier[] orderSpecifiers = createOrderSpecifier(boardRequest);
+        return queryFactory
+                .select(new QNoticeListDto(notice.id,
+                        member.nickname,
+                        notice.firstCategory,
+                        notice.secondCategory,
+                        notice.subject,
+                        notice.content,
+                        notice.writeDate,
+                        notice.views,
+                        member.profileImage,
+                        member.point.as("writerPoint"),
+                        notice.commentCount,
+                        notice.likeCount,
+                        notice.mustRead))
+                .from(notice)
+                .where(
+                        firstCategoryEq(boardRequest.getFirstCategory()),
+                        secondCategoryEq(boardRequest.getSecondCategory()),
+                        subjectContainsKeyword(boardRequest.getKeyword())
+                )
+                .join(notice.member, member)   //ManyToOne
+                .orderBy(orderSpecifiers)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
+
     /** 게시물 리스트 조회 */
-    private List<BoardListDto> getBoardList(BoardRequestDto request, Pageable pageable) {
+    private List<CommunityListDto> getCommunityList(BoardRequestDto request, Pageable pageable) {
         OrderSpecifier[] orderSpecifiers = createOrderSpecifier(request);
         return queryFactory
-                .select(new QBoardListDto(board.id,
+                .select(new QCommunityListDto(board.id,
                         member.nickname,
                         board.firstCategory,
                         board.secondCategory,
