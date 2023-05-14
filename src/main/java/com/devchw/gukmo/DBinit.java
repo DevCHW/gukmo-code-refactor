@@ -1,12 +1,16 @@
 package com.devchw.gukmo;
 
+import com.devchw.gukmo.entity.board.Academy;
 import com.devchw.gukmo.entity.board.Board;
+import com.devchw.gukmo.entity.board.Curriculum;
+import com.devchw.gukmo.entity.board.Notice;
 import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
 import com.devchw.gukmo.entity.hashtag.Hashtag;
 import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.user.repository.MemberRepository;
+import com.devchw.gukmo.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -58,6 +62,14 @@ public class DBinit {
                     .userRole(Member.UserRole.MEMBER)
                     .build();
 
+            Member member3 = Member.builder()
+                    .nickname("국모관리자")
+                    .username("최현우")
+                    .email("admin@naver.com")
+                    .emailAccept(Member.EmailAccept.YES)
+                    .userRole(Member.UserRole.ADMIN)
+                    .build();
+
             Login loginMember1 = Login.builder()
                     .userId("test123")
                     .password("qwer1234")
@@ -69,10 +81,19 @@ public class DBinit {
                     .password("qwer1234")
                     .member(member2)
                     .build();
+
+            Login loginMember3 = Login.builder()
+                    .userId("admin")
+                    .password("qwer1234")
+                    .member(member3)
+                    .build();
+
             em.persist(member1);
             em.persist(member2);
+            em.persist(member3);
             em.persist(loginMember1);
             em.persist(loginMember2);
+            em.persist(loginMember3);
         }
 
         /**
@@ -147,6 +168,59 @@ public class DBinit {
                         .build();
 
                 em.persist(board);
+            }//end of for--
+
+            //국비학원 데이터 넣기
+            for(int i=1; i<=100; i++) {
+                Member member = memberRepository.findById(2L).get();
+                Academy academy = Academy.builder()
+                        .subject("테스트 글제목 국비학원"+i)
+                        .content("테스트 글내용 국비학원"+i)
+                        .firstCategory("국비학원")
+                        .secondCategory("국비학원")
+                        .member(member)
+                        .representativeName("최현우")
+                        .address("서울시 강북구 어쩌구")
+                        .academyImage("임시이미지")
+                        .homepage("https://www.naver.com/")
+                        .build();
+                em.persist(academy);
+            }//end of for--
+
+            // 교육과정 데이터 넣기
+            for(int i=1; i<=100; i++) {
+                Member member = memberRepository.findById(2L).get();
+                Curriculum curriculum = Curriculum.builder()
+                        .subject("테스트 글제목 교육과정"+i)
+                        .content("테스트 글내용 교육과정"+i)
+                        .firstCategory("국비학원")
+                        .secondCategory("국비학원")
+                        .member(member)
+                        .coreTechnology("Java")
+                        .academyName("쌍용강북교육센터"+i)
+                        .curriculumStartDate(DateUtil.StringToLocalDateTimeConverter("2023-06-03"))
+                        .curriculumEndDate(DateUtil.StringToLocalDateTimeConverter("2023-12-30"))
+                        .recruitmentStartDate(DateUtil.StringToLocalDateTimeConverter("2023-05-20"))
+                        .recruitmentEndDate(DateUtil.StringToLocalDateTimeConverter("2023-05-30"))
+                        .recruitsCount(0)
+                        .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
+                        .recruitmentPeriod(10)
+                        .curriculumPeriod(300)
+                        .build();
+                em.persist(curriculum);
+            }//end of for--
+
+            // 공지사항 데이터 넣기
+            for(int i=1; i<=100; i++) {
+                Member member = memberRepository.findById(2L).get();
+                Notice notice = Notice.builder()
+                        .subject("테스트 글제목 공지사항"+i)
+                        .content("테스트 글내용 공지사항"+i)
+                        .firstCategory("공지사항")
+                        .secondCategory("공지사항")
+                        .member(member)
+                        .build();
+                em.persist(notice);
             }//end of for--
         }
 

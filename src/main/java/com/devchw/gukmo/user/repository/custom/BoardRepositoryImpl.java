@@ -17,7 +17,7 @@ import java.util.List;
 
 import static com.devchw.gukmo.entity.board.QAcademy.*;
 import static com.devchw.gukmo.entity.board.QBoard.*;
-import static com.devchw.gukmo.entity.board.QCurriculum.curriculum;
+import static com.devchw.gukmo.entity.board.QCurriculum.*;
 import static com.devchw.gukmo.entity.board.QNotice.*;
 import static com.devchw.gukmo.entity.member.QMember.*;
 import static org.springframework.util.StringUtils.*;
@@ -53,49 +53,51 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return new PageImpl<>(boardList, pageable, total);
     }
 
-
-
-
     /** 국비학원 리스트 조회 */
     @Override
     public Page<AcademyListDto> findAcademyList(BoardRequestDto boardRequest, Pageable pageable) {
-        OrderSpecifier[] orderSpecifiers = createOrderSpecifier(boardRequest);
-//        return queryFactory
-//                .select(new QAcademyListDto(academy.id,
-//                        member.nickname,
-//                        academy.firstCategory,
-//                        academy.secondCategory,
-//                        academy.subject,
-//                        academy.content,
-//                        academy.writeDate,
-//                        academy.views,
-//                        member.profileImage,
-//                        member.point.as("writerPoint"),
-//                        academy.commentCount,
-//                        academy.likeCount,
-//                        academy.representativeName,
-//                        academy.address,
-//                        academy.phone,
-//                        academy.jurisdiction,
-//                        academy.homepage,
-//                        academy.academyImage))
-//                .from(academy)
-//                .where(
-//                        firstCategoryEq(boardRequest.getFirstCategory()),
-//                        secondCategoryEq(boardRequest.getSecondCategory()),
-//                        subjectContainsKeyword(boardRequest.getKeyword())
-//                )
-//                .join(academy.member, member)   //ManyToOne
-//                .orderBy(orderSpecifiers)
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
-        return null;
+        List<AcademyListDto> boardList = getAcademyList(boardRequest, pageable);
+        long total = getTotal(boardRequest);
+        return new PageImpl<>(boardList, pageable, total);
     }
 
+    /** 국비학원 리스트 조회 쿼리 */
+    public List<AcademyListDto> getAcademyList(BoardRequestDto boardRequest, Pageable pageable) {
+        OrderSpecifier[] orderSpecifiers = createOrderSpecifierForAcademy(boardRequest);
+        return queryFactory
+                .select(new QAcademyListDto(academy.id,
+                        member.nickname,
+                        academy.firstCategory,
+                        academy.secondCategory,
+                        academy.subject,
+                        academy.content,
+                        academy.writeDate,
+                        academy.views,
+                        member.profileImage,
+                        member.point.as("writerPoint"),
+                        academy.commentCount,
+                        academy.likeCount,
+                        academy.representativeName,
+                        academy.address,
+                        academy.phone,
+                        academy.homepage,
+                        academy.academyImage))
+                .from(academy)
+                .where(
+                        firstCategoryEq(boardRequest.getFirstCategory()),
+                        secondCategoryEq(boardRequest.getSecondCategory()),
+                        subjectContainsKeywordForAcademy(boardRequest.getKeyword())
+                )
+                .join(academy.member, member)   //ManyToOne
+                .orderBy(orderSpecifiers)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
 
+    /** 교육과정 리스트 조회 쿼리 */
     private List<CurriculumListDto> getCurriculumList(BoardRequestDto boardRequest, Pageable pageable) {
-        OrderSpecifier[] orderSpecifiers = createOrderSpecifier(boardRequest);
+        OrderSpecifier[] orderSpecifiers = createOrderSpecifierForCurriculum(boardRequest);
         return queryFactory
                 .select(new QCurriculumListDto(curriculum.id,
                         member.nickname,
@@ -121,9 +123,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         curriculum.curriculumPeriod))
                 .from(curriculum)
                 .where(
-                        firstCategoryEq(boardRequest.getFirstCategory()),
                         secondCategoryEq(boardRequest.getSecondCategory()),
-                        subjectContainsKeyword(boardRequest.getKeyword())
+                        subjectContainsKeywordForCurriculum(boardRequest.getKeyword())
                 )
                 .join(curriculum.member, member)   //ManyToOne
                 .orderBy(orderSpecifiers)
@@ -132,9 +133,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetch();
     }
 
-
+    /** 공지사항 리스트 조회 쿼리 */
     private List<NoticeListDto> getNoticeList(BoardRequestDto boardRequest, Pageable pageable) {
-        OrderSpecifier[] orderSpecifiers = createOrderSpecifier(boardRequest);
+        OrderSpecifier[] orderSpecifiers = createOrderSpecifierForNotice(boardRequest);
         return queryFactory
                 .select(new QNoticeListDto(notice.id,
                         member.nickname,
@@ -153,7 +154,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(
                         firstCategoryEq(boardRequest.getFirstCategory()),
                         secondCategoryEq(boardRequest.getSecondCategory()),
-                        subjectContainsKeyword(boardRequest.getKeyword())
+                        subjectContainsKeywordForNotice(boardRequest.getKeyword())
                 )
                 .join(notice.member, member)   //ManyToOne
                 .orderBy(orderSpecifiers)
@@ -162,10 +163,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetch();
     }
 
-
-    /** 게시물 리스트 조회 */
+    /** 커뮤니티 리스트 조회 쿼리 */
     private List<CommunityListDto> getCommunityList(BoardRequestDto request, Pageable pageable) {
-        OrderSpecifier[] orderSpecifiers = createOrderSpecifier(request);
+        OrderSpecifier[] orderSpecifiers = createOrderSpecifierForCommunity(request);
         return queryFactory
                 .select(new QCommunityListDto(board.id,
                         member.nickname,
@@ -183,7 +183,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(
                         firstCategoryEq(request.getFirstCategory()),
                         secondCategoryEq(request.getSecondCategory()),
-                        subjectContainsKeyword(request.getKeyword())
+                        subjectContainsKeywordForCommunity(request.getKeyword())
                 )
                 .join(board.member, member)   //ManyToOne
                 .orderBy(orderSpecifiers)
@@ -192,17 +192,74 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetch();
     }
 
-    /** 조회 게시물 카운트쿼리 */
+    /** 조회 게시물 갯수 조회*/
     private long getTotal(BoardRequestDto request) {
+        String firstCategory = request.getFirstCategory();
+        String secondCategory = request.getSecondCategory();
+        if(hasText(firstCategory)) {
+            if(firstCategory.equals("커뮤니티")) {
+                return getCommunityTotalCount(request);
+            } else if(firstCategory.equals("국비학원")) {
+                if(hasText(secondCategory) && secondCategory.equals("교육과정")) {
+                    return getCurriculumTotalCount(request);
+                } else {
+                    return getAcademyTotalCount(request);
+                }
+            } else if(firstCategory.equals("공지사항")) {
+                return getNoticeTotalCount(request);
+            }
+        }
+        return 0;
+    }
+
+    private long getCommunityTotalCount(BoardRequestDto request) {
         return queryFactory  //총 갯수 쿼리 따로날리기
                 .select(board)
                 .from(board)
                 .where(
-                    firstCategoryEq(request.getFirstCategory()),
-                    secondCategoryEq(request.getSecondCategory()),
-                    subjectContainsKeyword(request.getKeyword())
+                        firstCategoryEq(request.getFirstCategory()),
+                        secondCategoryEq(request.getSecondCategory()),
+                        subjectContainsKeywordForCommunity(request.getKeyword())
                 )
                 .join(board.member, member)
+                .fetchCount();
+    }
+
+    private long getNoticeTotalCount(BoardRequestDto request) {
+        return queryFactory  //총 갯수 쿼리 따로날리기
+                .select(notice)
+                .from(notice)
+                .where(
+                        firstCategoryEq(request.getFirstCategory()),
+                        secondCategoryEq(request.getSecondCategory()),
+                        subjectContainsKeywordForNotice(request.getKeyword())
+                )
+                .join(notice.member, member)
+                .fetchCount();
+    }
+
+    private long getAcademyTotalCount(BoardRequestDto request) {
+        return queryFactory  //총 갯수 쿼리 따로날리기
+                .select(academy)
+                .from(academy)
+                .where(
+                        firstCategoryEq(request.getFirstCategory()),
+                        secondCategoryEq(request.getSecondCategory()),
+                        subjectContainsKeywordForAcademy(request.getKeyword())
+                )
+                .join(academy.member, member)
+                .fetchCount();
+    }
+
+    private long getCurriculumTotalCount(BoardRequestDto request) {
+        return queryFactory  //총 갯수 쿼리 따로날리기
+                .select(curriculum)
+                .from(curriculum)
+                .where(
+                        secondCategoryEq(request.getSecondCategory()),
+                        subjectContainsKeywordForCurriculum(request.getKeyword())
+                )
+                .join(curriculum.member, member)
                 .fetchCount();
     }
 
@@ -210,20 +267,47 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
      * BooleanExpressions
      */
     private BooleanExpression firstCategoryEq(String firstCategory) {
-        return hasText(firstCategory) ? board.firstCategory.eq(firstCategory) : null;
+        if(hasText(firstCategory)) {
+            if(firstCategory.equals("커뮤니티")) {
+                return board.firstCategory.eq(firstCategory);
+            } else if(firstCategory.equals("국비학원")) {
+                return academy.firstCategory.eq(firstCategory);
+            } else if(firstCategory.equals("공지사항")) {
+                return notice.firstCategory.eq(firstCategory);
+            }
+        }
+        return null;
     }
 
     private BooleanExpression secondCategoryEq(String secondCategory) {
-        return hasText(secondCategory) ? board.secondCategory.eq(secondCategory) : null;
+        if(hasText(secondCategory)) {
+            if(secondCategory.equals("교육과정")) {
+                return curriculum.secondCategory.eq(secondCategory);
+            } else if(secondCategory.equals("QnA") || secondCategory.equals("자유") || secondCategory.equals("스터디") || secondCategory.equals("취미모임") || secondCategory.equals("수강/취업후기")) {
+                return board.secondCategory.eq(secondCategory);
+            }
+        }
+        return null;
     }
 
-    private BooleanExpression subjectContainsKeyword(String keyword) {
+    private BooleanExpression subjectContainsKeywordForCommunity(String keyword) {
         return hasText(keyword) ? board.subject.contains(keyword) : null;
     }
 
+    private BooleanExpression subjectContainsKeywordForCurriculum(String keyword) {
+        return hasText(keyword) ? curriculum.subject.contains(keyword) : null;
+    }
+
+    private BooleanExpression subjectContainsKeywordForAcademy(String keyword) {
+        return hasText(keyword) ? academy.subject.contains(keyword) : null;
+    }
+
+    private BooleanExpression subjectContainsKeywordForNotice(String keyword) {
+        return hasText(keyword) ? notice.subject.contains(keyword) : null;
+    }
 
     /** 정렬 */
-    private OrderSpecifier[] createOrderSpecifier(BoardRequestDto request) {
+    private OrderSpecifier[] createOrderSpecifierForCommunity(BoardRequestDto request) {
         List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
         if(request.getSort().equals("최신순")) {
             orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.id));
@@ -238,6 +322,63 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
             orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.id));
         } else {
             orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.id));
+        }
+        return orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]);
+    }
+
+    private OrderSpecifier[] createOrderSpecifierForAcademy(BoardRequestDto request) {
+        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
+        if(request.getSort().equals("최신순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, academy.id));
+        } else if(request.getSort().equals("추천순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, academy.likeCount));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, academy.id));
+        } else if(request.getSort().equals("댓글순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, academy.commentCount));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, academy.id));
+        } else if(request.getSort().equals("조회순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, academy.views));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, academy.id));
+        } else {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, academy.id));
+        }
+        return orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]);
+    }
+
+    private OrderSpecifier[] createOrderSpecifierForCurriculum(BoardRequestDto request) {
+        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
+        if(request.getSort().equals("최신순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, curriculum.id));
+        } else if(request.getSort().equals("추천순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, curriculum.likeCount));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, curriculum.id));
+        } else if(request.getSort().equals("댓글순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, curriculum.commentCount));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, curriculum.id));
+        } else if(request.getSort().equals("조회순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, curriculum.views));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, curriculum.id));
+        } else {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, curriculum.id));
+        }
+        return orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]);
+    }
+
+    private OrderSpecifier[] createOrderSpecifierForNotice(BoardRequestDto request) {
+        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
+        if(request.getSort().equals("최신순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, notice.id));
+        } else if(request.getSort().equals("추천순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, notice.likeCount));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, notice.id));
+        } else if(request.getSort().equals("댓글순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, notice.commentCount));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, notice.id));
+        } else if(request.getSort().equals("조회순")) {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, notice.views));
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, notice.id));
+        } else {
+            orderSpecifiers.add(new OrderSpecifier(Order.DESC, notice.id));
         }
         return orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]);
     }

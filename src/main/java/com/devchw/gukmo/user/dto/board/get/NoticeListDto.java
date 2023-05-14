@@ -26,7 +26,11 @@ public class NoticeListDto {
     @QueryProjection
     public NoticeListDto(Long id, String nickname, String firstCategory,
                          String secondCategory, String subject,
-                         String content, LocalDateTime writeDate, Long views, String profileImage, Long writerPoint, Long commentCount, Long likeCount, Notice.MustRead mustRead) {
+                         String content, LocalDateTime writeDate, Long views,
+                         String profileImage, Long writerPoint,
+                         Long commentCount,
+                         Long likeCount,
+                         Notice.MustRead mustRead) {
         this.id = id;
         this.nickname = nickname;
         this.firstCategory = firstCategory;

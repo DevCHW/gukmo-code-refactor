@@ -4,6 +4,7 @@ import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
 import com.devchw.gukmo.entity.member.Member;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -17,11 +18,10 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
+@SuperBuilder
 @Getter
 @DynamicInsert
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn // 하위 테이블의 구분 컬럼 생성(default = DTYPE)
 public class Board {
 
     @Id @GeneratedValue

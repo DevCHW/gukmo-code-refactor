@@ -23,13 +23,27 @@ public class AcademyListDto {
     private String representativeName; //대표자 이름
     private String address; //주소
     private String phone; //전화번호
-    private String jurisdiction; //관할지역
     private String homepage;     //홈페이지URL
     private String academyImage;    //학원 이미지
 
     @QueryProjection
-    public AcademyListDto(Long id, String nickname, String firstCategory, String secondCategory,
-                          String subject, String content, LocalDateTime writeDate, Long views, String profileImage, Long writerPoint, Long commentCount, Long likeCount, String representativeName, String address, String phone, String jurisdiction, String homepage, String academyImage) {
+    public AcademyListDto(Long id,
+                          String nickname,
+                          String firstCategory,
+                          String secondCategory,
+                          String subject,
+                          String content,
+                          LocalDateTime writeDate,
+                          Long views,
+                          String profileImage,
+                          Long writerPoint,
+                          Long commentCount,
+                          Long likeCount,
+                          String representativeName,
+                          String address,
+                          String phone,
+                          String homepage,
+                          String academyImage) {
         this.id = id;
         this.nickname = nickname;
         this.firstCategory = firstCategory;
@@ -45,7 +59,6 @@ public class AcademyListDto {
         this.representativeName = representativeName;
         this.address = address;
         this.phone = phone;
-        this.jurisdiction = jurisdiction;
         this.homepage = homepage;
         this.academyImage = academyImage;
     }

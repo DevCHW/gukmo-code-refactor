@@ -26,6 +26,8 @@ public enum BaseResponseStatus {
     MEMBER_DELETE_SUCCESS(true, 2503, "회원 삭제에 성공하였습니다."),
     PASSWORD_CHANGE_SUCCESS(true, 2504, "비밀번호 변경에 성공하였습니다."),
     NAVER_LOGIN_SUCCESS(true, 2505, "네이버 로그인에 성공하였습니다."),
+    BOARD_LIKE_SUCCESS(true, 2506, "게시글을 추천하였습니다."),
+    COMMENT_LIKE_SUCCESS(true, 2507, "댓글을 추천하였습니다."),
 
     /**
      * 3000 : Response 오류
@@ -33,6 +35,8 @@ public enum BaseResponseStatus {
     VALIDATED_ERROR(false, 3000, "VALIDATED_ERROR"), // @Valid 예외 처리
     NOT_FOUND_MEMBER(false, 3001, "없는 회원입니다."),
     NOT_FOUND_BOARD(false, 3002, "없는 게시물입니다."),
+    NOT_FOUND_COMMENT(false, 3003, "없는 댓글입니다."),
+
 
     /**
      * 4000 : Database, Server 오류

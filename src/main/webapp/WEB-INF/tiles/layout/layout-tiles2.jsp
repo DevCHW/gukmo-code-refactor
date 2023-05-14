@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
   
   <%-- 공통 CSS --%>
-  <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hyunwoo/admin/admin.css">
+  <link rel="stylesheet" href="<%=ctxPath %>/resources/css/admin/admin.css">
   
   <%-- title Icon --%>
   <link href="<%=ctxPath %>/resources/images/titleicon.png" rel="shortcut icon" type="image/x-icon">
@@ -42,11 +42,7 @@
   <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery.form.min.js"></script>
   
   <%-- Core plugin JavaScript--%>
-  <script src="<%=ctxPath %>/resources/js/hyunwoo/admin/jquery.easing.min.js"></script>
-  
-  <%-- 공통 JS --%>
-  <link rel="stylesheet" href="<%=ctxPath %>/resources/js/hyunwoo/admin/admin.js">
-  
+  <script src="<%=ctxPath %>/resources/js/admin/jquery.easing.min.js"></script>
   
 
 </head>
@@ -64,7 +60,7 @@
 	</div>
 	
 	
-  <%-- 직접만든 javascript --%>
-  <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/admin/admin.js" ></script>
+  <%-- 공통 JS --%>
+  <link rel="stylesheet" href="<%=ctxPath %>/resources/js/admin/admin.js">
 </body>
 </html>

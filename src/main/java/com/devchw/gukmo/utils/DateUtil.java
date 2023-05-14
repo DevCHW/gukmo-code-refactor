@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import static com.devchw.gukmo.config.response.BaseResponseStatus.INTERNAL_SERVER_ERROR;
@@ -53,37 +54,15 @@ public class DateUtil {
         return msg;
     }
 
-    public static String calculateTime(String inputDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = formatter.parse(inputDate);
-        } catch (ParseException e) {
-            throw new BaseException(INTERNAL_SERVER_ERROR);
-        }
+    /**
+     * String -> LocalDateTime으로 변환
+     */
+    public static LocalDateTime StringToLocalDateTimeConverter(String dateString) {
+        // DateTimeFormatter를 사용하여 문자열을 LocalDateTime으로 변환
+        dateString += " 00:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatter);
 
-        long curTime = System.currentTimeMillis();
-        long regTime = date.getTime();
-        long diffTime = (curTime - regTime) / 1000;
-        String msg = null;
-        if (diffTime < TIME_MAXIMUM.SEC) {
-            // sec
-            msg = diffTime + "초 전";
-        } else if ((diffTime /= TIME_MAXIMUM.SEC) < TIME_MAXIMUM.MIN) {
-            // min
-            msg = diffTime + "분 전";
-        } else if ((diffTime /= TIME_MAXIMUM.MIN) < TIME_MAXIMUM.HOUR) {
-            // hour
-            msg = (diffTime) + "시간 전";
-        } else if ((diffTime /= TIME_MAXIMUM.HOUR) < TIME_MAXIMUM.DAY) {
-            // day
-            msg = (diffTime) + "일 전";
-        } else if ((diffTime /= TIME_MAXIMUM.DAY) < TIME_MAXIMUM.MONTH) {
-            // day
-            msg = (diffTime) + "달 전";
-        } else {
-            msg = (diffTime) + "년 전";
-        }
-        return msg;
+        return localDateTime;
     }
 }

@@ -23,19 +23,19 @@ public class CurriculumListDto {
     private Long likeCount;         //좋아요 수
     private String coreTechnology;			//핵심기술
     private String academyName;			    //학원명
-    private String curriculumStartDate;	    //과정시작일자
-    private String curriculumEndDate;		//과정끝일자
-    private String recruitmentStartDate;	//모집시작일
-    private String recruitmentEndDate;	    //모집마감일
-    private String recruitsCount;			//모집인원
+    private LocalDateTime curriculumStartDate;	    //과정시작일자
+    private LocalDateTime curriculumEndDate;		//과정끝일자
+    private LocalDateTime recruitmentStartDate;	//모집시작일
+    private LocalDateTime recruitmentEndDate;	    //모집마감일
+    private int recruitsCount;			//모집인원
     private String url;				    //신청URL
-    private String recruitmentPeriod;		//모집기간
-    private String curriculumPeriod;		//과정기간
+    private int recruitmentPeriod;		//모집기간
+    private int curriculumPeriod;		//과정기간
 
 
     @QueryProjection
     public CurriculumListDto(Long id, String nickname, String firstCategory, String secondCategory,
-                             String subject, String content, LocalDateTime writeDate, Long views, String profileImage, Long writerPoint, Long commentCount, Long likeCount, String coreTechnology, String academyName, String curriculumStartDate, String curriculumEndDate, String recruitmentStartDate, String recruitmentEndDate, String recruitsCount, String url, String recruitmentPeriod, String curriculumPeriod) {
+                             String subject, String content, LocalDateTime writeDate, Long views, String profileImage, Long writerPoint, Long commentCount, Long likeCount, String coreTechnology, String academyName, LocalDateTime curriculumStartDate, LocalDateTime curriculumEndDate, LocalDateTime recruitmentStartDate, LocalDateTime recruitmentEndDate, int recruitsCount, String url, int recruitmentPeriod, int curriculumPeriod) {
         this.id = id;
         this.nickname = nickname;
         this.firstCategory = firstCategory;

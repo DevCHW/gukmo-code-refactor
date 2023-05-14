@@ -39,7 +39,7 @@ public class BoardController {
         List<Long> boardIds = new ArrayList<>();
         int totalPage = 0;
         int totalElements = 0;
-        if(boardRequest.getFirstCategory().equals("커뮤니티")) { //커뮤니티
+        if(!hasText(boardRequest.getFirstCategory()) || boardRequest.getFirstCategory().equals("커뮤니티")) { //커뮤니티
             Page<CommunityListDto> boards = boardRepository.findCommunityList(boardRequest, pageable);
             boardIds = boards.getContent().stream().map(b -> b.getId()).collect(Collectors.toList());
             totalPage = boards.getTotalPages();
@@ -52,7 +52,7 @@ public class BoardController {
             totalElements = (int) boards.getTotalElements();
             model.addAttribute("boards", boards.getContent());  //결과물
         } else if(boardRequest.getFirstCategory().equals("국비학원")) {
-            if(boardRequest.getSecondCategory().equals("교육과정")) {   //국비학원-교육과정
+            if(hasText(boardRequest.getSecondCategory()) && boardRequest.getSecondCategory().equals("교육과정")) {   //국비학원-교육과정
                 Page<CurriculumListDto> boards = boardRepository.findCurriculumList(boardRequest, pageable);
                 boardIds = boards.getContent().stream().map(b -> b.getId()).collect(Collectors.toList());
                 totalPage = boards.getTotalPages();
@@ -81,6 +81,18 @@ public class BoardController {
         model.addAttribute("pageBar", pageBar); //페이지 바
 
         // 카테고리에 따라 return(보여지는 페이지) 달라야 함.
+
+        if(!hasText(boardRequest.getFirstCategory()) || boardRequest.getFirstCategory().equals("커뮤니티")) { //커뮤니티
+            return "board/community/communityList.tiles1";
+        } else if(boardRequest.getFirstCategory().equals("공지사항")) { //공지사항
+            return "board/notice/noticeList.tiles1";
+        } else if(boardRequest.getFirstCategory().equals("국비학원")) {
+            if(hasText(boardRequest.getSecondCategory()) && boardRequest.getSecondCategory().equals("교육과정")) {   //국비학원-교육과정
+                return "board/academy/curriculumList.tiles1";
+            } else {    //국비학원
+                return "board/academy/academyList.tiles1";
+            }
+        }
         return "board/community/communityList.tiles1";
     }
 
