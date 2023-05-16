@@ -34,7 +34,6 @@ import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 public class LoginController {
 
     private final LoginService loginService;
-    private final NaverLoginService naverLoginService;
 
     /**
      * 로그인페이지
@@ -42,7 +41,6 @@ public class LoginController {
     @GetMapping("/login")
     public String loginForm(@ModelAttribute("loginForm") LoginFormDto form,
                             @RequestParam(defaultValue = "/") String redirectURL,
-                            HttpSession session,
                             Model model) {
         model.addAttribute("redirectURL", redirectURL);
         return "login/loginForm.tiles1";

@@ -61,4 +61,24 @@ public class Board {
 
     @ColumnDefault("sysdate")
     private LocalDateTime writeDate;
+
+    /** 추천 수 증가 */
+    public void likePlus() {
+        likeCount++;
+    }
+
+    /** 추천 수 감소 */
+    public void likeMinus() {
+        likeCount--;
+    }
+
+    /** 댓글 수 증가 */
+    public void commentPlus() {
+        commentCount++;
+    }
+
+    /** 조회 수 증가 */
+    public void views() {
+        views++;
+    }
 }

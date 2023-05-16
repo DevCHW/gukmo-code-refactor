@@ -27,8 +27,7 @@ public class Login {
 
     private String password; //비밀번호
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
+    @OneToOne(fetch = LAZY, mappedBy = "login")
     private Member member;
 
     @Enumerated(EnumType.STRING)

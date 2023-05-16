@@ -2,6 +2,7 @@ package com.devchw.gukmo.config;
 
 import com.devchw.gukmo.interceptor.AdminCheckInterceptor;
 import com.devchw.gukmo.interceptor.LoginCheckInterceptor;
+import com.devchw.gukmo.interceptor.NotLoggedInInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -11,13 +12,18 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
         registry.addInterceptor(new LoginCheckInterceptor())    //로그인체크 인터셉터 등록
                 .order(1)
-                .addPathPatterns("") //로그인체크 할 url패턴 등록
+                .addPathPatterns("") //로그인체크 할 url 패턴 등록
                 .excludePathPatterns("/**");
 
         registry.addInterceptor(new AdminCheckInterceptor())    //관리자체크 인터셉터 등록
                 .order(2)
                 .addPathPatterns("/admin/**");
+
+        registry.addInterceptor(new NotLoggedInInterceptor())    //로그인중이 아니어야 하는 URL 등록
+                .order(3)
+                .addPathPatterns("/login", "/members/signUp/**", "/members/tos");
     }
 }

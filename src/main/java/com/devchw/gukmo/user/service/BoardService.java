@@ -79,9 +79,10 @@ public class BoardService {
     /** 게시글 상세보기 페이지에 맞춘 단건조회(추후 광고리스트 조회도 추가 예정)*/
     public BoardDto findBoardById(Long id, HttpSession session) {
         boolean likeExist = false;  //게시글 좋아요 여부
-
         // 게시물 조회
         Board board = boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+
+        // 조회수 증가(추후 개발)
 
         // 이전글, 다음글 조회
         String firstCategory = board.getFirstCategory();
@@ -104,7 +105,9 @@ public class BoardService {
         List<CommentsDto> commentsDtoList = null;
         // 로그인중이라면 좋아요 여부 알아오기.
         if(isLogin(session)) { //로그인 중이라면
+
             LoginMemberDto loginMemberDto = (LoginMemberDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
             Long loginMemberId = loginMemberDto.getId();
             likeExist = boardLikeRepository.existsByBoardIdAndMemberId(id,loginMemberId);
 

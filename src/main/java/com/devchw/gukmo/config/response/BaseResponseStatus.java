@@ -28,6 +28,7 @@ public enum BaseResponseStatus {
     NAVER_LOGIN_SUCCESS(true, 2505, "네이버 로그인에 성공하였습니다."),
     BOARD_LIKE_SUCCESS(true, 2506, "게시글을 추천하였습니다."),
     COMMENT_LIKE_SUCCESS(true, 2507, "댓글을 추천하였습니다."),
+    COMMENT_DELETE_SUCCESS(true, 2508, "댓글 삭제 성공하였습니다."),
 
     /**
      * 3000 : Response 오류

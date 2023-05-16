@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositoryCustom {
-    @Query("select b from Board b join b.member where b.id = :id")
+    @EntityGraph(attributePaths = {"member"})
     Optional<Board> findById(@Param("id") Long id);
 
     /**

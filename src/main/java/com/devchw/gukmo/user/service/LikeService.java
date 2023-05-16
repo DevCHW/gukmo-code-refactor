@@ -30,34 +30,45 @@ public class LikeService {
     public String boardLike(Long memberId, Long boardId) {
         Boolean exist = boardLikeRepository.existsByBoardIdAndMemberId(boardId, memberId);
         if(exist) { // 삭제
-            Long id = boardLikeRepository.deleteByBoardIdAndMemberId(boardId, memberId);
+            Long id = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).getId();
+            Board board = boardRepository.findById(boardId).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+            boardLikeRepository.deleteById(id);
+            board.likeMinus();
             return "delete";
         } else { //생성
             Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
             Board board = boardRepository.findById(boardId).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
-
             BoardLike boardLike = BoardLike.builder()
                     .member(member)
                     .board(board)
                     .build();
-            Long id = boardLikeRepository.save(boardLike).getId();
+            boardLikeRepository.save(boardLike).getId();
+            board.likePlus();
             return "insert";
         }
     }
 
-    public String commentLike(Long memberId, Long commentId) {
-        Boolean exist = commentsLikeRepository.existsByBoardIdAndMemberId(commentId, memberId);
+    @Transactional
+    public String commentLike(Long memberId, Long commentsId) {
+        Boolean exist = commentsLikeRepository.existsByCommentsIdAndMemberId(commentsId, memberId);
         if(exist) { // 삭제
-            Long id = commentsLikeRepository.deleteByBoardIdAndMemberId(commentId, memberId);
+
+            Long id = commentsLikeRepository.findByCommentsIdAndMemberId(commentsId, memberId).getId();
+            Comments comments = commentsRepository.findById(commentsId).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
+            commentsLikeRepository.deleteById(id);
+            comments.likeMinus();
             return "delete";
+
         } else { //생성
             Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
-            Comments comments = commentsRepository.findById(commentId).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
+            Comments comments = commentsRepository.findById(commentsId).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
             CommentsLike commentsLike = CommentsLike.builder()
                     .member(member)
                     .comments(comments)
                     .build();
             Long id = commentsLikeRepository.save(commentsLike).getId();
+            comments.likePlus();
+            if(id == null) throw new BaseException(BAD_REQUEST);
             return "insert";
         }
     }

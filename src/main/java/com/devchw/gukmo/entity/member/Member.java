@@ -55,7 +55,8 @@ public class Member {
     @JoinColumn(name = "academy_member_id")
     private AcademyMember academyMember;
 
-    @OneToOne(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @JoinColumn(name = "login_id")
     private Login login;
 
     @OneToMany(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)

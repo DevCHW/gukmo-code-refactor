@@ -26,14 +26,12 @@ public class Comments {
     @Column(name = "comments_id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "board_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)  //DB에서 처리됨.
     private Board board;
 
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)  //DB에서 처리됨.
     private Member member;
 
     private String content; //댓글내용
@@ -46,10 +44,10 @@ public class Comments {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)  //DB에서 처리됨.
     private Comments parent; //부모댓글번호
 
     @OneToMany(mappedBy = "parent")
+    @OnDelete(action = OnDeleteAction.CASCADE)  //DB에서 처리됨.
     private List<Comments> child = new ArrayList<>();
 
     @ColumnDefault("0")
@@ -57,5 +55,16 @@ public class Comments {
 
     public enum Blind {
         YES, NO
+    }
+
+    public void likePlus() {
+        likeCount++;
+    }
+    public void likeMinus() {
+        likeCount--;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
     }
 }

@@ -213,7 +213,7 @@
              </div>
 
 
-            <input id="userId"  type="hidden" name="userId" value="${loginMember.id}"  />
+            <input id="memberId"  type="hidden" name="userId" value="${loginMember.id}"  />
             <input id="boardId"  type="hidden" name="boardId" value="${board.id}"  />
             <input id="nickname"  type="hidden" name="nickname" value="${loginMember.nickname}" />
             <input id="board_subject"  type="hidden" name="subject" value="${board.subject}" />
@@ -421,9 +421,9 @@
           <div>
 	          <div class="comment_like" style="width: 50px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-	            	<span id="comment_like_icon">&#129293;</span>
+	            	<span class="comment_like_icon">&#129293;</span>
 	            <%-- 댓글 좋아요 갯수 --%>
-	            <span id="${comment.likeCount}" class="comment_like_cnt">${comment.likeCount}</span>
+	            <span class="comment_like_cnt">${comment.likeCount}</span>
 	          </div>
 	      </div>
           </c:if>
@@ -433,11 +433,11 @@
 			          <div class="comment_like" style="width: 45px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 			            <c:if test="${comment.likeExist == true}">
-			            	<span id="comment_like_icon">&#x1F497;</span>
+			            	<span class="comment_like_icon">&#x1F497;</span>
 			            </c:if>
 
 			            <c:if test="${comment.likeExist == false}">
-			            	<span id="comment_like_icon">&#129293;</span>
+			            	<span class="comment_like_icon">&#129293;</span>
 			            </c:if>
 			            <%-- 댓글 좋아요 갯수 --%>
 			            <span id="${comment.likeCount}" class="comment_like_cnt">${comment.likeCount}</span>
@@ -456,14 +456,14 @@
           	<div class="comment_like" style="width: 35px; margin-top: 9px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 	            <c:if test="${comment.likeExist == true}">
-	            	<span id="comment_like_icon">&#x1F497;</span>
+	            	<span class="comment_like_icon">&#x1F497;</span>
 	            </c:if>
 
 	            <c:if test="${comment.likeExist == false}">
-	            	<span id="comment_like_icon">&#129293;</span>
+	            	<span class="comment_like_icon">&#129293;</span>
 	            </c:if>
 	            <%-- 댓글 좋아요 갯수 --%>
-	            <span id="${comment.likeCount}" class="comment_like_cnt">${comment.likeCount}</span>
+	            <span class="comment_like_cnt">${comment.likeCount}</span>
 	          </div>
 	          <span class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
           		<div id="comment_menu_box" class="border rounded px-3 py-2 comment_update_or_delete">
@@ -480,11 +480,11 @@
           	<div class="comment_like" style="width: 35px; margin-top: 9px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 	            <c:if test="${comment.likeExist == true}">
-	            	<span id="comment_like_icon">&#x1F497;</span>
+	            	<span class="comment_like_icon">&#x1F497;</span>
 	            </c:if>
 
 	            <c:if test="${comment.likeExist == false}">
-	            	<span id="comment_like_icon">&#129293;</span>
+	            	<span class="comment_like_icon">&#129293;</span>
 	            </c:if>
 	            <%-- 댓글 좋아요 갯수 --%>
 	            <span id="${comment.likeCount}" class="comment_like_cnt">${comment.likeCount}</span>
@@ -601,7 +601,7 @@
 	            </div>
 
 	            <div class="d-flex flex-column w-100">
-	              <div class="big_comment_writer_nickname" id="${childComment.id}"
+	              <div class="comment_writer_nickname" id="${childComment.id}"
 	                   onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${spcial_commentList.nickname}'" style="cursor:pointer; width:20%;">${childComment.writer.nickname}</div>
 	              <div class="mt-1">
 	                <%-- 대댓글작성자 활동점수 --%>
@@ -622,9 +622,9 @@
 	      	     <div>
 		          <div class="big_comment_like" style="width: 50px; margin-right: 15px;">
 		            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#129293;--%>
-		            <span id="big_comment_like_icon">&#129293;</span>
+		            <span class="comment_like_icon">&#129293;</span>
 		            <%-- 댓글 좋아요 갯수 --%>
-		            <span id="${childComment.likeCount}" class="big_comment_like_cnt">${childComment.likeCount}</span>
+		            <span id="${childComment.likeCount}" class="comment_like_cnt">${childComment.likeCount}</span>
 		          </div>
 		          </div>
           	   </c:if>
@@ -634,14 +634,14 @@
 			          <div class="big_comment_like" style="width: 45px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#129293;--%>
 			            <c:if test="${childComment.likeExist == true}">
-			            	<span id="big_comment_like_icon">&#x1F497;</span>
+			            	<span class="comment_like_icon">&#x1F497;</span>
 			            </c:if>
 
 			            <c:if test="${childComment.likeExist == false}">
-			            	<span id="big_comment_like_icon">&#129293;</span>
+			            	<span class="comment_like_icon">&#129293;</span>
 			            </c:if>
 			            <%-- 댓글 좋아요 갯수 --%>
-			            <span id="${childComment.likeCount}" class="big_comment_like_cnt">${childComment.likeCount}</span>
+			            <span id="${childComment.likeCount}" class="comment_like_cnt">${childComment.likeCount}</span>
 			          </div>
 			          <input type="hidden" id="" value="${childComment.writer.nickname}" />
 		          	  <input type="hidden" id="" value="${childComment.id}" />
@@ -656,20 +656,20 @@
 	          	  <div class="big_comment_like" style="width: 35px; margin-top: 9px;">
 		            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 		            <c:if test="${childComment.likeExist == true}">
-		            	<span id="big_comment_like_icon">&#x1F497;</span>
+		            	<span class="comment_like_icon">&#x1F497;</span>
 		            </c:if>
 
 		            <c:if test="${childComment.likeExist == false}">
-		            	<span id="big_comment_like_icon">&#129293;</span>
+		            	<span class="comment_like_icon">&#129293;</span>
 		            </c:if>
 		            <%-- 댓글 좋아요 갯수 --%>
-		            <span id="${childComment.likeCount}" class="big_comment_like_cnt">${childComment.likeCount}</span>
+		            <span id="${childComment.likeCount}" class="comment_like_cnt">${childComment.likeCount}</span>
 		          </div>
 		          <span id="" class="rounded px-2 py-1 comment_btn_more" style="margin-right: 15px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
 		          <input type="hidden" id="" value="${childComment.id}" />
 	          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
 		            	<span class="comment_edit2">수정하기</span>
-		            	<span class="comment_delete2">삭제하기</span>
+		            	<span class="comment_delete">삭제하기</span>
 	          		</div>
 	          	  </span>
 	          </div>
@@ -680,14 +680,14 @@
 		          	<div class="big_comment_like" style="width: 35px; margin-top: 9px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 			            <c:if test="${childComment.likeExist == true}">
-			            	<span id="big_comment_like_icon">&#x1F497;</span>
+			            	<span class="comment_like_icon">&#x1F497;</span>
 			            </c:if>
 
 			            <c:if test="${childComment.likeExist == false}">
-			            	<span id="big_comment_like_icon">&#129293;</span>
+			            	<span class="comment_like_icon">&#129293;</span>
 			            </c:if>
 			            <%-- 댓글 좋아요 갯수 --%>
-			            <span id="${childComment.likeCount}" class="big_comment_like_cnt">${childComment.likeCount}</span>
+			            <span id="${childComment.likeCount}" class="comment_like_cnt">${childComment.likeCount}</span>
 		          	</div>
 		          	<span id="" class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
 		          		<c:if test ="${loginMember.nickname != childComment.writer.nickname}">
@@ -707,7 +707,7 @@
 		          		<input type="hidden" id="" value="${childComment.id}" />
 		          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
 			            	<span class="comment_edit2">수정하기</span>
-			            	<span class="comment_delete2">삭제하기</span>
+			            	<span class="comment_delete">삭제하기</span>
 		          		</div>
 		          		</c:if>
 		          	</span>

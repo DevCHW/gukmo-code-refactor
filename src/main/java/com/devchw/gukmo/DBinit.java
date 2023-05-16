@@ -46,11 +46,28 @@ public class DBinit {
          */
         public void dbInit1() {
             log.info("테스트 회원 데이터를 추가합니다.");
+
+            Login loginMember1 = Login.builder()
+                    .userId("test123")
+                    .password("qwer1234")
+                    .build();
+
+            Login loginMember2 = Login.builder()
+                    .userId("ggoma003")
+                    .password("qwer1234")
+                    .build();
+
+            Login loginMember3 = Login.builder()
+                    .userId("admin")
+                    .password("qwer1234")
+                    .build();
+
             Member member1 = Member.builder()
                     .nickname("테스트회원1")
                     .username("테스트1")
                     .email("test@naver.com")
                     .emailAccept(Member.EmailAccept.NO)
+                    .login(loginMember1)
                     .userRole(Member.UserRole.MEMBER)
                     .build();
 
@@ -59,6 +76,7 @@ public class DBinit {
                     .username("테스트2")
                     .email("test@naver.com")
                     .emailAccept(Member.EmailAccept.YES)
+                    .login(loginMember2)
                     .userRole(Member.UserRole.MEMBER)
                     .build();
 
@@ -67,33 +85,16 @@ public class DBinit {
                     .username("최현우")
                     .email("admin@naver.com")
                     .emailAccept(Member.EmailAccept.YES)
+                    .login(loginMember3)
                     .userRole(Member.UserRole.ADMIN)
                     .build();
 
-            Login loginMember1 = Login.builder()
-                    .userId("test123")
-                    .password("qwer1234")
-                    .member(member1)
-                    .build();
-
-            Login loginMember2 = Login.builder()
-                    .userId("ggoma003")
-                    .password("qwer1234")
-                    .member(member2)
-                    .build();
-
-            Login loginMember3 = Login.builder()
-                    .userId("admin")
-                    .password("qwer1234")
-                    .member(member3)
-                    .build();
-
-            em.persist(member1);
-            em.persist(member2);
-            em.persist(member3);
             em.persist(loginMember1);
             em.persist(loginMember2);
             em.persist(loginMember3);
+            em.persist(member1);
+            em.persist(member2);
+            em.persist(member3);
         }
 
         /**
@@ -101,7 +102,7 @@ public class DBinit {
          */
         public void dbInit2() {
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(1L).get();
+                Member member = memberRepository.findById(4L).get();
 
                 Board board = Board.builder()
                         .subject("테스트 글제목 자유게시판"+i)
@@ -115,7 +116,7 @@ public class DBinit {
             }//end of for--
 
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(1L).get();
+                Member member = memberRepository.findById(4L).get();
 
                 Board board = Board.builder()
                         .subject("테스트 글제목 QnA"+i)
@@ -129,7 +130,7 @@ public class DBinit {
             }//end of for--
 
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(1L).get();
+                Member member = memberRepository.findById(4L).get();
 
                 Board board = Board.builder()
                         .subject("테스트 글제목 스터디"+i)
@@ -143,7 +144,7 @@ public class DBinit {
             }//end of for--
 
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(2L).get();
+                Member member = memberRepository.findById(5L).get();
 
                 Board board = Board.builder()
                         .subject("테스트 글제목 취미모임"+i)
@@ -157,7 +158,7 @@ public class DBinit {
             }//end of for--
 
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(2L).get();
+                Member member = memberRepository.findById(5L).get();
 
                 Board board = Board.builder()
                         .subject("테스트 글제목 수강/취업후기"+i)
@@ -172,7 +173,7 @@ public class DBinit {
 
             //국비학원 데이터 넣기
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(2L).get();
+                Member member = memberRepository.findById(5L).get();
                 Academy academy = Academy.builder()
                         .subject("테스트 글제목 국비학원"+i)
                         .content("테스트 글내용 국비학원"+i)
@@ -189,7 +190,7 @@ public class DBinit {
 
             // 교육과정 데이터 넣기
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(2L).get();
+                Member member = memberRepository.findById(5L).get();
                 Curriculum curriculum = Curriculum.builder()
                         .subject("테스트 글제목 교육과정"+i)
                         .content("테스트 글내용 교육과정"+i)
@@ -212,7 +213,7 @@ public class DBinit {
 
             // 공지사항 데이터 넣기
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(2L).get();
+                Member member = memberRepository.findById(5L).get();
                 Notice notice = Notice.builder()
                         .subject("테스트 글제목 공지사항"+i)
                         .content("테스트 글내용 공지사항"+i)
@@ -228,7 +229,7 @@ public class DBinit {
          * 3. 테스트 해시태그가 있는 게시물 넣기
          */
         public void dbInit3() {
-            Member member = memberRepository.findById(2L).get();
+            Member member = memberRepository.findById(5L).get();
 
             Board board = Board.builder()
                     .subject("해시태그가 있는 글제목")
@@ -266,8 +267,8 @@ public class DBinit {
          * 테스트 댓글 넣기
          */
         public void dbInit4() {
-            Member member = memberRepository.findById(2L).get();
-            Member member2 = memberRepository.findById(2L).get();
+            Member member = memberRepository.findById(5L).get();
+            Member member2 = memberRepository.findById(5L).get();
 
             Board board = Board.builder()
                     .subject("댓글이 있는 글제목")
@@ -275,6 +276,7 @@ public class DBinit {
                     .firstCategory("커뮤니티")
                     .secondCategory("자유")
                     .member(member)
+                    .commentCount(5L)
                     .build();
 
             Hashtag hashtag1 = Hashtag.builder()
@@ -303,13 +305,28 @@ public class DBinit {
                     .parent(null)
                     .build();
 
-
             Comments comments2 = Comments.builder()
                     .board(board)
                     .member(member2)
                     .content("테스트 하위 댓글입니다.")
                     .blind(Comments.Blind.NO)
                     .parent(comments1)
+                    .build();
+
+            Comments comments3 = Comments.builder()
+                    .board(board)
+                    .member(member)
+                    .content("테스트 상위 댓글입니다2.")
+                    .blind(Comments.Blind.NO)
+                    .parent(null)
+                    .build();
+
+            Comments comments4 = Comments.builder()
+                    .board(board)
+                    .member(member)
+                    .content("테스트 하위 댓글입니다2.")
+                    .blind(Comments.Blind.NO)
+                    .parent(comments3)
                     .build();
 
             em.persist(board);
@@ -319,6 +336,8 @@ public class DBinit {
             em.persist(boardHashtag2);
             em.persist(comments1);
             em.persist(comments2);
+            em.persist(comments3);
+            em.persist(comments4);
         }
     }
 }
