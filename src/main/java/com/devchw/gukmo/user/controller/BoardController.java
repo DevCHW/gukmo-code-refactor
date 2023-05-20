@@ -75,7 +75,7 @@ public class BoardController {
         String url = "/boards";
         String pageBar = PageBarUtil.createPageBar(pageable.getPageNumber(), totalPage, url, queryString);
 
-        model.addAttribute("total", totalElements); //총갯수
+        model.addAttribute("total", totalElements); //총 갯수
         model.addAttribute("hashtags", hashtags);   //해시태그
         model.addAttribute("boardRequest", boardRequest);
         model.addAttribute("pageBar", pageBar); //페이지 바

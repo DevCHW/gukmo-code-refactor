@@ -171,6 +171,10 @@ div.comment_edit_delete_area > span{
   cursor:pointer;
 }
 
+div.comment_edit {
+  display:none;
+}
+
 span.comment_btn_more{
   cursor:pointer;
   position:relative;

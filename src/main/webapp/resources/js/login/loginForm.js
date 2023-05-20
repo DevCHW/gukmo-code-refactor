@@ -42,14 +42,14 @@ $(document).ready(function(){
 	      return;
 	  } else if(password == ""){	//비밀번호 값이 비어있다면
 		  $("span#userId_error").css("display","none");
-		  $("span#password_error").text("비밀번호를 입력해주세요");
-		  $("span#password_error").css("display","block");
+		  $("span#passwd_error").text("비밀번호를 입력해주세요");
+		  $("span#passwd_error").css("display","block");
 		  return;
 	  } else {	//아이디도 입력하고 비밀번호도 입력했다면
 		  $("span#userId_error").text("");	//아이디 에러 지우기
-		  $("span#password_error").text("");	//비밀번호 에러 지우기
+		  $("span#passwd_error").text("");	//비밀번호 에러 지우기
 		  $("span#userId_error").css("display","none");
-		  $("span#password_error").css("display","none");
+		  $("span#passwd_error").css("display","none");
           const form = document.loginForm;
           form.method="POST";
           form.action= "/login"
@@ -72,18 +72,6 @@ $(document).ready(function(){
 //Function Declaration
 
 
-/**
- * 로그인완료처리하기
- */
-function login(userId){
-	$("input#userId").val(userId);
-	const frm = document.login_form;
-	frm.action = "/login";
-	frm.method = "POST";
-	frm.submit();
-}//end of method--
-
-
 
 /**
  * 카카오로그인 객체 보내기
@@ -95,7 +83,7 @@ function kakaoLoginPro(response){
                     email:response.kakao_account.email,
                     profileImage:response.properties.profile_image,
 		  		    username:response.properties.nickname,
-		  		    redirectURL:sessionStorage.getItem("redirectURL"),
+		  		    redirectURL:$("input#returnURL").val(),
 		  		    type:'KAKAO'}
   $.ajax({
 	type : 'POST',
@@ -145,7 +133,7 @@ function kakaoLogin(){
  */
 function viewNaverLoginFrm(){
 	let url="/login";
-	const redirectURL = {redirectURL:sessionStorage.getItem("redirectURL")};
+	const redirectURL = {redirectURL:$("input#returnURL")};
 	$.ajax({
 		type : 'get',
 		url : '/api/v1/oauth/naver/url',
@@ -177,7 +165,7 @@ function handleCredentialResponse(response) {
     				  email:responsePayload.email,
     				  profileImage:responsePayload.picture,
     				  username:responsePayload.name,
-    				  redirectURL:sessionStorage.getItem("redirectURL"),
+    				  redirectURL:$("input#returnURL").val(),
     				  type:'GOOGLE'}
     $.ajax({
 		type : 'post',
@@ -232,7 +220,7 @@ function fnFbCustomLogin(){
 								 ,email:fb_data.email
 								 ,profileImage:fb_data.picture.data.url
 			  		 			 ,username:fb_data.name
-			  		 			 ,redirectURL:sessionStorage.getItem("redirectURL")
+			  		 			 ,redirectURL:$("input#returnURL").val()
 			  		 			 ,type:'FACEBOOK'};
 				//페이스북 로그인 처리 메소드 호출
 				facebookLoginPro(userInfo);

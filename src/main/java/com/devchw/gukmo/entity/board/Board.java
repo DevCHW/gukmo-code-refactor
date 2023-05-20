@@ -2,6 +2,7 @@ package com.devchw.gukmo.entity.board;
 
 import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
+import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -61,6 +62,9 @@ public class Board {
 
     @ColumnDefault("sysdate")
     private LocalDateTime writeDate;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Activity> activities = new ArrayList<>();
 
     /** 추천 수 증가 */
     public void likePlus() {

@@ -70,11 +70,10 @@ public class LoginController {
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMemberDto);
 
             log.info("로그인 성공, member{}", loginMemberDto);
-            log.info("redirectURL={}", redirectURL);
             if(loginMemberDto.getUserRole().equals(Member.UserRole.ADMIN)) {    //관리자일 경우 관리자 페이지
                 return "redirect:/admin";
             } else {
-                return "redirect:" + URLDecoder.decode(redirectURL, "UTF-8");
+                return "redirect:" + redirectURL;
             }
         } catch (LoginException e) { //로그인 실패(LoginException 예외 처리)
 
@@ -86,9 +85,6 @@ public class LoginController {
                     .build();
             model.addAttribute("messageResponse", messageResponse);
             return "msg.tiles1";
-
-        } catch (UnsupportedEncodingException e) {
-            throw new BaseException(ENCODING_ERROR);
         }
     }
 

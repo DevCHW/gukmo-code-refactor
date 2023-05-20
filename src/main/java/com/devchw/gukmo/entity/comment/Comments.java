@@ -40,6 +40,7 @@ public class Comments {
     private LocalDateTime writeDate; //작성일자
 
     @Enumerated(EnumType.STRING)
+    @ColumnDefault("'NO'")
     private Blind blind; //블라인드 여부
 
     @ManyToOne(fetch = LAZY)
@@ -49,6 +50,10 @@ public class Comments {
     @OneToMany(mappedBy = "parent")
     @OnDelete(action = OnDeleteAction.CASCADE)  //DB에서 처리됨.
     private List<Comments> child = new ArrayList<>();
+
+    @OneToMany(mappedBy = "comments")
+    @OnDelete(action = OnDeleteAction.CASCADE) //DB에서 처리됨.
+    private List<CommentsLike> commentsLikes = new ArrayList<>();
 
     @ColumnDefault("0")
     private Long likeCount; //좋아요 개수

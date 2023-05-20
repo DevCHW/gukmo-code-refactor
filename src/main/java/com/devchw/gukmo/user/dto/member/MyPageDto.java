@@ -19,6 +19,7 @@ public class MyPageDto {
     private String profileImage;
     private Member.EmailAccept emailAccept;
     private Long loginId;
+    private Long point;
 
     /**
      * Entity -> Dto
@@ -32,6 +33,7 @@ public class MyPageDto {
                     .profileImage(member.getProfileImage())
                     .emailAccept(member.getEmailAccept())
                     .loginId(member.getLogin().getId())
+                    .point(member.getPoint())
                     .build();
         } catch (NullPointerException e) {  //소셜로그인 시 Login 없을 수 있음.
             return MyPageDto.builder()
@@ -40,6 +42,7 @@ public class MyPageDto {
                     .email(member.getEmail())
                     .profileImage(member.getProfileImage())
                     .emailAccept(member.getEmailAccept())
+                    .point(member.getPoint())
                     .build();
         }
     }

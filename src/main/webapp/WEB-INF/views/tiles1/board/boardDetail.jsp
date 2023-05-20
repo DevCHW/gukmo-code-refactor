@@ -14,8 +14,8 @@
   <%-- 직접만든 javascript --%>
   <script type="text/javascript" src="<%=ctxPath %>/resources/js/board/boardDetail.js" ></script>
 
+  <div id="mask"></div>
   <div class="container my-5">
-
     <div class="line my-4" style="width:1150px; margin-left: -20px;">
 
       <a id="category_area" >
@@ -90,7 +90,7 @@
           <c:if test="${not empty loginMember && loginMember.userRole != 'ADMIN' && loginMember.nickname != board.writer.nickname}">
           	<span id="" class="ml-auto btn_report" onclick="openReport()">&#x1F6A8;</span>
           </c:if>
-        <div id="mask"></div>
+
 
         <c:if test="${loginMember.nickname == board.writer.nickname && loginMember.userRole != 'ADMIN'}">
           <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
@@ -107,7 +107,7 @@
               <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
-              <span id="board_delete" onclick="del_board(${board.id})">삭제하기</span>
+              <span id="board_delete">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -136,7 +136,6 @@
           </span>
         </c:if>
 
-
         <c:if test="${loginMember.nickname != board.writer.nickname && loginMember.userRole == 'ADMIN'}">
           <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
             <div id="update_or_delete" class="border rounded px-3 py-2">
@@ -157,7 +156,6 @@
       </div>
     </div>
     <%-- 글 상세보기 페이지 머리부분 --%>
-
 
 
     <%-------------------- 글 본문 시작 ------------------%>
@@ -211,14 +209,6 @@
                  </div>
              </c:if>
              </div>
-
-
-            <input id="memberId"  type="hidden" name="userId" value="${loginMember.id}"  />
-            <input id="boardId"  type="hidden" name="boardId" value="${board.id}"  />
-            <input id="nickname"  type="hidden" name="nickname" value="${loginMember.nickname}" />
-            <input id="board_subject"  type="hidden" name="subject" value="${board.subject}" />
-            <input id="detail_category"  type="hidden" name="firstCategory" value="${board.firstCategory}" />
-            <input id="board_writer_nick" type="hidden" name="writerNickname" value="${board.writer.nickname}" />
       </div>
     </div>
     <%-------------------- 글 본문 끝 ------------------%>
@@ -353,7 +343,7 @@
 	          <div class="mb-1">내용</div>
 	          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>
 	          <div class="d-flex justify-content-end mt-2">
-	            <button type="button" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
+	            <button type="button" class="btn btn-info" id="btn_comment_save">댓글 쓰기</button>
 	          </div>
 	        </div>
 
@@ -370,7 +360,7 @@
 	          <span>이 필요합니다</span>
 	      </div>
 	      <div class="d-flex justify-content-end mt-4">
-	            <button type="button" disabled="disabled" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
+	            <button type="button" disabled="disabled" class="btn btn-secondary">댓글 쓰기</button>
 	       </div>
 	</div>
 
@@ -387,6 +377,7 @@
     <c:forEach var="comment" items="${board.comments}" varStatus="status">
     <div class="comment_area pb-4 mt-2">
       <div class="comment px-3 py-4" id="">
+
         <%-- 댓글작성자의 프로필이미지, 활동점수, 댓글작성일자 --%>
         <div class="d-flex justify-content-between align-items-center comment_writer_info">
           <div class="comment_writer_profile_img_box mr-2">
@@ -397,7 +388,7 @@
          	   <img src="${comment.writer.profileImage}"/>
             </c:if>
           </div>
-          <input type="hidden" id="" name="fk_comment_num"/>
+
           <div class="d-flex flex-column w-100">
             <div class="comment_writer_nickname" id ="${comment.id}" onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${bcommentList.nickname}'" style="cursor:pointer; width:20%;">${comment.writer.nickname}</div>
             <div class="mt-1">
@@ -415,8 +406,8 @@
             </div>
           </div>
 
+          <%-- 오른쪽 영역 --%>
           <%-- 댓글 좋아요버튼 --%>
-
           <c:if test="${empty loginMember}">
           <div>
 	          <div class="comment_like" style="width: 50px;">
@@ -428,7 +419,8 @@
 	      </div>
           </c:if>
 
-          <c:if test="${not empty loginMember && loginMember.userRole != 'ADMIN' && loginMember.nickname != comment.writer.nickname}">
+          <%-- 오른쪽 영역 --%>
+          <c:if test="${not empty loginMember && loginMember.userRole != 'ADMIN' && loginMember.id != comment.writer.id}">
                   <div style="padding-right: 20px; display: flex;">
 			          <div class="comment_like" style="width: 45px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
@@ -442,16 +434,14 @@
 			            <%-- 댓글 좋아요 갯수 --%>
 			            <span id="${comment.likeCount}" class="comment_like_cnt">${comment.likeCount}</span>
 			          </div>
-			          <input type="hidden" id="" value="${comment.writer.nickname}" />
-		          	  <input type="hidden" id="" value="${comment.id}" />
-			          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area" style="width:0px;">
+			          <div class="d-flex justify-content-between align-items-center comment_edit_delete_area" style="width:0px;">
 			          	<span class="comment_btn_report ml-auto">&#x1F6A8;</span>
 			          </div>
 		          </div>
-          	  </c:if>
+          </c:if>
 
-
-          <c:if test="${not empty loginMember && loginMember.userRole != 'ADMIN' && loginMember.nickname == comment.writer.nickname}">
+          <%-- 오른쪽 영역 --%>
+          <c:if test="${not empty loginMember && loginMember.userRole != 'ADMIN' && loginMember.id == comment.writer.id}">
           <div  style="display: flex;">
           	<div class="comment_like" style="width: 35px; margin-top: 9px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
@@ -465,16 +455,17 @@
 	            <%-- 댓글 좋아요 갯수 --%>
 	            <span class="comment_like_cnt">${comment.likeCount}</span>
 	          </div>
-	          <span class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
-          		<div id="comment_menu_box" class="border rounded px-3 py-2 comment_update_or_delete">
-	            	<span class="comment_edit">수정하기</span>
+	          <span class="rounded px-2 py-1 comment_btn_more">
+	            <span id="menu_icon" style="font-size: 20px;">&#8230;</span>
+          		<div class="border rounded px-3 py-2 comment_update_or_delete">
+	            	<span class="btn_comment_edit">수정하기</span>
 	            	<span class="comment_delete">삭제하기</span>
           		</div>
           	  </span>
-          	</div>
+          </div>
           </c:if>
 
-
+          <%-- 오른쪽 영역 --%>
           <c:if test="${not empty loginMember && loginMember.userRole == 'ADMIN'}">
           <div style="display: flex;">
           	<div class="comment_like" style="width: 35px; margin-top: 9px;">
@@ -489,10 +480,10 @@
 	            <%-- 댓글 좋아요 갯수 --%>
 	            <span id="${comment.likeCount}" class="comment_like_cnt">${comment.likeCount}</span>
           	</div>
-          	<span id="" class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
-          	    <c:if test ="${loginMember.nickname != comment.writer.nickname}">
+          	<span class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
+          	    <c:if test ="${loginMember.id != comment.writer.id}">
           	    <input type="hidden" id="comment_num" class="" name="" value="${comment.id}" />
-          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
+          		<div class="border rounded px-3 py-2 comment_update_or_delete">
 	            	<c:if test ="${comment.blind == 'NO'}">
 	            		<span id="commentBlind">블라인드</span>
 	            	</c:if>
@@ -502,9 +493,10 @@
 	            	</c:if>
           		</div>
           		</c:if>
-          		<c:if test ="${loginMember.nickname == comment.writer.nickname}">
-          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
-	            	<span class="comment_edit">수정하기</span>
+
+          		<c:if test ="${loginMember.id == comment.writer.id}">
+          		<div class="border rounded px-3 py-2 comment_update_or_delete">
+	            	<span class="btn_comment_edit">수정하기</span>
 	            	<span class="comment_delete">삭제하기</span>
           		</div>
           		</c:if>
@@ -514,8 +506,8 @@
 
         </div>
 
-        <%-- 수정할 댓글 내용 --%>
-        <div class="my-3 basic_comment_content" id="${comment.content}">
+        <%-- 댓글 내용 --%>
+        <div class="my-3 basic_comment_content">
             <c:if test="${comment.blind == 'NO'}">
 			  <div class = "detail_comment" >${comment.content}</div>
 			</c:if>
@@ -523,19 +515,22 @@
 			<c:if test="${comment.blind == 'YES'}">
 			  <div class = "detail_comment" >관리자에 의해서 블라인드 처리 되었습니다.</div>
 			</c:if>
- 	        <div class="ml-3 w-100 comment_edit" id="">
-	          <textarea class="content3" class="pl-2 py-2 content3" rows="5"></textarea>
-	          <input type="hidden" id="c_num" class="c_num" name="c_num" />
+
+			<%-- 댓글수정 에디터 --%>
+ 	        <div class="ml-3 w-100 comment_edit">
+	          <textarea class="pl-2 py-2 content rounded" rows="5">${comment.content}</textarea>
 	          <div class="d-flex justify-content-end mt-2">
-	            <button type="button" class="btn btn-info edit_comment">댓글 수정</button>
+	            <input type="hidden" class="comment_id" value="${comment.id}"/>
+	            <button type="button" class="btn_edit_comment btn btn-info mr-3">수정</button>
+	            <button type="button" class="btn_comment_edit_close btn btn-light border rounded">취소</button>
 	          </div>
 	        </div>
         </div>
 
 
         <div class="d-flex">
- 		<c:if test= "${comment.children.size() != 0}" >
-          <%-- 대댓글이 있는 경우 보이기 시작 / 대댓글 없는경우 안보여야 함--%>
+          <%-- 대댓글이 있는 경우 보이기 시작 / 대댓글 없는경우 안보여야 함 시작--%>
+ 		  <c:if test= "${comment.children.size() != 0}" >
           <div class="btn_comment_toggle big_comment_hide mr-3">
             <span><i class="fa-solid fa-chevron-up"></i>&nbsp;댓글 모두 숨기기</span>
           </div>
@@ -544,14 +539,12 @@
           <div class="btn_comment_toggle big_comment_show mr-3">
             <span><i class="fa-solid fa-chevron-down"></i>&nbsp;댓글&nbsp;<span>${comment.children.size()}</span>개 보기</span>
           </div>
-		</c:if>
-          <%-- 대댓글이 있는 경우일경우 보이기 끝 대댓글 없는경우 안보여야 함--%>
+		  </c:if>
+          <%-- 대댓글이 있는 경우일경우 보이기 끝 대댓글 없는경우 안보여야 함 끝 --%>
 
           <%-- 댓글쓰기 --%>
           <div class="btn_write_comment">댓글쓰기</div>
         </div>
-
-
       </div>
 
       <%--------------------------------------------------- 대댓글 영역 시작 ---------------------------------------%>
@@ -572,16 +565,15 @@
 
           <div class="ml-3 w-100">
             <div class="mb-1">${loginMember.nickname}</div>
-    		<textarea id="" class="pl-2 py-2 content2" name="content2" rows="5"></textarea>
-            <div class="d-flex justify-content-end mt-2" id = "asdf1">
+            <input type="hidden" value="${comment.id}"/>
+    		<textarea class="pl-2 py-2 content2" name="content" rows="5"></textarea>
+            <div class="d-flex justify-content-end mt-2">
               <button type="button" class="btn_big_comment_close btn btn-light border rounded mr-3">취소</button>
+              <input type="hidden" class="parentId" name="parentId" value="${comment.id}" />
               <button type="button" class="btn_big_comment_write btn btn-info">댓글 쓰기</button>
-              <input type="hidden" class="fk_com_num" value="${comment.id}" />
             </div>
           </div>
-
         </div>
-
         <%----------------------------------- 대댓글 쓰기영역 끝 -----------------------------------%>
 
 
@@ -596,7 +588,7 @@
 	                  <img src="<%=ctxPath %>/resources/images/${childComment.writer.profileImage}"/>
 	                </c:if>
 	                <c:if test="${childComment.writer.profileImage.substring(0, 4) == 'http'}">
-	             	   <img src="${childComment.writer.profileImage.substring(0, 4)}"/>
+	             	   <img src="${childComment.writer.profileImage}"/>
 	                </c:if>
 	            </div>
 
@@ -665,10 +657,9 @@
 		            <%-- 댓글 좋아요 갯수 --%>
 		            <span id="${childComment.likeCount}" class="comment_like_cnt">${childComment.likeCount}</span>
 		          </div>
-		          <span id="" class="rounded px-2 py-1 comment_btn_more" style="margin-right: 15px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
-		          <input type="hidden" id="" value="${childComment.id}" />
-	          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
-		            	<span class="comment_edit2">수정하기</span>
+		          <span class="rounded px-2 py-1 comment_btn_more" style="margin-right: 15px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
+	          		<div class="border rounded px-3 py-2 comment_update_or_delete">
+		            	<span class="btn_comment_edit">수정하기</span>
 		            	<span class="comment_delete">삭제하기</span>
 	          		</div>
 	          	  </span>
@@ -689,10 +680,9 @@
 			            <%-- 댓글 좋아요 갯수 --%>
 			            <span id="${childComment.likeCount}" class="comment_like_cnt">${childComment.likeCount}</span>
 		          	</div>
-		          	<span id="" class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
+		          	<span class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
 		          		<c:if test ="${loginMember.nickname != childComment.writer.nickname}">
-		          			<input type="hidden" id="c_of_c_num" class="" name="" value="${childComment.id}" />
-		          			<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
+		          			<div class="border rounded px-3 py-2 comment_update_or_delete">
 		          		    <c:if test ="${childComment.blind == 'NO'}">
 			            		<span id="bigCommentBlind">블라인드</span>
 			            	</c:if>
@@ -705,8 +695,8 @@
 		          		</c:if>
 		          		<c:if test ="${loginMember.nickname == childComment.writer.nickname}">
 		          		<input type="hidden" id="" value="${childComment.id}" />
-		          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
-			            	<span class="comment_edit2">수정하기</span>
+		          		<div class="border rounded px-3 py-2 comment_update_or_delete">
+			            	<span class="btn_comment_edit">수정하기</span>
 			            	<span class="comment_delete">삭제하기</span>
 		          		</div>
 		          		</c:if>
@@ -717,21 +707,24 @@
 	          </div>
 
 
-
 		       <%-- 대댓글내용 --%>
 		       <div class="my-3 special_comment_content" id="${childComment.content}">
 		          <c:if test="${childComment.blind == 'NO'}">
-					<div class = "detail_comment_of_comment my-3" >${childComment.content}</div>
+					<div class="detail_comment my-3" >${childComment.content}</div>
 				  </c:if>
 
 				  <c:if test="${childComment.blind == 'YES'}">
-					<div class = "detail_comment_of_comment my-3" >관리자에 의해서 블라인드 처리 되었습니다.</div>
+					<div class="detail_comment my-3" >관리자에 의해서 블라인드 처리 되었습니다.</div>
 				  </c:if>
-		          <div class="ml-3 w-100 c_of_comment_edit" id="">
-			          <textarea class="content4" class="pl-2 py-2 content4" rows="3"></textarea>
-			          <input type="hidden" id="c_of_c_num" class="" name="" value="${childComment.id}" />
+
+				  <%-- 대댓글수정 에디터 --%>
+		          <div class="ml-3 w-100 comment_edit">
+                      <input type="hidden" value="${childComment.id}"/>
+			          <textarea class="pl-2 py-2 content rounded" rows="5">${childComment.content}</textarea>
 			          <div class="d-flex justify-content-end mt-2">
-			          	<button type="button" class="btn btn-info edit_comment_of_comment">댓글 수정</button>
+	                    <input type="hidden" class="childComment_id" value="${childComment.id}"/>
+                        <button type="button" class="btn_edit_comment btn btn-info mr-3">수정</button>
+                        <button type="button" class="btn_comment_edit_close btn btn-light border rounded">취소</button>
 			          </div>
 			      </div>
 	           </div>
@@ -745,8 +738,12 @@
     </div>
     </c:forEach>
     <%--------------------댓글 반복문 끝 --------------------%>
-
   </div>
+
+  <input type="hidden" id="hidden_firstCategory" value="${board.firstCategory}"/>
+  <input type="hidden" id="hidden_secondCategory" value="${board.secondCategory}"/>
+  <input type="hidden" id="hidden_board_id" value="${board.id}"/>
+  <input type="hidden" id="hidden_member_id" value="${loginMember.id}"/>
 
 
 

@@ -65,6 +65,9 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Board> boards = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Activity> activities = new ArrayList<>();
+
     public enum EmailAccept {
         YES, NO
     }
@@ -98,5 +101,15 @@ public class Member {
     /** 회원 정보 수정 3.*/
     public void changeMemberInfo(String email) {
         this.email = email;
+    }
+
+    /** 활동점수 증가 */
+    public void pointPlus(int point) {
+        this.point += point;
+    }
+
+    /** 활동점수 감소 */
+    public void pointMinus(int point) {
+        this.point -= point;
     }
 }

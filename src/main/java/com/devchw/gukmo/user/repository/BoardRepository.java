@@ -65,4 +65,6 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardReposi
     @EntityGraph(attributePaths = {"member"})
     List<Board> findTop5BoardBySecondCategoryOrderByIdDesc(String secondCategory);
 
+    @EntityGraph(attributePaths = {"member"})
+    Optional<Board> findWithMemberById(Long id);
 }

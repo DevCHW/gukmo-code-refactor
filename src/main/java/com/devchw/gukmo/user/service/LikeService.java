@@ -5,6 +5,7 @@ import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.BoardLike;
 import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.comment.CommentsLike;
+import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.repository.*;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
+import static com.devchw.gukmo.entity.member.Activity.Division.*;
 
 @Slf4j
 @Service
@@ -25,7 +27,9 @@ public class LikeService {
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
     private final CommentsRepository commentsRepository;
+    private final ActivityRepository activityRepository;
 
+    /** 게시물 추천 */
     @Transactional
     public String boardLike(Long memberId, Long boardId) {
         Boolean exist = boardLikeRepository.existsByBoardIdAndMemberId(boardId, memberId);
@@ -33,6 +37,11 @@ public class LikeService {
             Long id = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).getId();
             Board board = boardRepository.findById(boardId).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
             boardLikeRepository.deleteById(id);
+
+            //활동내역 삭제
+            Long activityId = activityRepository.findByMemberIdAndBoardIdAndDivision(memberId, boardId, BOARD_LIKE).getId();
+            activityRepository.deleteById(activityId);
+
             board.likeMinus();
             return "delete";
         } else { //생성
@@ -43,30 +52,56 @@ public class LikeService {
                     .board(board)
                     .build();
             boardLikeRepository.save(boardLike).getId();
+
+            //활동내역 넣어주기
+            Activity activity = Activity.builder()
+                    .member(member)
+                    .board(board)
+                    .division(BOARD_LIKE)
+                    .build();
+
+            Activity saveActivity = activityRepository.save(activity);
+
             board.likePlus();
             return "insert";
         }
     }
 
+    /** 댓글 추천 */
     @Transactional
     public String commentLike(Long memberId, Long commentsId) {
         Boolean exist = commentsLikeRepository.existsByCommentsIdAndMemberId(commentsId, memberId);
         if(exist) { // 삭제
 
             Long id = commentsLikeRepository.findByCommentsIdAndMemberId(commentsId, memberId).getId();
-            Comments comments = commentsRepository.findById(commentsId).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
+            Comments comments = commentsRepository.findWithBoardById(commentsId).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
             commentsLikeRepository.deleteById(id);
+
+            //활동내역 삭제
+            Long activityId = activityRepository.findByMemberIdAndBoardIdAndDivision(memberId, comments.getBoard().getId(), BOARD_LIKE).getId();
+            activityRepository.deleteById(activityId);
+
             comments.likeMinus();
             return "delete";
 
         } else { //생성
             Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
-            Comments comments = commentsRepository.findById(commentsId).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
+            Comments comments = commentsRepository.findWithBoardById(commentsId).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
             CommentsLike commentsLike = CommentsLike.builder()
                     .member(member)
                     .comments(comments)
                     .build();
             Long id = commentsLikeRepository.save(commentsLike).getId();
+
+            //활동내역 넣어주기
+            Activity activity = Activity.builder()
+                    .member(member)
+                    .board(comments.getBoard())
+                    .division(COMMENT_LIKE)
+                    .build();
+
+            Activity saveActivity = activityRepository.save(activity);
+
             comments.likePlus();
             if(id == null) throw new BaseException(BAD_REQUEST);
             return "insert";

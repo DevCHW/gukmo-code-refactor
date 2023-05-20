@@ -5,6 +5,7 @@ import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
 import com.devchw.gukmo.entity.hashtag.Hashtag;
+import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.dto.board.get.BoardDto;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_BOARD;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_MEMBER;
+import static com.devchw.gukmo.entity.member.Activity.Division.BOARD_WRITE;
 import static org.springframework.util.StringUtils.*;
 
 @Slf4j
@@ -44,6 +46,7 @@ public class BoardService {
     private final CommentsRepository commentsRepository;
     private final CommentsLikeRepository commentsLikeRepository;
     private final BoardLikeRepository boardLikeRepository;
+    private final ActivityRepository activityRepository;
 
     /** 게시글 번호에 맞는 해시태그 리스트 조회 */
     public List<BoardHashtag> findBoardHashtagByBoardId(List<Long> boardIds) {
@@ -57,6 +60,19 @@ public class BoardService {
         Member writerMember = memberRepository.findById(form.getMemberId()).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         Board savedBoard = form.toEntity(writerMember);
         Long savedBoardId = boardRepository.save(savedBoard).getId();
+
+        //활동점수 올려주기
+        writerMember.pointPlus(10);
+
+        //활동내역 넣어주기
+        Activity activity = Activity.builder()
+                .member(writerMember)
+                .board(savedBoard)
+                .division(BOARD_WRITE)
+                .build();
+
+        Activity save = activityRepository.save(activity);
+
 
         //해시태그가 있다면 해시태그 저장하기
         if(hasText(form.getHashtags())) {
@@ -72,6 +88,7 @@ public class BoardService {
                 if(savedHashtag == null || savedBoardHashtag == null) throw new IllegalStateException("해시태그 저장 실패");
             }
         }
+
         return savedBoardId;
     }
 
@@ -153,5 +170,16 @@ public class BoardService {
     /** 로그인 여부 알아내기 */
     private boolean isLogin(HttpSession session) {
         return session.getAttribute(SessionConst.LOGIN_MEMBER) != null;
+    }
+
+
+    /** 게시물 삭제 */
+    @Transactional
+    public void delete(Long id) {
+        boardRepository.deleteById(id);
+
+        //활동점수 감소
+        Board board = boardRepository.findWithMemberById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+        board.getMember().pointMinus(10);
     }
 }

@@ -2,6 +2,7 @@ package com.devchw.gukmo.user.dto.comments;
 
 import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.user.dto.member.WriterDto;
+import com.devchw.gukmo.utils.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +24,8 @@ public class CommentsDto {
     private String content; //댓글내용
     private Comments.Blind blind;   //블라인드 여부
     private boolean likeExist;      //좋아요 여부
-    private LocalDateTime writeDate;    //작성일자
+    private String writeDate;    //작성일자
+    private Long parentId;      //부모댓글번호
     private List<CommentsDto> children = new ArrayList<>();   //자식댓글들
     private WriterDto writer;   //작성자정보
     private Long likeCount; //좋아요 개수
@@ -35,17 +37,18 @@ public class CommentsDto {
         Map<Long, CommentsDto> map = new HashMap<>();
         List<CommentsDto> roots = new ArrayList<>();
 
-        for (Comments comment : comments) { // 1
+        for (Comments comment : comments) {
             CommentsDto dto = toCommentsDto(comment, false);
-            map.put(comment.getId(), dto); // 2
 
-            if (comment.getParent() != null) { //부모가 있다면
+            if (comment.getParent() != null) { //부모가 있다면 Map에서 부모Dto 꺼내서 List에 자식댓글 담기.
                 Long parentId = comment.getParent().getId();
+                dto.setParentId(parentId);  //부모댓글번호 넣기
                 CommentsDto parentDto = map.get(parentId);
                 parentDto.getChildren().add(dto);
             } else {    //부모가 없다면
-                roots.add(dto); // 4
+                roots.add(dto);
             }
+            map.put(comment.getId(), dto);
         }
         return roots;
     }
@@ -58,7 +61,7 @@ public class CommentsDto {
         Map<Long, CommentsDto> map = new HashMap<>();
         List<CommentsDto> roots = new ArrayList<>();
 
-        for (Comments comment : comments) { // 1
+        for (Comments comment : comments) {
             CommentsDto dto = null;
             if(commentsLikeList.contains(comment.getId())) {    //좋아요 누른 댓글
                 dto = toCommentsDto(comment, true);
@@ -66,15 +69,15 @@ public class CommentsDto {
                 dto = toCommentsDto(comment, false);
             }
 
-            map.put(comment.getId(), dto); // 2
-
-            if (comment.getParent() != null) { //부모가 있다면
+            if (comment.getParent() != null) { //부모가 있다면 Map에서 부모Dto 꺼내서 List에 자식댓글 담기.
                 Long parentId = comment.getParent().getId();
+                dto.setParentId(parentId);
                 CommentsDto parentDto = map.get(parentId);
                 parentDto.getChildren().add(dto);
             } else {    //부모가 없다면
-                roots.add(dto); // 4
+                roots.add(dto);
             }
+            map.put(comment.getId(), dto);
         }
         return roots;
     }
@@ -88,7 +91,7 @@ public class CommentsDto {
                 .content(comments.getContent())
                 .blind(comments.getBlind())
                 .likeExist(likeExist)
-                .writeDate(comments.getWriteDate())
+                .writeDate(DateUtil.calculateTime(comments.getWriteDate()))
                 .writer(WriterDto.toWriterDto(comments.getMember()))
                 .children(new ArrayList<>())
                 .likeCount(comments.getLikeCount())

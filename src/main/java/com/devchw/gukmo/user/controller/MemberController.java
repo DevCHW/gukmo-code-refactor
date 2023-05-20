@@ -1,13 +1,18 @@
 package com.devchw.gukmo.user.controller;
 
+import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
+import com.devchw.gukmo.user.dto.board.get.CommunityListDto;
 import com.devchw.gukmo.user.dto.member.MyPageDto;
 import com.devchw.gukmo.user.dto.member.SignUpFormDto;
 import com.devchw.gukmo.user.repository.MemberRepository;
+import com.devchw.gukmo.user.service.ActivityService;
 import com.devchw.gukmo.user.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +30,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final ActivityService activityService;
 
     /** 이용약관 페이지  */
     @GetMapping("/tos")
@@ -78,11 +84,17 @@ public class MemberController {
 
     /** 마이페이지 - 활동 내역 페이지 */
     @GetMapping("/{id}/my/activities")
-    public String activities(@PathVariable Long id, Model model) {
+    public String activities(@PathVariable Long id, Model model, Pageable pageable) {
         Member loginMemberInfo = memberRepository.findMemberById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         MyPageDto memberInfo = new MyPageDto().toDto(loginMemberInfo);
+        
+        //페이징 활동내역 조회
+//        Page<Activity> activities = activityService.findAllByMemberId(id, pageable);
+
         log.info("마이페이지 - 활동내역 페이지 member={}", memberInfo);
         model.addAttribute("memberInfo", memberInfo);
+
+//        log.info("조회된 회원의 활동내역={}", activities);
         return "member/my/activities.tiles1";
     }
 }

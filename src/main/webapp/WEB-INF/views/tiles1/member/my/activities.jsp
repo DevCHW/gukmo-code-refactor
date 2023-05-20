@@ -60,21 +60,21 @@
             <div class="d-flex align-items-center">
               <%-- 프사 --%>
               <div id="profile_img_box" class="border">
-              	<c:if test="${fn:substring(sessionScope.user.profile_image,0,4) != 'http'}">
-                  <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
+              	<c:if test="${fn:substring(loginMember.profileImage,0,4) != 'http'}">
+                  <img src="<%=ctxPath%>/resources/images/${loginMember.profileImage}"/>
                 </c:if>
-                <c:if test="${fn:substring(sessionScope.user.profile_image,0,4) == 'http'}">
-             	   <img src="${sessionScope.user.profile_image}"/>
+                <c:if test="${fn:substring(loginMember.profileImage,0,4) == 'http'}">
+             	   <img src="${loginMember.profileImage}"/>
                 </c:if>
               </div>
 
               <div class="ml-4 py-1">
                 <h4 id="user_nickname">${sessionScope.user.nickname}</h4>
-                <div id="point">활동점수&nbsp;<span>${sessionScope.user.point}</span></div>
+                <div id="point">활동점수&nbsp;<span>${memberInfo.point}</span></div>
               </div>
             </div>
 
-            <button type="button" id="btn_go_myId" class="btn border rounded" onclick="location.href='<%=ctxPath %>/member/myId.do'">
+            <button type="button" id="btn_go_myId" class="btn border rounded" onclick="location.href='/members/${loginMember.id}/my/account'">
               	나의 계정
             </button>
           </div>

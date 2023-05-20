@@ -10,10 +10,6 @@
   <%-- 직접 만든 CSS --%>
   <link rel="stylesheet" type="text/css" href="resources/css/login/login.css" />
 
-  <script type="text/javascript">
-    sessionStorage.setItem("redirectURL",'${redirectURL}');
-  </script>
-
   <%-- 직접만든 javascript --%>
   <script type="text/javascript" src="resources/js/login/loginForm.js" ></script>
 
@@ -61,17 +57,18 @@
         </div>
       </div>
 
+
       <%-- login_input --%>
       <div class="line my-4">
         	국비의모든것 아이디로 로그인
       </div>
+
       <%-- Id --%>
       <div id="input_id" class="d-flex flex-column">
         <label for="userid">아이디</label>
         <input type="text" id="userId" name="userId" class="input_login border rounded pl-2" placeholder="아이디를 입력해주세요"/>
-        <span id="userid_error" class="login_error pl-1 mt-2">아이디를 입력해주세요.</span>
+        <span id="userId_error" class="login_error pl-1 mt-2">아이디를 입력해주세요.</span>
       </div>
-
 
       <%-- Password --%>
       <div id="input_password" class="d-flex flex-column mt-3">
@@ -88,6 +85,6 @@
       <div class="mx-auto my-4">아직 회원이 아니신가요?&nbsp;<span id="btn_signup">회원가입</span></div>
     </div>
 
-    <%-- 어느소셜로그인인지 체크 --%>
-    <input type="hidden" name="flag" id="flag"/>
+    <%-- redirectURL --%>
+    <input type="hidden" id="returnURL" name="redirectURL" value="${redirectURL}"/>
   </form>

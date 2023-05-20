@@ -62,10 +62,6 @@
 
 <div class="container d-flex flex-column align-items-center">
 
-    <%-- 검색창 호출 --%>
-    <jsp:include page="/WEB-INF/views/tiles1/component/indexSearchBar.jsp" />
-    <%-- 검색창 호출 --%>
-
 
 	<%-- 학원 정보 영역 --%>
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
