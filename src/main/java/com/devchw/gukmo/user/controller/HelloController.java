@@ -2,8 +2,10 @@ package com.devchw.gukmo.user.controller;
 
 import com.devchw.gukmo.entity.advertisement.Advertisement;
 import com.devchw.gukmo.entity.board.Board;
+import com.devchw.gukmo.entity.board.Curriculum;
 import com.devchw.gukmo.user.dto.advertisement.AdvertisementDto;
 import com.devchw.gukmo.user.dto.board.get.IndexBoardDto;
+import com.devchw.gukmo.user.dto.board.get.IndexCurriculumListDto;
 import com.devchw.gukmo.user.repository.BoardRepository;
 import com.devchw.gukmo.user.service.AdvertisementService;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +33,37 @@ public class HelloController {
         // 조건에 맞는 메인페이지 광고 5개 조회
         LocalDateTime currentDateTime = LocalDateTime.now();
         Set<Advertisement> advertisements = advertisementService.mainAdvertisement(currentDateTime);
-        log.info("조회된 광고 5개={}", advertisements);
         List<AdvertisementDto> advertisementList = advertisements.stream().map(a -> new AdvertisementDto().toDto(a)).collect(Collectors.toList());
+        log.info("조회된 광고 5개={}", advertisementList);
         model.addAttribute("advertisementList", advertisementList);
 
+        //현재 모집중인 과정 조회
+        List<Curriculum> curricula = boardRepository.findTop24ByRecruitmentStartDateLessThanAndRecruitmentEndDateGreaterThanOrderByIdDesc(currentDateTime, currentDateTime);
+        List<IndexCurriculumListDto> curriculumList = curricula.stream().map(c -> new IndexCurriculumListDto().toDto(c)).collect(Collectors.toList());
+        log.info("현재 모집중인 과정={}", curriculumList);
+        List<IndexCurriculumListDto> curriculumList1 = new ArrayList<>();
+        List<IndexCurriculumListDto> curriculumList2 = new ArrayList<>();
+        List<IndexCurriculumListDto> curriculumList3 = new ArrayList<>();
 
-        String[] secondCategory = {"자유", "QnA", "스터디", "취미모임", "수강/취업후기"};
+        int count =1;
+        for (IndexCurriculumListDto indexCurriculumListDto : curriculumList) {
+            if(count <= 8) {
+                curriculumList1.add(indexCurriculumListDto);
+            } else if(count <= 16) {
+                curriculumList2.add(indexCurriculumListDto);
+            } else {
+                curriculumList3.add(indexCurriculumListDto);
+            }
+            count++;
+        }
+
+        model.addAttribute("curriculumList", curriculumList);
+        model.addAttribute("curriculumList1", curriculumList1);
+        model.addAttribute("curriculumList2", curriculumList2);
+        model.addAttribute("curriculumList3", curriculumList3);
+
         //뷰단에서 찍을 모델명 규약
+        String[] secondCategory = {"자유", "QnA", "스터디", "취미모임", "수강/취업후기"};
         String[] modelNameArr = {"free", "QnA", "study", "hobby", "review"};
         for(int i=0; i<5; i++) { //각 카테고리별 게시글 데이터 5개씩 조회하여 데이터 전송.
             List<Board> board = boardRepository.findTop5BoardBySecondCategoryOrderByIdDesc(secondCategory[i]);

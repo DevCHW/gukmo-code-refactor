@@ -1,6 +1,7 @@
 package com.devchw.gukmo.user.repository;
 
 import com.devchw.gukmo.entity.board.Board;
+import com.devchw.gukmo.entity.board.Curriculum;
 import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
 import com.devchw.gukmo.user.dto.board.get.NoticeListDto;
 import com.devchw.gukmo.user.dto.board.get.PrevAndNextBoardDto;
@@ -13,6 +14,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,4 +69,6 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardReposi
 
     @EntityGraph(attributePaths = {"member"})
     Optional<Board> findWithMemberById(Long id);
+
+    List<Curriculum> findTop24ByRecruitmentStartDateLessThanAndRecruitmentEndDateGreaterThanOrderByIdDesc(LocalDateTime startDate, LocalDateTime endDate);
 }

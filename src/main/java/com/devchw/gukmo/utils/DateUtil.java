@@ -6,9 +6,11 @@ import com.devchw.gukmo.exception.BaseException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import static com.devchw.gukmo.config.response.BaseResponseStatus.INTERNAL_SERVER_ERROR;
@@ -55,7 +57,7 @@ public class DateUtil {
     }
 
     /**
-     * String -> LocalDateTime으로 변환
+     * String -> LocalDateTime변환
      */
     public static LocalDateTime StringToLocalDateTimeConverter(String dateString) {
         // DateTimeFormatter를 사용하여 문자열을 LocalDateTime으로 변환
@@ -64,5 +66,23 @@ public class DateUtil {
         LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatter);
 
         return localDateTime;
+    }
+
+    /**
+     * LocalDateTime -> "yyyy-mm-dd"형식의 String 변환
+     */
+    public static String formatLocalDateTimeToString(LocalDateTime dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return dateTime.format(formatter);
+    }
+
+
+    /**
+     * LocalDateTime - 현재날짜 (일 단위)
+     */
+    public static String getDaysFromNow(LocalDateTime dateTime) {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate targetDate = dateTime.toLocalDate();
+        return String.valueOf(ChronoUnit.DAYS.between(currentDate, targetDate));
     }
 }

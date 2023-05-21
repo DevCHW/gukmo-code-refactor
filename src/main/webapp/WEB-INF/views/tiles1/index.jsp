@@ -66,14 +66,12 @@
 
 
 <div class="container d-flex flex-column align-items-center">
-
-
 	<%-- 학원 정보 영역 --%>
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 
 		<div class="academy_title w-100 px-2 mt-4 mb-1 d-flex justify-content-between">
 			<span>현재 모집 중인 과정</span>
-			<a href="<%=ctxPath %>/academy/curricula.do"> 더 보기 </a>
+			<a href="/boards?firstCategory=국비학원&secondCategory=교육과정"> 더 보기 </a>
 		</div>
 
 		<%-- 배너 영역 --%>
@@ -81,62 +79,71 @@
 
 			<div class="carousel-inner academy-carousel px-2">
 
-				<c:if test="${empty requestScope.curriList1}">
-				${html}
+				<c:if test="${empty curriculumList}">
+				<div> 현재 모집 중인 과정이 없습니다. </div>
 				</c:if>
 
 				<!-- 첫번째! -->
-		        <c:if test="${not empty requestScope.curriList1}">
-		        <div class="carousel-item active">
-					<div class="d-flex flex-wrap justify-content-start">
-					<c:forEach var="curriList1" items="${requestScope.curriList1}">
-						<div class="card">
-						  <div class="card-body" onclick="location.href='<%=ctxPath %>/detail.do?boardNum=${curriList1.board_num}'">
-						    <h4 class="card-title">${curriList1.curriculum.academy_name}</h4>
-						    <p class="card-text">${curriList1.subject}</p>
-						    <p class="card-sub-text">${curriList1.curriculum.curriculum_start_date} ~ ${curriList1.curriculum.curriculum_end_date}</p>
-						    <p class="card-link">D-${curriList1.dday}</p>
-						  </div>
-						</div>
-					</c:forEach>
-					</div>
-				</div>
-				</c:if>
+		        <c:if test="${not empty curriculumList}">
+					<c:forEach var="i" begin="1" end="3">
+						<c:if test="${i == 1}">
+							<c:if test="${not empty curriculumList1}">
+							<div class="carousel-item active">
+								<div class="d-flex flex-wrap justify-content-start">
+								<c:forEach var="curriculum" items="${curriculumList1}">
+									<div class="card">
+									  <div class="card-body" onclick="location.href='/boards/${curriculum.id}'">
+										<h4 class="card-title">${curriculum.academyName}</h4>
+										<p class="card-text">${curriculum.subject}</p>
+										<p class="card-sub-text">${curriculum.curriculumStartDate} ~ ${curriculum.curriculumEndDate}</p>
+										<p class="card-link">D-${curriculum.day}</p>
+									  </div>
+									</div>
+								</c:forEach>
+								</div>
+							</div>
+							</c:if>
+						</c:if>
 
-				<c:if test="${not empty requestScope.curriList2}">
-		        <div class="carousel-item">
-					<div class="d-flex flex-wrap justify-content-start">
-					<c:forEach var="curriList2" items="${requestScope.curriList2}">
-						<div class="card">
-						  <div class="card-body" onclick="location.href='<%=ctxPath %>/detail.do?boardNum=${curriList2.board_num}'">
-						    <h4 class="card-title">${curriList2.curriculum.academy_name}</h4>
-						    <p class="card-text">${curriList2.subject}</p>
-						    <p class="card-sub-text">${curriList2.curriculum.curriculum_start_date} ~ ${curriList2.curriculum.curriculum_end_date}</p>
-						    <p class="card-link">D-${curriList2.dday}</p>
-						  </div>
-						</div>
-					</c:forEach>
-					</div>
-				</div>
-				</c:if>
+						<c:if test="${i == 2}">
+							<c:if test="${not empty curriculumList2}">
+							<div class="carousel-item">
+								<div class="d-flex flex-wrap justify-content-start">
+								<c:forEach var="curriculum" items="${curriculumList1}">
+									<div class="card">
+										<div class="card-body" onclick="location.href='/boards/${curriculum.id}'">
+										<h4 class="card-title">${curriculum.academyName}</h4>
+										<p class="card-text">${curriculum.subject}</p>
+										<p class="card-sub-text">${curriculum.curriculumStartDate} ~ ${curriculum.curriculumEndDate}</p>
+										<p class="card-link">D-${curriculum.day}</p>
+										</div>
+									</div>
+								</c:forEach>
+								</div>
+							</div>
+							</c:if>
+						</c:if>
 
-				<c:if test="${not empty requestScope.curriList3}">
-		        <div class="carousel-item">
-					<div class="d-flex flex-wrap justify-content-start">
-					<c:forEach var="curriList3" items="${requestScope.curriList3}">
-						<div class="card">
-						  <div class="card-body" onclick="location.href='<%=ctxPath %>detail.do?boardNum=${curriList3.board_num}'">
-						    <h4 class="card-title">${curriList3.curriculum.academy_name}</h4>
-						    <p class="card-text">${curriList3.subject}</p>
-						    <p class="card-sub-text">${curriList3.curriculum.curriculum_start_date} ~ ${curriList3.curriculum.curriculum_end_date}</p>
-						    <p class="card-link">D-${curriList3.dday}</p>
-						  </div>
-						</div>
+						<c:if test="${i == 3}">
+							<c:if test="${not empty curriculumList2}">
+							<div class="carousel-item">
+								<div class="d-flex flex-wrap justify-content-start">
+								<c:forEach var="curriculum" items="${curriculumList3}">
+									<div class="card">
+										<div class="card-body" onclick="location.href='/boards/${curriculum.id}'">
+										<h4 class="card-title">${curriculum.academyName}</h4>
+										<p class="card-text">${curriculum.subject}</p>
+										<p class="card-sub-text">${curriculum.curriculumStartDate} ~ ${curriculum.curriculumEndDate}</p>
+										<p class="card-link">D-${curriculum.day}</p>
+										</div>
+									</div>
+								</c:forEach>
+								</div>
+							</div>
+							</c:if>
+						</c:if>
 					</c:forEach>
-					</div>
-				</div>
 				</c:if>
-
 		     </div>
 
 		     <!-- Left and right controls -->
@@ -146,9 +153,8 @@
 		     <a class="carousel-control-next icon_next" href="#div_academy_content" data-slide="next">
 		       <i class="fa-solid fa-circle-right fa-7x icon_arrow"></i>
 		     </a>
-
-		</div>
-
+		  </div>
+	</div>
 
 
 	<!-- 인기해시태그 / 게시판 정보 영역  -->
