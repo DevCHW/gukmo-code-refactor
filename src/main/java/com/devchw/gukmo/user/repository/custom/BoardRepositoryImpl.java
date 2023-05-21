@@ -1,6 +1,8 @@
 package com.devchw.gukmo.user.repository.custom;
 
 import com.devchw.gukmo.user.dto.board.get.*;
+import com.devchw.gukmo.user.dto.member.ActivityDto;
+import com.devchw.gukmo.user.dto.member.QActivityDto_WriterNicknameDto;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -20,6 +22,7 @@ import static com.devchw.gukmo.entity.board.QBoard.*;
 import static com.devchw.gukmo.entity.board.QCurriculum.*;
 import static com.devchw.gukmo.entity.board.QNotice.*;
 import static com.devchw.gukmo.entity.member.QMember.*;
+import static com.devchw.gukmo.user.dto.member.ActivityDto.*;
 import static org.springframework.util.StringUtils.*;
 
 @Slf4j
@@ -60,6 +63,22 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         long total = getTotal(boardRequest);
         return new PageImpl<>(boardList, pageable, total);
     }
+
+    /**
+     * 글 작성자 닉네임 목록 조회
+     */
+    @Override
+    public List<WriterNicknameDto> findAllWriterNicknamesByBoardId(List<Long> boardIds) {
+        return queryFactory
+                .select(new QActivityDto_WriterNicknameDto(
+                        board.id.as("id"),
+                        board.member.nickname.as("writerNickname")))
+                .from(board)
+                .where(board.id.in(boardIds))
+                .join(board.member, member)   //ManyToOne
+                .fetch();
+    }
+
 
     /** 국비학원 리스트 조회 쿼리 */
     public List<AcademyListDto> getAcademyList(BoardRequestDto boardRequest, Pageable pageable) {

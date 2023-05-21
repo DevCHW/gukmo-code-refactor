@@ -9,17 +9,16 @@ import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.dto.board.get.BoardDto;
-import com.devchw.gukmo.user.dto.board.get.CommunityListDto;
 import com.devchw.gukmo.user.dto.board.get.PrevAndNextBoardDto;
 import com.devchw.gukmo.user.dto.board.post.BoardFormDto;
 import com.devchw.gukmo.user.dto.comments.CommentsDto;
 import com.devchw.gukmo.user.dto.login.LoginMemberDto;
+import com.devchw.gukmo.user.dto.member.ActivityDto;
 import com.devchw.gukmo.user.dto.member.WriterDto;
 import com.devchw.gukmo.user.repository.*;
 import com.devchw.gukmo.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +30,7 @@ import java.util.stream.Collectors;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_BOARD;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_MEMBER;
 import static com.devchw.gukmo.entity.member.Activity.Division.BOARD_WRITE;
+import static com.devchw.gukmo.user.dto.member.ActivityDto.*;
 import static org.springframework.util.StringUtils.*;
 
 @Slf4j
@@ -176,10 +176,17 @@ public class BoardService {
     /** 게시물 삭제 */
     @Transactional
     public void delete(Long id) {
-        boardRepository.deleteById(id);
-
         //활동점수 감소
         Board board = boardRepository.findWithMemberById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
         board.getMember().pointMinus(10);
+
+        boardRepository.delete(board);
+    }
+
+    /**
+     * 글 작성자 닉네임 목록 조회
+     */
+    public List<WriterNicknameDto> findAllWriterNicknamesByBoardId(List<Long> boardIds) {
+        return boardRepository.findAllWriterNicknamesByBoardId(boardIds);
     }
 }

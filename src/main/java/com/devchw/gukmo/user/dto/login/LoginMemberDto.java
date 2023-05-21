@@ -18,6 +18,8 @@ public class LoginMemberDto {
     private Member.UserRole userRole; //권한
     
     private String nickname;    //닉네임
+    
+    private Long point; //포인트
 
     /**
      * Entity -> Dto
@@ -28,6 +30,7 @@ public class LoginMemberDto {
                .profileImage(member.getProfileImage())
                .userRole(member.getUserRole())
                .nickname(member.getNickname())
+               .point(member.getPoint())
                .build();
     }
 }
