@@ -1,6 +1,7 @@
 package com.devchw.gukmo.entity.member;
 
 import com.devchw.gukmo.entity.board.Board;
+import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.login.Oauth;
 import lombok.*;
@@ -65,8 +66,11 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Board> boards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Activity> activities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<Comments> comments = new ArrayList<>();
 
     public enum EmailAccept {
         YES, NO
@@ -74,13 +78,6 @@ public class Member {
 
     public enum UserRole {
         ADMIN, MEMBER, ACADEMY
-    }
-
-    /**
-     * 저장할 프로필이미지 파일명 생성(고유한 값)
-     */
-    public String generatedUniqueProfileImageName(String profileImageName) {
-        return UUID.randomUUID().toString() + "." + profileImageName;
     }
 
     /** 회원 정보 수정 1.*/

@@ -1,8 +1,11 @@
 package com.devchw.gukmo.entity.hashtag;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -10,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
+@DynamicInsert
 public class Hashtag {
     @Id @GeneratedValue
     @Column(name = "hashtag_id")
@@ -17,6 +21,6 @@ public class Hashtag {
 
     private String tagName;
 
-//    @OneToMany(mappedBy = "hashtag")
-//    private List<BoardHashtag> boardHashtag;
+    @ColumnDefault("sysdate")
+    private LocalDateTime createDate;
 }

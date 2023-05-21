@@ -78,7 +78,7 @@ public class LikeService {
             commentsLikeRepository.deleteById(id);
 
             //활동내역 삭제
-            Long activityId = activityRepository.findByMemberIdAndBoardIdAndDivision(memberId, comments.getBoard().getId(), BOARD_LIKE).getId();
+            Long activityId = activityRepository.findByMemberIdAndBoardIdAndDivision(memberId, comments.getBoard().getId(), COMMENT_LIKE).getId();
             activityRepository.deleteById(activityId);
 
             comments.likeMinus();

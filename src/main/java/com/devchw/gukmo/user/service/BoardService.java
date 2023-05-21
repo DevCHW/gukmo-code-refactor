@@ -27,8 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_BOARD;
-import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_MEMBER;
+import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 import static com.devchw.gukmo.entity.member.Activity.Division.BOARD_WRITE;
 import static com.devchw.gukmo.user.dto.member.ActivityDto.*;
 import static org.springframework.util.StringUtils.*;
@@ -73,7 +72,6 @@ public class BoardService {
 
         Activity save = activityRepository.save(activity);
 
-
         //해시태그가 있다면 해시태그 저장하기
         if(hasText(form.getHashtags())) {
             List<String> tagNames = Arrays.asList(form.getHashtags().split(","));
@@ -85,7 +83,7 @@ public class BoardService {
                         .board(savedBoard)
                         .hashtag(savedHashtag)
                         .build());
-                if(savedHashtag == null || savedBoardHashtag == null) throw new IllegalStateException("해시태그 저장 실패");
+                if(savedHashtag == null || savedBoardHashtag == null) throw new BaseException(INTERNAL_SERVER_ERROR);
             }
         }
 

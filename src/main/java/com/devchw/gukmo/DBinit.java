@@ -1,5 +1,6 @@
 package com.devchw.gukmo;
 
+import com.devchw.gukmo.entity.advertisement.Advertisement;
 import com.devchw.gukmo.entity.board.Academy;
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.Curriculum;
@@ -31,6 +32,7 @@ public class DBinit {
         initService.dbInit1(); //테스트용 아이디 추가
         initService.dbInit2(); //테스트 해시태그가 있는 게시물 넣기
         initService.dbInit3(); //테스트 게시글 넣기
+        initService.dbInit4(); //테스트 광고 넣기
     }
 
     @Component
@@ -260,6 +262,22 @@ public class DBinit {
             em.persist(hashtag2);
             em.persist(boardHashtag1);
             em.persist(boardHashtag2);
+        }
+
+        /**
+         * 메인페이지 광고 넣기
+         */
+        public void dbInit4() {
+            for(int i=1; i<=3; i++) {
+                Advertisement advertisement = Advertisement.builder()
+                        .type(Advertisement.Type.MAIN)
+                        .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
+                        .startDate(DateUtil.StringToLocalDateTimeConverter("2023-01-01"))
+                        .endDate(DateUtil.StringToLocalDateTimeConverter("2025-12-31"))
+                        .fileName("main/fake_main_banner0"+i+".png")
+                        .build();
+                em.persist(advertisement);
+            }
         }
     }
 }

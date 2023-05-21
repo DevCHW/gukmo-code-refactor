@@ -36,7 +36,6 @@ public class Activity {
     @JoinColumn(name = "comments_id")
     private Comments comments;
 
-
     @Enumerated(EnumType.STRING)
     private Division division;  //활동 구분
 

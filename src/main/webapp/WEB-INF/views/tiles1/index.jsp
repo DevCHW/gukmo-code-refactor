@@ -16,30 +16,34 @@
 <!-- 배너 영역 -->
 
 <!-- Indicators -->
+<%-- 활성화된 광고가 있다면 --%>
  <c:if test="${not empty requestScope.advertisementList}">
 
-	<div id="demo" class="carousel slide" data-ride="carousel" >
+	<div id="demo" class="carousel slide" data-ride="carousel">
 
      <%--  The slideshow --%>
      <div class="carousel-inner" style="height:230px;">
 
-     <div class="carousel-item active">
-     	<c:forEach end="0" var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
-     	<a href="${advertisementList.url}">
-              <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
-         </a>
-         </c:forEach>
-     </div>
-
-     <c:forEach begin="1" var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
-  	 <div class="carousel-item">
-          <a href="${advertisementList.url}">
-           <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
-          </a>
-     </div>
-	 </c:forEach>
-
-
+     <c:forEach var="advertisement" items="${advertisementList}" varStatus="status">
+       <c:choose>
+           <c:when test="${status.index == 0}">
+               <!-- 첫 번째 반복문의 경우 -->
+               <div class="carousel-item active">
+                  <a href="${advertisement.url}">
+                    <img src="<%=ctxPath %>/resources/images/${advertisement.fileName}" style="cursor: pointer; width: 100%; height:230px;">
+                  </a>
+               </div>
+           </c:when>
+           <c:otherwise>
+               <!-- 두 번째 이후의 반복문의 경우 -->
+               <div class="carousel-item">
+                 <a href="${advertisement.url}">
+                    <img src="<%=ctxPath %>/resources/images/${advertisement.fileName}" style="cursor: pointer; width: 100%; height:230px;">
+                 </a>
+               </div>
+           </c:otherwise>
+       </c:choose>
+     </c:forEach>
      </div>
 
      <a class="carousel-control-prev" href="#demo" data-slide="prev">
@@ -49,12 +53,13 @@
        <span class="carousel-control-next-icon"></span>
      </a>
 
-</div>
+  </div>
 </c:if>
 
+<%-- 현재 활성화된 광고가 없다면 --%>
 <c:if test="${empty requestScope.advertisementList}">
-	<div id="advertisement_box" style="width: 100%; height:230px; cursor: pointer;" onclick="location.href='https://kfq.or.kr/_KR/Default.aspx'">
-      <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG" style="width: 100%; height:230px;">
+	<div id="advertisement_box" style="width: 100%; height:230px; cursor: pointer;" onclick="location.href='https://github.com/DevCHW/gukmo-code-refactor'">
+      <img src="<%= ctxPath%>/resources/images/main/fake_main_banner01.png" style="width: 100%; height:230px;">
     </div>
 </c:if>
 
