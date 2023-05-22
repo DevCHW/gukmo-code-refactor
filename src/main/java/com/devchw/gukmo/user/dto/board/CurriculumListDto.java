@@ -23,10 +23,10 @@ public class CurriculumListDto {
     private Long likeCount;         //좋아요 수
     private String coreTechnology;			//핵심기술
     private String academyName;			    //학원명
-    private LocalDateTime curriculumStartDate;	    //과정시작일자
-    private LocalDateTime curriculumEndDate;		//과정끝일자
-    private LocalDateTime recruitmentStartDate;	//모집시작일
-    private LocalDateTime recruitmentEndDate;	    //모집마감일
+    private String curriculumStartDate;	    //과정시작일자
+    private String curriculumEndDate;		//과정끝일자
+    private String recruitmentStartDate;	//모집시작일
+    private String recruitmentEndDate;	    //모집마감일
     private int recruitsCount;			//모집인원
     private String url;				    //신청URL
     private int recruitmentPeriod;		//모집기간
@@ -50,10 +50,10 @@ public class CurriculumListDto {
         this.likeCount = likeCount;
         this.coreTechnology = coreTechnology;
         this.academyName = academyName;
-        this.curriculumStartDate = curriculumStartDate;
-        this.curriculumEndDate = curriculumEndDate;
-        this.recruitmentStartDate = recruitmentStartDate;
-        this.recruitmentEndDate = recruitmentEndDate;
+        this.curriculumStartDate = DateUtil.formatLocalDateTimeToString(curriculumStartDate);
+        this.curriculumEndDate = DateUtil.formatLocalDateTimeToString(curriculumEndDate);
+        this.recruitmentStartDate = DateUtil.formatLocalDateTimeToString(recruitmentStartDate);
+        this.recruitmentEndDate = DateUtil.formatLocalDateTimeToString(recruitmentEndDate);
         this.recruitsCount = recruitsCount;
         this.url = url;
         this.recruitmentPeriod = recruitmentPeriod;
@@ -61,6 +61,7 @@ public class CurriculumListDto {
     }
 
     public int getDday() {
+        LocalDateTime recruitmentEndDate = DateUtil.StringToLocalDateTimeConverter(this.recruitmentEndDate);
         return Integer.parseInt(DateUtil.getDaysFromNow(recruitmentEndDate));
     }
 }

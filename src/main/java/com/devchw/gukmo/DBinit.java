@@ -279,14 +279,23 @@ public class DBinit {
          */
         public void dbInit4() {
             for(int i=1; i<=3; i++) {
-                Advertisement advertisement = Advertisement.builder()
+                Advertisement advertisement1 = Advertisement.builder()
                         .type(Advertisement.Type.MAIN)
                         .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
                         .startDate(DateUtil.StringToLocalDateTimeConverter("2023-01-01"))
                         .endDate(DateUtil.StringToLocalDateTimeConverter("2025-12-31"))
                         .fileName("fake_main_banner0"+i+".png")
                         .build();
-                em.persist(advertisement);
+
+                Advertisement advertisement2 = Advertisement.builder()
+                        .type(Advertisement.Type.BOARD)
+                        .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
+                        .startDate(DateUtil.StringToLocalDateTimeConverter("2023-01-01"))
+                        .endDate(DateUtil.StringToLocalDateTimeConverter("2025-12-31"))
+                        .fileName("fake_main_banner0"+i+".png")
+                        .build();
+                em.persist(advertisement1);
+                em.persist(advertisement2);
             }
         }
     }

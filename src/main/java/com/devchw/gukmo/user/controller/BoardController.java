@@ -1,6 +1,7 @@
 package com.devchw.gukmo.user.controller;
 
 import com.devchw.gukmo.config.SessionConst;
+import com.devchw.gukmo.entity.advertisement.Advertisement;
 import com.devchw.gukmo.entity.board.Academy;
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.Curriculum;
@@ -8,6 +9,7 @@ import com.devchw.gukmo.entity.member.AcademyMember;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.dto.MessageResponse;
+import com.devchw.gukmo.user.dto.advertisement.AdvertisementDto;
 import com.devchw.gukmo.user.dto.board.*;
 import com.devchw.gukmo.user.dto.board.AcademyFormDto;
 import com.devchw.gukmo.user.dto.board.BoardFormDto;
@@ -16,6 +18,7 @@ import com.devchw.gukmo.user.dto.member.AcademyMemberDto;
 import com.devchw.gukmo.user.repository.BoardHashtagRepository;
 import com.devchw.gukmo.user.repository.BoardRepository;
 import com.devchw.gukmo.user.repository.MemberRepository;
+import com.devchw.gukmo.user.service.AdvertisementService;
 import com.devchw.gukmo.user.service.BoardService;
 import com.devchw.gukmo.utils.PageBarUtil;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +30,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.devchw.gukmo.config.SessionConst.LOGIN_MEMBER;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_BOARD;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_MEMBER;
+import static com.devchw.gukmo.entity.advertisement.Advertisement.*;
+import static com.devchw.gukmo.entity.advertisement.Advertisement.Type.*;
 import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j
@@ -45,7 +52,7 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final BoardHashtagRepository boardHashtagRepository;
     private final MemberRepository memberRepository;
-
+    private final AdvertisementService advertisementService;
 
     /** 게시글 리스트 조회(페이징) */
     @GetMapping()
@@ -133,6 +140,14 @@ public class BoardController {
     /** 게시글 단건 조회 */
     @GetMapping("/{id}")
     public String board(@PathVariable Long id, HttpSession session, Model model) {
+        // 조건에 맞는 게시물 페이지 광고 5개 조회
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        Set<Advertisement> advertisements = advertisementService.findAdvertisement(currentDateTime, BOARD);
+        List<AdvertisementDto> advertisementList = advertisements.stream().map(a -> new AdvertisementDto().toDto(a)).collect(Collectors.toList());
+
+        log.info("조회된 광고 5개={}", advertisementList);
+        model.addAttribute("advertisementList", advertisementList);
+
         log.info("게시글 단건 조회 요청");
         BoardDto boardDto = boardService.findBoardById(id, session);
 

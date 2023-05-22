@@ -1,6 +1,7 @@
 package com.devchw.gukmo.user.controller;
 
 import com.devchw.gukmo.entity.advertisement.Advertisement;
+import com.devchw.gukmo.entity.advertisement.Advertisement.Type;
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.Curriculum;
 import com.devchw.gukmo.user.dto.advertisement.AdvertisementDto;
@@ -34,7 +35,7 @@ public class HelloController {
     public String hello(Model model) {
         // 조건에 맞는 메인페이지 광고 5개 조회
         LocalDateTime currentDateTime = LocalDateTime.now();
-        Set<Advertisement> advertisements = advertisementService.mainAdvertisement(currentDateTime);
+        Set<Advertisement> advertisements = advertisementService.findAdvertisement(currentDateTime, Type.MAIN);
         List<AdvertisementDto> advertisementList = advertisements.stream().map(a -> new AdvertisementDto().toDto(a)).collect(Collectors.toList());
         log.info("조회된 광고 5개={}", advertisementList);
         model.addAttribute("advertisementList", advertisementList);
