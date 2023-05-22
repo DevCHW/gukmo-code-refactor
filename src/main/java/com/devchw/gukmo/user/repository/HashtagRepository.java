@@ -8,5 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
-
+    @Query("SELECT h.tagName FROM Hashtag h GROUP BY h.tagName ORDER BY COUNT(h.tagName) DESC")
+    List<String> findTop10UsedTags();
 }

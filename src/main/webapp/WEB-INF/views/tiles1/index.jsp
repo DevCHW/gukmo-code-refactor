@@ -168,8 +168,8 @@
 					<p style="font-size:15px; margin-left:3px; color:#208EC9;">인기 태그</p>
 				</div>
 				<div class="list_searchRank d-flex flex-column px-3">
-					<c:forEach var="topSearch" items="${requestScope.topSearchList}">
-					<a id="keyword">${topSearch.keyword}</a>
+					<c:forEach var="bestHashtag" items="${bestHashtags}">
+					<a href="#">#${bestHashtag}</a>
 					</c:forEach>
 				</div>
 			</div>

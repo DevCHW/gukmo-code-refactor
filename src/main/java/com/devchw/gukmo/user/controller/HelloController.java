@@ -3,11 +3,13 @@ package com.devchw.gukmo.user.controller;
 import com.devchw.gukmo.entity.advertisement.Advertisement;
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.Curriculum;
+import com.devchw.gukmo.entity.hashtag.Hashtag;
 import com.devchw.gukmo.user.dto.advertisement.AdvertisementDto;
 import com.devchw.gukmo.user.dto.board.get.IndexBoardDto;
 import com.devchw.gukmo.user.dto.board.get.IndexCurriculumListDto;
 import com.devchw.gukmo.user.repository.BoardRepository;
 import com.devchw.gukmo.user.service.AdvertisementService;
+import com.devchw.gukmo.user.service.HashtagService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ public class HelloController {
 
     private final BoardRepository boardRepository;
     private final AdvertisementService advertisementService;
+    private final HashtagService hashtagService;
 
     @GetMapping("/")
     public String hello(Model model) {
@@ -45,6 +48,11 @@ public class HelloController {
         List<IndexCurriculumListDto> curriculumList2 = new ArrayList<>();
         List<IndexCurriculumListDto> curriculumList3 = new ArrayList<>();
 
+        //인기 해시태그 조회
+        List<String> bestHashtags = hashtagService.getTop10BestHashtag();
+        log.info("조회된 인기 해시태그 10={}", bestHashtags);
+        model.addAttribute("bestHashtags", bestHashtags);
+
         int count =1;
         for (IndexCurriculumListDto indexCurriculumListDto : curriculumList) {
             if(count <= 8) {
@@ -62,7 +70,7 @@ public class HelloController {
         model.addAttribute("curriculumList2", curriculumList2);
         model.addAttribute("curriculumList3", curriculumList3);
 
-        //뷰단에서 찍을 모델명 규약
+        //뷰단에서 카테고리 모델명 규약
         String[] secondCategory = {"자유", "QnA", "스터디", "취미모임", "수강/취업후기"};
         String[] modelNameArr = {"free", "QnA", "study", "hobby", "review"};
         for(int i=0; i<5; i++) { //각 카테고리별 게시글 데이터 5개씩 조회하여 데이터 전송.
