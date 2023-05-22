@@ -1,6 +1,7 @@
 package com.devchw.gukmo.entity.comment;
 
 import com.devchw.gukmo.entity.board.Board;
+import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -54,6 +55,10 @@ public class Comments {
     @OneToMany(mappedBy = "comments")
     @OnDelete(action = OnDeleteAction.CASCADE) //DB에서 처리됨.
     private List<CommentsLike> commentsLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "comments")
+    @OnDelete(action = OnDeleteAction.CASCADE) //DB에서 처리됨.
+    private List<Activity> activities = new ArrayList<>();
 
     @ColumnDefault("0")
     private Long likeCount; //좋아요 개수

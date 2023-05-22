@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
@@ -35,7 +36,11 @@ public class CommentsService {
     /** 댓글 삭제 */
     @Transactional
     public void delete(Long id) {
-        Comments comments = commentsRepository.findWithMemberById(id).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
+        Comments comments = commentsRepository.findCommentsWithMemberWithBoardById(id).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
+        Board board = comments.getBoard();
+        Long childSize = commentsRepository.countByParentId(comments.getId());
+        board.commentMinus(1 + childSize);
+
 
         //활동내역 삭제
         Long memberId = comments.getMember().getId();

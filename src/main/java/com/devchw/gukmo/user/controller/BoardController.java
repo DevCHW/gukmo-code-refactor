@@ -148,6 +148,7 @@ public class BoardController {
         log.info("조회된 광고 5개={}", advertisementList);
         model.addAttribute("advertisementList", advertisementList);
 
+        //게시글 조회
         log.info("게시글 단건 조회 요청");
         BoardDto boardDto = boardService.findBoardById(id, session);
 

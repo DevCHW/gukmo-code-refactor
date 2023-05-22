@@ -1,8 +1,6 @@
 package com.devchw.gukmo.user.api;
 
 import com.devchw.gukmo.config.response.BaseResponse;
-import com.devchw.gukmo.config.response.BaseResponseStatus;
-import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.dto.api.comments.patch.UpdateRequest;
 import com.devchw.gukmo.user.dto.api.comments.post.CommentsPostRequest;

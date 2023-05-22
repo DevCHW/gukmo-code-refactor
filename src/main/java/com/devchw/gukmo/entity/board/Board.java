@@ -23,7 +23,6 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @DynamicInsert
 @Inheritance(strategy = InheritanceType.JOINED)
-@ToString
 public class Board {
 
     @Id @GeneratedValue
@@ -80,6 +79,11 @@ public class Board {
     /** 댓글 수 증가 */
     public void commentPlus() {
         commentCount++;
+    }
+
+    /** 삭제한 댓글 수 만큼 댓글 수 감소 */
+    public void commentMinus(Long count) {
+        commentCount -= count;
     }
 
     /** 조회 수 증가 */
