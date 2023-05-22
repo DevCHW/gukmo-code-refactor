@@ -5,10 +5,10 @@ import com.devchw.gukmo.entity.board.Academy;
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.Curriculum;
 import com.devchw.gukmo.entity.board.Notice;
-import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
 import com.devchw.gukmo.entity.hashtag.Hashtag;
 import com.devchw.gukmo.entity.login.Login;
+import com.devchw.gukmo.entity.member.AcademyMember;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.user.repository.MemberRepository;
 import com.devchw.gukmo.utils.DateUtil;
@@ -72,13 +72,21 @@ public class DBinit {
                     .userRole(Member.UserRole.MEMBER)
                     .build();
 
+            AcademyMember academyMember = AcademyMember.builder()
+                    .academyName("쌍용강북교육센터")
+                    .companyNum("214-85-29296")
+                    .tel("02-336-8546")
+                    .homepage("https://www.sist.co.kr/employment/gangbuk/index.jsp")
+                    .build();
+
             Member member2 = Member.builder()
                     .nickname("테스트회원2")
                     .username("테스트2")
                     .email("test@naver.com")
                     .emailAccept(Member.EmailAccept.YES)
+                    .academyMember(academyMember)
                     .login(loginMember2)
-                    .userRole(Member.UserRole.MEMBER)
+                    .userRole(Member.UserRole.ACADEMY)
                     .build();
 
             Member member3 = Member.builder()
@@ -94,6 +102,7 @@ public class DBinit {
             em.persist(loginMember2);
             em.persist(loginMember3);
             em.persist(member1);
+            em.persist(academyMember);
             em.persist(member2);
             em.persist(member3);
         }
@@ -145,7 +154,7 @@ public class DBinit {
             }//end of for--
 
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(5L).get();
+                Member member = memberRepository.findById(6L).get();
 
                 Board board = Board.builder()
                         .subject("테스트 글제목 취미모임"+i)
@@ -159,7 +168,7 @@ public class DBinit {
             }//end of for--
 
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(5L).get();
+                Member member = memberRepository.findById(6L).get();
 
                 Board board = Board.builder()
                         .subject("테스트 글제목 수강/취업후기"+i)
@@ -174,7 +183,7 @@ public class DBinit {
 
             //국비학원 데이터 넣기
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(5L).get();
+                Member member = memberRepository.findById(6L).get();
                 Academy academy = Academy.builder()
                         .subject("테스트 글제목 국비학원"+i)
                         .content("테스트 글내용 국비학원"+i)
@@ -184,7 +193,7 @@ public class DBinit {
                         .representativeName("최현우")
                         .address("서울시 강북구 어쩌구")
                         .phone("01012345678")
-                        .academyImage("20230519205629298815662542800.jpg")
+                        .academyImage("쌍용강북교육센터.PNG")
                         .homepage("https://www.naver.com/")
                         .build();
                 em.persist(academy);
@@ -192,7 +201,7 @@ public class DBinit {
 
             // 교육과정 데이터 넣기
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(5L).get();
+                Member member = memberRepository.findById(6L).get();
                 Curriculum curriculum = Curriculum.builder()
                         .subject("테스트 글제목 교육과정"+i)
                         .content("테스트 글내용 교육과정"+i)
@@ -215,7 +224,7 @@ public class DBinit {
 
             // 공지사항 데이터 넣기
             for(int i=1; i<=100; i++) {
-                Member member = memberRepository.findById(5L).get();
+                Member member = memberRepository.findById(6L).get();
                 Notice notice = Notice.builder()
                         .subject("테스트 글제목 공지사항"+i)
                         .content("테스트 글내용 공지사항"+i)
@@ -231,7 +240,7 @@ public class DBinit {
          * 3. 테스트 해시태그가 있는 게시물 넣기
          */
         public void dbInit3() {
-            Member member = memberRepository.findById(5L).get();
+            Member member = memberRepository.findById(6L).get();
 
             Board board = Board.builder()
                     .subject("해시태그가 있는 글제목")

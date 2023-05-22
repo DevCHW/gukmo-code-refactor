@@ -1,6 +1,6 @@
 package com.devchw.gukmo.user.repository.custom;
 
-import com.devchw.gukmo.user.dto.board.get.*;
+import com.devchw.gukmo.user.dto.board.*;
 import com.devchw.gukmo.user.dto.member.ActivityDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

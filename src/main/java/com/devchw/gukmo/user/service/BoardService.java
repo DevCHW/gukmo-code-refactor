@@ -9,10 +9,10 @@ import com.devchw.gukmo.entity.hashtag.Hashtag;
 import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
-import com.devchw.gukmo.user.dto.board.post.AcademyFormDto;
-import com.devchw.gukmo.user.dto.board.get.BoardDto;
-import com.devchw.gukmo.user.dto.board.get.PrevAndNextBoardDto;
-import com.devchw.gukmo.user.dto.board.post.BoardFormDto;
+import com.devchw.gukmo.user.dto.board.AcademyFormDto;
+import com.devchw.gukmo.user.dto.board.BoardDto;
+import com.devchw.gukmo.user.dto.board.PrevAndNextBoardDto;
+import com.devchw.gukmo.user.dto.board.BoardFormDto;
 import com.devchw.gukmo.user.dto.comments.CommentsDto;
 import com.devchw.gukmo.user.dto.login.LoginMemberDto;
 import com.devchw.gukmo.user.dto.member.WriterDto;
@@ -211,5 +211,35 @@ public class BoardService {
                 if(savedHashtag == null || savedBoardHashtag == null) throw new BaseException(INTERNAL_SERVER_ERROR);
             }
         }
+    }
+
+    /** 국비학원 게시물 수정하기 */
+    @Transactional
+    public Long editAcademy(Long id, AcademyFormDto form) {
+        Academy academy = (Academy) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+
+        if(!form.getAcademyImage().isEmpty()) { // 사진 수정 요청시
+            fileManager.delete(form.getOriginAcademyImage());
+            // 새로운 학원 이미지 저장하기
+            String savedFileName = fileManager.save(form.getAcademyImage());
+            academy.changeAcademyInfo(form.getRepresentativeName(),
+                    form.getAddress(),
+                    form.getPhone(),
+                    form.getHomepage(),
+                    savedFileName,
+                    form.getSubject(),
+                    form.getContent());
+        } else {
+            academy.changeAcademyInfo(form.getRepresentativeName(),
+                    form.getAddress(),
+                    form.getPhone(),
+                    form.getHomepage(),
+                    form.getSubject(),
+                    form.getContent());
+        }
+
+        // 해시태그 수정 개발 해야함.
+
+        return academy.getId();
     }
 }

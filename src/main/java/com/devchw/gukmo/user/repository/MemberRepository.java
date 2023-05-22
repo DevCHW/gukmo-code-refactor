@@ -1,8 +1,10 @@
 package com.devchw.gukmo.user.repository;
 
+import com.devchw.gukmo.entity.member.AcademyMember;
 import com.devchw.gukmo.entity.member.Member;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -18,4 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findMemberById(Long id);
 
     Optional<Member> findByLoginId(Long id);
+
+    @EntityGraph(attributePaths = {"academyMember"})
+    Optional<Member> findAcademyMemberById(Long memberId);
 }

@@ -1,11 +1,10 @@
-package com.devchw.gukmo.user.dto.board.get;
+package com.devchw.gukmo.user.dto.board;
 
 import com.devchw.gukmo.user.dto.comments.CommentsDto;
 import com.devchw.gukmo.user.dto.member.WriterDto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data

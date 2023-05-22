@@ -1,4 +1,4 @@
-package com.devchw.gukmo.user.dto.board.get;
+package com.devchw.gukmo.user.dto.board;
 
 import com.devchw.gukmo.entity.board.Curriculum;
 import com.devchw.gukmo.utils.DateUtil;
@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
 @Builder

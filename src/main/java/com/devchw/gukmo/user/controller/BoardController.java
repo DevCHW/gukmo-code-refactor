@@ -1,14 +1,21 @@
 package com.devchw.gukmo.user.controller;
 
-import com.devchw.gukmo.config.response.BaseResponseStatus;
+import com.devchw.gukmo.config.SessionConst;
 import com.devchw.gukmo.entity.board.Academy;
+import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.Curriculum;
+import com.devchw.gukmo.entity.member.AcademyMember;
+import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.dto.MessageResponse;
-import com.devchw.gukmo.user.dto.board.get.*;
-import com.devchw.gukmo.user.dto.board.post.AcademyFormDto;
-import com.devchw.gukmo.user.dto.board.post.BoardFormDto;
+import com.devchw.gukmo.user.dto.board.*;
+import com.devchw.gukmo.user.dto.board.AcademyFormDto;
+import com.devchw.gukmo.user.dto.board.BoardFormDto;
+import com.devchw.gukmo.user.dto.login.LoginMemberDto;
+import com.devchw.gukmo.user.dto.member.AcademyMemberDto;
+import com.devchw.gukmo.user.repository.BoardHashtagRepository;
 import com.devchw.gukmo.user.repository.BoardRepository;
+import com.devchw.gukmo.user.repository.MemberRepository;
 import com.devchw.gukmo.user.service.BoardService;
 import com.devchw.gukmo.utils.PageBarUtil;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.devchw.gukmo.config.SessionConst.LOGIN_MEMBER;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_BOARD;
+import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_MEMBER;
 import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j
@@ -34,6 +43,8 @@ import static org.springframework.util.StringUtils.hasText;
 public class BoardController {
     private final BoardService boardService;
     private final BoardRepository boardRepository;
+    private final BoardHashtagRepository boardHashtagRepository;
+    private final MemberRepository memberRepository;
 
 
     /** 게시글 리스트 조회(페이징) */
@@ -140,7 +151,7 @@ public class BoardController {
     }
 
 
-    /** 커뮤니티 작성 폼 페이지 */
+    /** 커뮤니티 작성 폼 */
     @GetMapping("/community/new")
     public String boardForm(@ModelAttribute BoardFormDto form) {
         return "board/community/communityForm.tiles1";
@@ -164,7 +175,16 @@ public class BoardController {
 
     /** 국비학원 작성 폼 */
     @GetMapping("/academy/new")
-    public String academyForm(@ModelAttribute AcademyFormDto form, Model model) {
+    public String academyForm(HttpSession session, Model model) {
+        LoginMemberDto loginMemberDto = (LoginMemberDto) session.getAttribute(LOGIN_MEMBER);
+        if(loginMemberDto.getUserRole().equals(Member.UserRole.ACADEMY)) {
+            Long memberId = loginMemberDto.getId();
+            AcademyMember findAcademyMember = memberRepository.findAcademyMemberById(memberId).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER)).getAcademyMember();
+            AcademyMemberDto academyMember = new AcademyMemberDto().toDto(findAcademyMember);
+            log.info("조회한 데이터={}", academyMember);
+
+            model.addAttribute("academyMember", academyMember);
+        }
         return "board/academy/academyForm.tiles1";
     }
 
@@ -178,6 +198,53 @@ public class BoardController {
         MessageResponse messageResponse = MessageResponse.builder()
                 .loc("/boards/" + savedId)
                 .message("글작성 성공!")
+                .build();
+
+        model.addAttribute("messageResponse", messageResponse);
+        return "msg.tiles1";
+    }
+
+    /** 커뮤니티 수정 폼 */
+    @GetMapping("/edit/{id}")
+    public String communityEditForm(@PathVariable("id") Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+        log.info("수정할 게시물={}", board);
+        return "board/community/communityForm.tiles1";
+    }
+
+    /** 국비학원 수정 폼 */
+    @GetMapping("/academy/edit/{id}")
+    public String academyEditForm(@PathVariable("id") Long id, Model model) {
+        Academy findAcademy = (Academy) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+        List<String> tagNames = boardHashtagRepository.findTagNamesByBoardId(id);
+
+        AcademyEditFormResponse academy = new AcademyEditFormResponse().toDto(findAcademy, tagNames);
+
+        log.info("수정할 게시물={}", academy);
+        model.addAttribute("academy", academy);
+        return "board/academy/academyForm.tiles1";
+    }
+
+    /** 교육과정 수정 폼 */
+    @GetMapping("/academy/curriculum/{id}")
+    public String curriculumEditForm(@PathVariable("id") Long id) {
+        Curriculum curriculum = (Curriculum) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+        log.info("수정할 게시물={}", curriculum);
+        return "board/academy/academyForm.tiles1";
+    }
+
+
+    /** 국비학원 수정 */
+    @PostMapping("/academy/edit/{id}")
+    public String academyEdit(@PathVariable("id") Long id,
+                              @ModelAttribute AcademyFormDto form,
+                              Model model) {
+        log.info("AcademyFormDto={}", form);
+        //글 저장
+        Long savedId = boardService.editAcademy(id, form);
+        MessageResponse messageResponse = MessageResponse.builder()
+                .loc("/boards/" + savedId)
+                .message("게시글 수정이 완료되었습니다!")
                 .build();
 
         model.addAttribute("messageResponse", messageResponse);

@@ -21,11 +21,11 @@ public class AcademyMember {
     @Column(name = "academy_member_id")
     private Long id;
 
-    private String academy_name;    //교육기관명
+    private String academyName;    //교육기관명
 
-    private String company_num; //사업자등록번호
+    private String companyNum; //사업자등록번호
 
-    private int tel;    //전화번호
+    private String tel;    //전화번호
 
     private String homepage;    //홈페이지url
 }

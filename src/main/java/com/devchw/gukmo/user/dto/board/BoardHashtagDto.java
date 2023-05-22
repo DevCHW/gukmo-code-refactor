@@ -1,4 +1,4 @@
-package com.devchw.gukmo.user.dto.board.get;
+package com.devchw.gukmo.user.dto.board;
 
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
 import lombok.Builder;

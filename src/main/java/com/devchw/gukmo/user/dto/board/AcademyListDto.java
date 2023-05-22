@@ -1,6 +1,5 @@
-package com.devchw.gukmo.user.dto.board.get;
+package com.devchw.gukmo.user.dto.board;
 
-import com.devchw.gukmo.entity.board.Notice;
 import com.devchw.gukmo.utils.DateUtil;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
@@ -8,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class NoticeListDto {
+public class AcademyListDto {
     private Long id;     	        //게시글번호
     private String nickname;        //작성자닉네임
     private String firstCategory;   //첫번째 카테고리
@@ -21,16 +20,30 @@ public class NoticeListDto {
     private Long writerPoint; 	    //작성자 활동점수
     private Long commentCount;		//댓글수
     private Long likeCount;         //좋아요 수
-    private Notice.MustRead mustRead;        //필독 여부
+    private String representativeName; //대표자 이름
+    private String address; //주소
+    private String phone; //전화번호
+    private String homepage;     //홈페이지URL
+    private String academyImage;    //학원 이미지
 
     @QueryProjection
-    public NoticeListDto(Long id, String nickname, String firstCategory,
-                         String secondCategory, String subject,
-                         String content, LocalDateTime writeDate, Long views,
-                         String profileImage, Long writerPoint,
-                         Long commentCount,
-                         Long likeCount,
-                         Notice.MustRead mustRead) {
+    public AcademyListDto(Long id,
+                          String nickname,
+                          String firstCategory,
+                          String secondCategory,
+                          String subject,
+                          String content,
+                          LocalDateTime writeDate,
+                          Long views,
+                          String profileImage,
+                          Long writerPoint,
+                          Long commentCount,
+                          Long likeCount,
+                          String representativeName,
+                          String address,
+                          String phone,
+                          String homepage,
+                          String academyImage) {
         this.id = id;
         this.nickname = nickname;
         this.firstCategory = firstCategory;
@@ -43,7 +56,10 @@ public class NoticeListDto {
         this.writerPoint = writerPoint;
         this.commentCount = commentCount;
         this.likeCount = likeCount;
-        this.mustRead = mustRead;
+        this.representativeName = representativeName;
+        this.address = address;
+        this.phone = phone;
+        this.homepage = homepage;
+        this.academyImage = academyImage;
     }
-
 }

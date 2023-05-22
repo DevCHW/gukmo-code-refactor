@@ -2,12 +2,8 @@ package com.devchw.gukmo.user.repository;
 
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.Curriculum;
-import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
-import com.devchw.gukmo.user.dto.board.get.NoticeListDto;
-import com.devchw.gukmo.user.dto.board.get.PrevAndNextBoardDto;
+import com.devchw.gukmo.user.dto.board.PrevAndNextBoardDto;
 import com.devchw.gukmo.user.repository.custom.BoardRepositoryCustom;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package com.devchw.gukmo.user.dto.board.get;
+package com.devchw.gukmo.user.dto.board;
 
 import com.devchw.gukmo.utils.DateUtil;
 import com.querydsl.core.annotations.QueryProjection;

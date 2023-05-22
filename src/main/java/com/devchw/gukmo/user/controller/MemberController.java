@@ -3,8 +3,6 @@ package com.devchw.gukmo.user.controller;
 import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
-import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
-import com.devchw.gukmo.user.dto.board.get.CommunityListDto;
 import com.devchw.gukmo.user.dto.member.ActivityDto;
 import com.devchw.gukmo.user.dto.member.ActivityDto.WriterNicknameDto;
 import com.devchw.gukmo.user.dto.member.MyPageDto;

@@ -1,4 +1,4 @@
-package com.devchw.gukmo.user.dto.board.get;
+package com.devchw.gukmo.user.dto.board;
 
 import com.devchw.gukmo.entity.board.Curriculum;
 import com.devchw.gukmo.utils.DateUtil;

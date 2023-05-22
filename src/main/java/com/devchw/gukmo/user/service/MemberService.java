@@ -48,6 +48,7 @@ public class MemberService {
         //기존 저장되어있는 프로필이미지가 기본이미지가 아니라면 기존 이미지파일 삭제.
         Member loginMember = memberRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         String originProfileImage = loginMember.getProfileImage();
+
         if(!originProfileImage.equals("user.PNG")) {
             fileManager.delete(originProfileImage);
         }

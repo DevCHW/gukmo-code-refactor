@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static com.devchw.gukmo.entity.member.Member.*;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class LoginMemberDto {
 
     private String profileImage;    //프로필이미지
 
-    private Member.UserRole userRole; //권한
+    private UserRole userRole; //권한
     
     private String nickname;    //닉네임
     

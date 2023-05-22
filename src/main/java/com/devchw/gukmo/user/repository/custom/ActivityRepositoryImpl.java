@@ -1,26 +1,17 @@
 package com.devchw.gukmo.user.repository.custom;
 
 import com.devchw.gukmo.entity.member.Activity;
-import com.devchw.gukmo.entity.member.QActivity;
-import com.devchw.gukmo.entity.member.QMember;
-import com.devchw.gukmo.user.dto.board.get.BoardRequestDto;
-import com.devchw.gukmo.user.dto.board.get.CommunityListDto;
-import com.devchw.gukmo.user.dto.board.get.QAcademyListDto;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.devchw.gukmo.entity.board.QAcademy.academy;
 import static com.devchw.gukmo.entity.board.QBoard.board;
 import static com.devchw.gukmo.entity.member.QActivity.activity;
-import static com.devchw.gukmo.entity.member.QMember.*;
 import static com.devchw.gukmo.entity.member.QMember.member;
 
 @Slf4j

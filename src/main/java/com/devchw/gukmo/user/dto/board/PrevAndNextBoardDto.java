@@ -1,4 +1,4 @@
-package com.devchw.gukmo.user.dto.board.get;
+package com.devchw.gukmo.user.dto.board;
 
 public interface PrevAndNextBoardDto {
     Long getPreviousId();    //이전글번호

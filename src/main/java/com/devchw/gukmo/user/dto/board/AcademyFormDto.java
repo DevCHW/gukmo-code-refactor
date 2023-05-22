@@ -1,4 +1,4 @@
-package com.devchw.gukmo.user.dto.board.post;
+package com.devchw.gukmo.user.dto.board;
 
 import com.devchw.gukmo.entity.board.Academy;
 import com.devchw.gukmo.entity.member.Member;
@@ -22,6 +22,7 @@ public class AcademyFormDto {
     private String address;
     private String representativeName;
     private String phone;
+    private String originAcademyImage;
     private MultipartFile academyImage;
     private String homepage;
 

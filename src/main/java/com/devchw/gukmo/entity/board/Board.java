@@ -23,6 +23,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @DynamicInsert
 @Inheritance(strategy = InheritanceType.JOINED)
+@ToString
 public class Board {
 
     @Id @GeneratedValue
@@ -84,5 +85,11 @@ public class Board {
     /** 조회 수 증가 */
     public void views() {
         views++;
+    }
+
+    /** 글 수정 */
+    public void changeBoardInfo(String subject, String content) {
+        this.subject = subject;
+        this.content = content;
     }
 }
