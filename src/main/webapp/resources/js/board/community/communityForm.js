@@ -360,7 +360,7 @@ function frm_check(){
     });
 
     values = values.slice(0, -1);
-    $("#hashtags").val(values);
+    $("input#hashtags").val(values);
 
     // ==== 스마트 에디터 구현 시작 ==== //
     // id가 content인 textarea에 에디터에서 대입

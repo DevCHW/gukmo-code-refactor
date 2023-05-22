@@ -4,6 +4,7 @@
 	String ctxPath = request.getContextPath();
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/board/community/communityList.css" />
@@ -59,9 +60,16 @@
     <div class="border-top px-2 py-2">
       <div class="d-flex align-items-center my-2">
         <%-- 작성자 프로필사진 --%>
-        <a href="#" class="writer_image_box border">
-          <img src="<%=ctxPath %>/resources/images/${board.profileImage}"/>
-        </a>
+        <c:if test="${fn:substring(board.profileImage,0,4) != 'http'}">
+          <a href="#" class="writer_image_box border">
+          <img src="<%=ctxPath%>/resources/images/${board.profileImage}"/>
+          </a>
+        </c:if>
+        <c:if test="${fn:substring(board.profileImage,0,4) == 'http'}">
+           <a href="#" class="writer_image_box border">
+           <img src="${board.profileImage}"/>
+           </a>
+        </c:if>
 
         <%-- 작성자 닉네임 --%>
         <%-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. --%>
@@ -126,13 +134,18 @@
       </div>
     </div>
     </c:forEach>
-
     <%-- 게시글 반복문 끝 --%>
+
+    <%-- 게시글이 없다면 --%>
+    <c:if test="${fn:length(boards) == 0}">
+      <div class="d-flex justify-content-center align-items-center border-top" style="height:300px;">
+        <div style="font-size:25px; font-weight:bold;">게시물이 없습니다.</div>
+      </div>
+    </c:if>
 
     <%----------------------------------- 게시판 리스트 끝 -------------------------------------%>
 
     <div class="d-flex border-top pt-3 justify-content-between">
-
       <div id="total_cnt">
         <%-- 총 건수 변수 들어갈 곳--%>
         총&nbsp;<span style="font-weight:bold;">${total}&nbsp;</span>건
@@ -149,5 +162,4 @@
       ${pageBar}
     </nav>
 	<%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
-
   </div>

@@ -59,4 +59,8 @@ public class CurriculumListDto {
         this.recruitmentPeriod = recruitmentPeriod;
         this.curriculumPeriod = curriculumPeriod;
     }
+
+    public int getDday() {
+        return Integer.parseInt(DateUtil.getDaysFromNow(recruitmentEndDate));
+    }
 }

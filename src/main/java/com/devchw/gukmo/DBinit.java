@@ -183,7 +183,8 @@ public class DBinit {
                         .member(member)
                         .representativeName("최현우")
                         .address("서울시 강북구 어쩌구")
-                        .academyImage("임시이미지")
+                        .phone("01012345678")
+                        .academyImage("20230519205629298815662542800.jpg")
                         .homepage("https://www.naver.com/")
                         .build();
                 em.persist(academy);
@@ -196,7 +197,7 @@ public class DBinit {
                         .subject("테스트 글제목 교육과정"+i)
                         .content("테스트 글내용 교육과정"+i)
                         .firstCategory("국비학원")
-                        .secondCategory("국비학원")
+                        .secondCategory("교육과정")
                         .member(member)
                         .coreTechnology("Java")
                         .academyName("쌍용강북교육센터"+i)
@@ -274,7 +275,7 @@ public class DBinit {
                         .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
                         .startDate(DateUtil.StringToLocalDateTimeConverter("2023-01-01"))
                         .endDate(DateUtil.StringToLocalDateTimeConverter("2025-12-31"))
-                        .fileName("main/fake_main_banner0"+i+".png")
+                        .fileName("fake_main_banner0"+i+".png")
                         .build();
                 em.persist(advertisement);
             }

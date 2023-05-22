@@ -1,5 +1,7 @@
 package com.devchw.gukmo.utils;
 
+import com.devchw.gukmo.config.response.BaseResponseStatus;
+import com.devchw.gukmo.exception.BaseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+
+import static com.devchw.gukmo.config.response.BaseResponseStatus.INTERNAL_SERVER_ERROR;
 
 @Component
 public class FileManager {
@@ -25,12 +29,16 @@ public class FileManager {
      * 파일 저장하기
      * 저장된 프로필이미지명 반환
      */
-    public String save(MultipartFile multipartFile) throws IOException {
+    public String save(MultipartFile multipartFile) {
         if (multipartFile.isEmpty()) {
             return null;
         }
         String fileName = createFileName(multipartFile);
-        multipartFile.transferTo(new File(getFullPath(fileName)));
+        try {
+            multipartFile.transferTo(new File(getFullPath(fileName)));
+        } catch (IOException e) {
+            throw new BaseException(INTERNAL_SERVER_ERROR);
+        }
         return fileName;
     }
 

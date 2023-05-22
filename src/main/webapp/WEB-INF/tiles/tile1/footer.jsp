@@ -35,12 +35,12 @@
 
         <div class="col-lg col-xl mx-auto pt-3">
           <p>
-            <a href="#!" class="text-reset">회사소개</a>
+            <a href="https://github.com/DevCHW/gukmo-code-refactor" class="text-reset">회사소개</a>
           </p>
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
           <p>
-            <a href="/notices.do" class="text-reset">공지사항</a>
+            <a href="/boards?firstCategory=공지사항" class="text-reset">공지사항</a>
           </p>
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
@@ -60,7 +60,7 @@
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
           <p>
-            <a href="/resources/TOS/TOStext.html" class="text-reset">서비스 이용약관</a>
+            <a href="#" class="text-reset">서비스 이용약관</a>
           </p>
         </div>
         <!-- Grid column -->
@@ -72,11 +72,11 @@
 
   <div class="text-center" >
     <p style="margin:0;">상호명: (주)국모 | 사업자등록번호 : 123-45-67890 |   문의 :
-      <a
-        href="mailto:info@okky.kr"
-        class="text-gray-700 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-200"
-        >info@gukmo.kr</a
-      ></p>
+      <a href="mailto:ggoma003@naver.com"
+         class="text-gray-700 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-200">
+         ggoma003@naver.com
+        </a>
+    </p>
     <p>
       통신판매업신고번호 : 제 2022-서울마포-123호
     </p>

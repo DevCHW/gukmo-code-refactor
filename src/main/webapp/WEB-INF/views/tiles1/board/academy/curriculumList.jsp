@@ -44,7 +44,7 @@
         <div id="mask"></div>
         <div id="sort" class="d-flex border rounded justify-content-center align-items-center">
           <i class="fa-solid fa-arrow-down-short-wide"></i>
-          <span id=current_sort>${requestScope.sort}</span>
+          <span id=current_sort>${boardRequest.sort}</span>
           <div id="sort_option" class="border rounded px-3 py-2">
             <span>최신순</span>
             <span>추천순</span>
@@ -57,8 +57,7 @@
     <%-- 필터 끝 --%>
 
 
-
-    	 <%------------------------------------- 필독 공지사항 리스트 시작 -------------------------------------%>
+     <%------------------------------------- 필독 공지사항 리스트 시작 -------------------------------------%>
 	 <c:forEach var="notice" items="${requestScope.mustReadNotice}">
      <%-- 이 div가 반복문 시작 --%>
       <div class="border-top px-2 py-2" style="background-color:#F0F6FA;">
@@ -133,34 +132,39 @@
 	 <%------------------------------------- 필독 공지사항 리스트 끝 -------------------------------------%>
 
 
-
     <%------------------------------------- 게시판 리스트 시작 -------------------------------------%>
-
     <%-- 게시글 반복문 시작 --%>
-    <c:forEach var="boardvo" items="${requestScope.curriculumList}">
+    <c:forEach var="board" items="${boards}">
 
     <div class="border-top px-2 py-2">
       <div class="d-flex align-items-center my-2">
         <%-- 작성자 프로필사진 --%>
-        <a href="#" class="writer_image_box border">
-          <img src="<%=ctxPath %>/resources/images/${boardvo.profile_image}"/>
-        </a>
+        <c:if test="${fn:substring(board.profileImage,0,4) != 'http'}">
+          <a href="#" class="writer_image_box border">
+          <img src="<%=ctxPath%>/resources/images/${board.profileImage}"/>
+          </a>
+        </c:if>
+        <c:if test="${fn:substring(board.profileImage,0,4) == 'http'}">
+           <a href="#" class="writer_image_box border">
+           <img src="${board.profileImage}"/>
+           </a>
+        </c:if>
 
         <%-- 작성자 닉네임 --%>
         <%-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. --%>
         <a href="#" class="writer_nickname ml-2">
-         	 ${boardvo.nickname }
+         	 ${board.nickname}
         </a>
 
         <%-- 작성자 활동점수 --%>
         <div class="writer_point ml-2">
           <i class="fa-solid fa-bolt"></i>
-          <span>${boardvo.writer_point}</span>
+          <span>${board.writerPoint}</span>
         </div>
 
         <%-- 작성일자 --%>
         <div class="write_date ml-2">
-          ${boardvo.write_date}
+          ${board.writeDate}
         </div>
       </div>
 
@@ -170,14 +174,14 @@
 	  --%>
 
       <%-- 교육과정명 --%>
-      <a href="<%=ctxPath %>/detail.do?boardNum=${boardvo.board_num} " class="subject align-items-center my-2">
-        [${boardvo.curriculum.academy_name}]&nbsp;&nbsp;${boardvo.subject}
+      <a href="<%=ctxPath %>/boards/${board.id}" class="subject align-items-center my-2">
+        [${board.academyName}]&nbsp;&nbsp;${board.subject}
       </a>
-      <c:if test="${boardvo.dday < 10}">
-      	<span class="ml-2 text-danger" style="font-size:17px; font-weight:bold;">[D-${boardvo.dday}] 마감임박!</span>
+      <c:if test="${board.dday < 10}">
+      	<span class="ml-2 text-danger" style="font-size:17px; font-weight:bold;">[D-${board.dday}] 마감임박!</span>
       </c:if>
-      <c:if test="${boardvo.dday >= 10}">
-      	<span class="ml-2 text-info" style="font-size:17px; font-weight:bold;">[D-${boardvo.dday}]</span>
+      <c:if test="${board.dday >= 10}">
+      	<span class="ml-2 text-info" style="font-size:17px; font-weight:bold;">[D-${board.dday}]</span>
       </c:if>
 
 
@@ -185,15 +189,15 @@
       <div class="d-flex my-2">
         <%-- 교육과정 기간 --%>
 	    <span class="period mr-2">
-	             교육기간&nbsp;:&nbsp;${boardvo.curriculum.curriculum_start_date}<span>&nbsp;~&nbsp;</span>${boardvo.curriculum.curriculum_end_date}
+	             교육기간&nbsp;:&nbsp;${board.curriculumStartDate}<span>&nbsp;~&nbsp;</span>${board.curriculumEndDate}
 	    </span>
         <%-- 핵심기술 --%>
-	    <span class="core_technology">핵심기술&nbsp;:&nbsp;${boardvo.curriculum.core_technology}</span>
+	    <span class="core_technology">핵심기술&nbsp;:&nbsp;${board.coreTechnology}</span>
       </div>
 
       <%-- 모집인원 --%>
 	  <div class="core_technology">
-	         모집인원&nbsp;:&nbsp;${boardvo.curriculum.cnt_recruits}명
+	         모집인원&nbsp;:&nbsp;${board.recruitsCount}명
 	  </div>
 
 
@@ -201,15 +205,16 @@
         <div class="d-flex align-items-center">
           <%-- 게시판상세카테고리 클릭하면 해당 게시판으로 이동하게 하세요 변수 말고 아예 값 박아도 됨--%>
           <div class="detail_category border rounded px-2 py-1" onclick="location.href='<%=ctxPath %>/academy/curricula.do'">
-          	  ${boardvo.detail_category}
+          	  ${board.secondCategory}
           </div>
           <div class="hashtag ml-1">
-            <%-- 해시태그 리스트 들어갈 곳--%>
-            <%-- 해시태그리스트 반복문시작 --%>
-            <c:forEach var="hashtag" items="${boardvo.hashtags}">
-            <a href="/board/main_search.do?searchWord=${hashtag.hashtag}" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+            <%-- 해시태그리스트 시작 --%>
+            <c:forEach var="hashtag" items="${hashtags}">
+                <c:if test="${board.id == hashtag.boardId}">
+                <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+                </c:if>
             </c:forEach>
-            <%-- 해시태그리스트 반복문 끝--%>
+            <%-- 해시태그리스트 끝 --%>
           </div>
         </div>
 
@@ -218,19 +223,19 @@
           <%-- 조회수 --%>
           <div>
             <i class="fa-solid fa-eye"></i>
-            <span>${boardvo.views}</span>
+            <span>${board.views}</span>
           </div>
 
           <%-- 댓글수 --%>
           <div class="ml-2">
             <i class="fa-solid fa-comment-dots"></i>
-            <span>${boardvo.comment_cnt}</span>
+            <span>${board.commentCount}</span>
           </div>
 
           <%-- 추천수 --%>
           <div class="ml-2">
             <i class="fa-solid fa-heart"></i>
-            <span>${boardvo.like_cnt}</span>
+            <span>${board.likeCount}</span>
           </div>
         </div>
       </div>
@@ -242,7 +247,7 @@
 
 
     <%-- 게시글이 없다면 --%>
-    <c:if test="${fn:length(requestScope.curriculumList) == 0}">
+    <c:if test="${fn:length(boards) == 0}">
       <div class="d-flex justify-content-center align-items-center border-top" style="height:300px;">
       	<div style="font-size:25px; font-weight:bold;">게시물이 없습니다.</div>
       </div>
@@ -255,9 +260,9 @@
     <div class="d-flex border-top pt-3 justify-content-between">
 
 	  <%-- 총 건수 변수 들어갈 곳 --%>
-      <div id="total_cnt">총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건</div>
+      <div id="total_cnt">총&nbsp;<span style="font-weight:bold;">${total}&nbsp;</span>건</div>
 
-	  <c:if test="${not empty sessionScope.user.academy_name || sessionScope.user.authority == '관리자'}">
+	  <c:if test="${loginMember.userRole == 'ACADEMY' || loginMember.userRole == 'ADMIN'}">
         <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/academy/curriculum/new.do'">
           <i class="fa-sharp fa-solid fa-plus"></i><span>교육과정&nbsp;등록</span>
         </button>
@@ -265,12 +270,9 @@
     </div>
 
 
-
-
     <%----------------------------------------------------------- 페이지 바 시작 ---------------------------------------------%>
     <nav aria-label="...">
-      ${requestScope.pageBar}
+      ${pageBar}
     </nav>
 	<%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
-
   </div>

@@ -44,7 +44,7 @@ public class MemberService {
 
     /** 프로필이미지, 닉네임, 회원명, 이메일 수신동의여부 수정 */
     @Transactional
-    public void changeInfo(Long id, UpdateInfoRequest request) throws IOException {
+    public void changeInfo(Long id, UpdateInfoRequest request) {
         //기존 저장되어있는 프로필이미지가 기본이미지가 아니라면 기존 이미지파일 삭제.
         Member loginMember = memberRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         String originProfileImage = loginMember.getProfileImage();

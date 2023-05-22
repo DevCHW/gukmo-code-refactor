@@ -1,6 +1,7 @@
 package com.devchw.gukmo.user.service;
 
 import com.devchw.gukmo.config.SessionConst;
+import com.devchw.gukmo.entity.board.Academy;
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
@@ -8,15 +9,16 @@ import com.devchw.gukmo.entity.hashtag.Hashtag;
 import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
+import com.devchw.gukmo.user.dto.board.post.AcademyFormDto;
 import com.devchw.gukmo.user.dto.board.get.BoardDto;
 import com.devchw.gukmo.user.dto.board.get.PrevAndNextBoardDto;
 import com.devchw.gukmo.user.dto.board.post.BoardFormDto;
 import com.devchw.gukmo.user.dto.comments.CommentsDto;
 import com.devchw.gukmo.user.dto.login.LoginMemberDto;
-import com.devchw.gukmo.user.dto.member.ActivityDto;
 import com.devchw.gukmo.user.dto.member.WriterDto;
 import com.devchw.gukmo.user.repository.*;
 import com.devchw.gukmo.utils.DateUtil;
+import com.devchw.gukmo.utils.FileManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,7 @@ public class BoardService {
     private final CommentsLikeRepository commentsLikeRepository;
     private final BoardLikeRepository boardLikeRepository;
     private final ActivityRepository activityRepository;
+    private final FileManager fileManager;
 
     /** 게시글 번호에 맞는 해시태그 리스트 조회 */
     public List<BoardHashtag> findBoardHashtagByBoardId(List<Long> boardIds) {
@@ -53,9 +56,9 @@ public class BoardService {
         return boardHashtagRepository.findBoardHashtagByBoardIdList(boardIds);
     }
 
-    /** 게시글 작성 */
+    /** 커뮤니티 게시글 작성 */
     @Transactional
-    public Long save(BoardFormDto form) {
+    public Long saveCommunity(BoardFormDto form) {
         Member writerMember = memberRepository.findById(form.getMemberId()).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         Board savedBoard = form.toEntity(writerMember);
         Long savedBoardId = boardRepository.save(savedBoard).getId();
@@ -72,20 +75,8 @@ public class BoardService {
 
         Activity save = activityRepository.save(activity);
 
-        //해시태그가 있다면 해시태그 저장하기
-        if(hasText(form.getHashtags())) {
-            List<String> tagNames = Arrays.asList(form.getHashtags().split(","));
-            for (String tagName : tagNames) {
-                Hashtag savedHashtag = hashtagRepository.save(Hashtag.builder()
-                        .tagName(tagName)
-                        .build());
-                BoardHashtag savedBoardHashtag = boardHashtagRepository.save(BoardHashtag.builder()
-                        .board(savedBoard)
-                        .hashtag(savedHashtag)
-                        .build());
-                if(savedHashtag == null || savedBoardHashtag == null) throw new BaseException(INTERNAL_SERVER_ERROR);
-            }
-        }
+        //해시태그 저장
+        saveHashtag(form.getHashtags(), savedBoard);
 
         return savedBoardId;
     }
@@ -186,5 +177,39 @@ public class BoardService {
      */
     public List<WriterNicknameDto> findAllWriterNicknamesByBoardId(List<Long> boardIds) {
         return boardRepository.findAllWriterNicknamesByBoardId(boardIds);
+    }
+
+    /** 국비학원 게시글 작성 */
+    @Transactional
+    public Long saveAcademy(AcademyFormDto form) {
+        // 학원 이미지 파일 저장하기.
+        String savedFileName = fileManager.save(form.getAcademyImage());
+
+        Member writerMember = memberRepository.findById(form.getMemberId()).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+        Academy saveAcademy = form.toEntity(writerMember, savedFileName);
+        Board savedBoard = boardRepository.save(saveAcademy);
+
+        saveHashtag(form.getHashtags(), savedBoard);
+        return savedBoard.getId();
+    }
+
+
+    /** 해시태그 저장하기 */
+    @Transactional
+    private void saveHashtag(String hashtags, Board savedBoard) {
+        //해시태그가 있다면 해시태그 저장하기
+        if(hasText(hashtags)) {
+            List<String> tagNames = Arrays.asList(hashtags.split(","));
+            for (String tagName : tagNames) {
+                Hashtag savedHashtag = hashtagRepository.save(Hashtag.builder()
+                        .tagName(tagName)
+                        .build());
+                BoardHashtag savedBoardHashtag = boardHashtagRepository.save(BoardHashtag.builder()
+                        .board(savedBoard)
+                        .hashtag(savedHashtag)
+                        .build());
+                if(savedHashtag == null || savedBoardHashtag == null) throw new BaseException(INTERNAL_SERVER_ERROR);
+            }
+        }
     }
 }

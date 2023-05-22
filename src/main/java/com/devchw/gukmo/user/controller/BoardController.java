@@ -1,7 +1,12 @@
 package com.devchw.gukmo.user.controller;
 
+import com.devchw.gukmo.config.response.BaseResponseStatus;
+import com.devchw.gukmo.entity.board.Academy;
+import com.devchw.gukmo.entity.board.Curriculum;
+import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.dto.MessageResponse;
 import com.devchw.gukmo.user.dto.board.get.*;
+import com.devchw.gukmo.user.dto.board.post.AcademyFormDto;
 import com.devchw.gukmo.user.dto.board.post.BoardFormDto;
 import com.devchw.gukmo.user.repository.BoardRepository;
 import com.devchw.gukmo.user.service.BoardService;
@@ -19,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_BOARD;
 import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j
@@ -119,6 +125,16 @@ public class BoardController {
         log.info("게시글 단건 조회 요청");
         BoardDto boardDto = boardService.findBoardById(id, session);
 
+        if(boardDto.getSecondCategory().equals("국비학원")) {
+            Academy findAcademy = (Academy) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+            AcademyDto academy = new AcademyDto().toDto(findAcademy);
+            model.addAttribute("academy", academy);
+        } else if(boardDto.getSecondCategory().equals("교육과정")) {
+            Curriculum findCurriculum = (Curriculum) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+            CurriculumDto curriculum = new CurriculumDto().toDto(findCurriculum);
+            model.addAttribute("curriculum", curriculum);
+        }
+
         model.addAttribute("board", boardDto);
         return "board/boardDetail.tiles1";
     }
@@ -126,17 +142,39 @@ public class BoardController {
 
     /** 커뮤니티 작성 폼 페이지 */
     @GetMapping("/community/new")
-    public String boardForm() {
+    public String boardForm(@ModelAttribute BoardFormDto form) {
         return "board/community/communityForm.tiles1";
     }
 
 
     /** 커뮤니티 글작성 */
     @PostMapping("/community/new")
-    public String boardForm(@ModelAttribute BoardFormDto form, Model model) {
+    public String communityNew(@ModelAttribute BoardFormDto form, Model model) {
         //글 저장
-        Long savedId = boardService.save(form);
+        Long savedId = boardService.saveCommunity(form);
 
+        MessageResponse messageResponse = MessageResponse.builder()
+                .loc("/boards/" + savedId)
+                .message("글작성 성공!")
+                .build();
+
+        model.addAttribute("messageResponse", messageResponse);
+        return "msg.tiles1";
+    }
+
+    /** 국비학원 작성 폼 */
+    @GetMapping("/academy/new")
+    public String academyForm(@ModelAttribute AcademyFormDto form, Model model) {
+        return "board/academy/academyForm.tiles1";
+    }
+
+    /** 국비학원 작성 */
+    @PostMapping("/academy/new")
+    public String academyNew(@ModelAttribute AcademyFormDto form, Model model) {
+        log.info("AcademyFormDto={}", form);
+
+        //글 저장
+        Long savedId = boardService.saveAcademy(form);
         MessageResponse messageResponse = MessageResponse.builder()
                 .loc("/boards/" + savedId)
                 .message("글작성 성공!")

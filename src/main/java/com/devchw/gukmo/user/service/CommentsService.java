@@ -60,6 +60,9 @@ public class CommentsService {
         Board board = boardRepository.findById(request.getBoardId()).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
         Member member = memberRepository.findById(request.getMemberId()).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
 
+        //댓글갯수 증가
+        board.commentPlus();
+
         //활동점수 올려주기
         member.pointPlus(10);
 

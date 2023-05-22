@@ -115,19 +115,19 @@
         <c:if test="${loginMember.nickname == board.writer.nickname && loginMember.userRole == 'ADMIN'}">
           <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
             <div id="update_or_delete" class="border rounded px-3 py-2">
-              <c:if test="${board.category == '커뮤니티'}">
+              <c:if test="${board.secondCategory == '커뮤니티'}">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
-             <c:if test="${board.detail_category == '국비학원'}">
+             <c:if test="${board.secondCategory == '국비학원'}">
               <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
-             <c:if test="${board.detail_category == '교육과정'}">
+             <c:if test="${board.secondCategory == '교육과정'}">
               <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
-             <c:if test="${board.category == '공지사항'}">
+             <c:if test="${board.secondCategory == '공지사항'}">
               <span onclick="location.href='<%=ctxPath %>/admin/notice/edit.do?boardNum=${board.id}'">수정하기</span>
              </c:if>
 
@@ -139,13 +139,13 @@
         <c:if test="${loginMember.nickname != board.writer.nickname && loginMember.userRole == 'ADMIN'}">
           <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
             <div id="update_or_delete" class="border rounded px-3 py-2">
-            <c:if test="${requestScope.board.category == '공지사항'}">
+            <c:if test="${requestScope.board.secondCategory == '공지사항'}">
               <span onclick="location.href='<%=ctxPath %>/admin/notice/edit.do?boardNum=${board.id}'">수정하기</span>
             </c:if>
-            <c:if test="${requestScope.board.category == '교육과정'}">
+            <c:if test="${requestScope.board.secondCategory == '교육과정'}">
               <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.id}'">수정하기</span>
             </c:if>
-            <c:if test="${requestScope.board.category == '국비학원'}">
+            <c:if test="${requestScope.board.secondCategory == '국비학원'}">
               <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.id}'">수정하기</span>
             </c:if>
               <span id="board_delete" onclick="del_board(${board.id})">삭제하기</span>
@@ -165,7 +165,7 @@
       </div>
 
 
-	<c:if test="${not empty boards.academy}">
+	<c:if test="${board.secondCategory == '국비학원'}">
 		<%-------------------- academyDetail 호출 시작----------------------%>
 		<%-- academyDetail 호출 --%>
 		<jsp:include page="/WEB-INF/views/tiles1/board/academy/academyDetail.jsp" />
@@ -173,7 +173,7 @@
 	</c:if>
 
 
-	<c:if test="${not empty boards.curriculum.academy_name}">
+	<c:if test="${board.secondCategory == '교육과정'}">
 		<%-------------------- curriculumDetail 호출 시작----------------------%>
 		<%-- curriculumDetail 호출 --%>
 		<jsp:include page="/WEB-INF/views/tiles1/board/academy/curriculumDetail.jsp" />

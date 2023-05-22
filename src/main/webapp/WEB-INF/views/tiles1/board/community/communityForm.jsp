@@ -28,7 +28,7 @@
 	         value="<c:forEach var="hashtags" items="${requestScope.boardvo.hashtags}">${hashtags.hashtag}></c:forEach>"
 	         />
 	  <input type="hidden" id="hashtags" name="hashtags" value=""/>
-	  <input type="hidden" id="board_num" name="board_num" value="${requestScope.boardvo.board_num}"/>
+	  <input type="hidden" id="boardId" name="id" value="${requestScope.board.id}"/>
 
       <%-- category --%>
       <label for="secondCategory" class="community_label">구분</label>
