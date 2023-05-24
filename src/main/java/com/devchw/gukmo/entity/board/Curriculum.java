@@ -25,4 +25,27 @@ public class Curriculum extends Board {
     private String url;				                //신청URL
     private int recruitmentPeriod;		        //모집기간
     private int curriculumPeriod;		        //과정기간
+
+
+    /** 수정 메소드 */
+    public void changeCurriculumInfo(String coreTechnology,
+                                     String academyName,
+                                     LocalDateTime curriculumStartDate,
+                                     LocalDateTime curriculumEndDate,
+                                     LocalDateTime recruitmentStartDate,
+                                     LocalDateTime recruitmentEndDate,
+                                     int recruitsCount,
+                                     String url,
+                                     String content,
+                                     String subject) {
+        this.coreTechnology = coreTechnology;
+        this.academyName = academyName;
+        this.curriculumStartDate = curriculumStartDate;
+        this.curriculumEndDate = curriculumEndDate;
+        this.recruitmentStartDate = recruitmentStartDate;
+        this.recruitmentEndDate = recruitmentEndDate;
+        this.url = url;
+        this.recruitsCount = recruitsCount;
+        super.changeBoardInfo(subject, content);
+    }
 }

@@ -1,6 +1,5 @@
 package com.devchw.gukmo.user.controller;
 
-import com.devchw.gukmo.config.SessionConst;
 import com.devchw.gukmo.entity.advertisement.Advertisement;
 import com.devchw.gukmo.entity.board.Academy;
 import com.devchw.gukmo.entity.board.Board;
@@ -12,7 +11,7 @@ import com.devchw.gukmo.user.dto.MessageResponse;
 import com.devchw.gukmo.user.dto.advertisement.AdvertisementDto;
 import com.devchw.gukmo.user.dto.board.*;
 import com.devchw.gukmo.user.dto.board.AcademyFormDto;
-import com.devchw.gukmo.user.dto.board.BoardFormDto;
+import com.devchw.gukmo.user.dto.board.CommunityFormDto;
 import com.devchw.gukmo.user.dto.login.LoginMemberDto;
 import com.devchw.gukmo.user.dto.member.AcademyMemberDto;
 import com.devchw.gukmo.user.repository.BoardHashtagRepository;
@@ -39,7 +38,6 @@ import java.util.stream.Collectors;
 import static com.devchw.gukmo.config.SessionConst.LOGIN_MEMBER;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_BOARD;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_MEMBER;
-import static com.devchw.gukmo.entity.advertisement.Advertisement.*;
 import static com.devchw.gukmo.entity.advertisement.Advertisement.Type.*;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -166,28 +164,12 @@ public class BoardController {
         return "board/boardDetail.tiles1";
     }
 
-
     /** 커뮤니티 작성 폼 */
     @GetMapping("/community/new")
-    public String boardForm(@ModelAttribute BoardFormDto form) {
+    public String boardForm(@ModelAttribute CommunityFormDto form) {
         return "board/community/communityForm.tiles1";
     }
 
-
-    /** 커뮤니티 글작성 */
-    @PostMapping("/community/new")
-    public String communityNew(@ModelAttribute BoardFormDto form, Model model) {
-        //글 저장
-        Long savedId = boardService.saveCommunity(form);
-
-        MessageResponse messageResponse = MessageResponse.builder()
-                .loc("/boards/" + savedId)
-                .message("글작성 성공!")
-                .build();
-
-        model.addAttribute("messageResponse", messageResponse);
-        return "msg.tiles1";
-    }
 
     /** 국비학원 작성 폼 */
     @GetMapping("/academy/new")
@@ -204,7 +186,53 @@ public class BoardController {
         return "board/academy/academyForm.tiles1";
     }
 
+    /** 교육과정 작성 폼 */
+    @GetMapping("/academy/curriculum/new")
+    public String curriculumForm(HttpSession session, Model model) {
+        LoginMemberDto loginMemberDto = (LoginMemberDto) session.getAttribute(LOGIN_MEMBER);
+        if(loginMemberDto.getUserRole().equals(Member.UserRole.ACADEMY)) {
+            Long memberId = loginMemberDto.getId();
+            AcademyMember findAcademyMember = memberRepository.findAcademyMemberById(memberId).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER)).getAcademyMember();
+            AcademyMemberDto academyMember = new AcademyMemberDto().toDto(findAcademyMember);
+            log.info("조회한 데이터={}", academyMember);
+
+            model.addAttribute("academyMember", academyMember);
+        }
+        return "board/academy/curriculumForm.tiles1";
+    }
+
+    /** 커뮤니티 작성 */
+    @PostMapping("/community/new")
+    public String communityNew(@ModelAttribute CommunityFormDto form, Model model) {
+        //글 저장
+        Long savedId = boardService.saveCommunity(form);
+
+        MessageResponse messageResponse = MessageResponse.builder()
+                .loc("/boards/" + savedId)
+                .message("글작성 성공!")
+                .build();
+
+        model.addAttribute("messageResponse", messageResponse);
+        return "msg.tiles1";
+    }
+
     /** 국비학원 작성 */
+    @PostMapping("/academy/curriculum/new")
+    public String curriculumNew(@ModelAttribute CurriculumFormDto form, Model model) {
+        log.info("CurriculumFormDto={}", form);
+
+        //글 저장
+        Long savedId = boardService.saveCurriculum(form);
+        MessageResponse messageResponse = MessageResponse.builder()
+                .loc("/boards/" + savedId)
+                .message("글작성 성공!")
+                .build();
+
+        model.addAttribute("messageResponse", messageResponse);
+        return "msg.tiles1";
+    }
+
+    /** 교육과정 작성 */
     @PostMapping("/academy/new")
     public String academyNew(@ModelAttribute AcademyFormDto form, Model model) {
         log.info("AcademyFormDto={}", form);
@@ -221,10 +249,15 @@ public class BoardController {
     }
 
     /** 커뮤니티 수정 폼 */
-    @GetMapping("/edit/{id}")
-    public String communityEditForm(@PathVariable("id") Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
-        log.info("수정할 게시물={}", board);
+    @GetMapping("/community/edit/{id}")
+    public String communityEditForm(@PathVariable("id") Long id, Model model) {
+        Board findBoard = boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+        List<String> tagNames = boardHashtagRepository.findTagNamesByBoardId(id);
+        CommunityFormDto communityFormDto = new CommunityFormDto().toDto(findBoard);
+
+        log.info("communityEditForm={}", communityFormDto);
+        model.addAttribute("board", communityFormDto);
+        model.addAttribute("hashtags", tagNames);
         return "board/community/communityForm.tiles1";
     }
 
@@ -242,13 +275,33 @@ public class BoardController {
     }
 
     /** 교육과정 수정 폼 */
-    @GetMapping("/academy/curriculum/{id}")
-    public String curriculumEditForm(@PathVariable("id") Long id) {
-        Curriculum curriculum = (Curriculum) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+    @GetMapping("/academy/curriculum/edit/{id}")
+    public String curriculumEditForm(@PathVariable("id") Long id,
+                                     Model model) {
+        Curriculum findCurriculum = (Curriculum) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+        List<String> tagNames = boardHashtagRepository.findTagNamesByBoardId(id);
+        CurriculumFormDto curriculum = new CurriculumFormDto().toDto(findCurriculum);
         log.info("수정할 게시물={}", curriculum);
-        return "board/academy/academyForm.tiles1";
+        model.addAttribute("curriculum", curriculum);
+        model.addAttribute("hashtags", tagNames);
+        return "board/academy/curriculumForm.tiles1";
     }
 
+    /** 커뮤니티 수정 */
+    @PostMapping("/community/edit/{id}")
+    public String communityEdit(@PathVariable("id") Long id,
+                                @ModelAttribute CommunityFormDto form,
+                                Model model) {
+
+        Long editedId = boardService.editCommunity(id, form);
+        MessageResponse messageResponse = MessageResponse.builder()
+                .loc("/boards/" + editedId)
+                .message("게시글 수정이 완료되었습니다!")
+                .build();
+
+        model.addAttribute("messageResponse", messageResponse);
+        return "msg.tiles1";
+    }
 
     /** 국비학원 수정 */
     @PostMapping("/academy/edit/{id}")
@@ -257,9 +310,26 @@ public class BoardController {
                               Model model) {
         log.info("AcademyFormDto={}", form);
         //글 저장
-        Long savedId = boardService.editAcademy(id, form);
+        Long editedId = boardService.editAcademy(id, form);
         MessageResponse messageResponse = MessageResponse.builder()
-                .loc("/boards/" + savedId)
+                .loc("/boards/" + editedId)
+                .message("게시글 수정이 완료되었습니다!")
+                .build();
+
+        model.addAttribute("messageResponse", messageResponse);
+        return "msg.tiles1";
+    }
+
+    /** 교육과정 수정 */
+    @PostMapping("/academy/curriculum/edit/{id}")
+    public String academyEdit(@PathVariable("id") Long id,
+                              @ModelAttribute CurriculumFormDto form,
+                              Model model) {
+        log.info("CurriculumFormDto={}", form);
+        //글 저장
+        Long editedId = boardService.editCurriculum(id, form);
+        MessageResponse messageResponse = MessageResponse.builder()
+                .loc("/boards/" + editedId)
                 .message("게시글 수정이 완료되었습니다!")
                 .build();
 

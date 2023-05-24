@@ -37,6 +37,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_MEMBER(false, 3001, "없는 회원입니다."),
     NOT_FOUND_BOARD(false, 3002, "없는 게시물입니다."),
     NOT_FOUND_COMMENT(false, 3003, "없는 댓글입니다."),
+    NOT_FOUND_BOARD_HASHTAG(false, 3004, "해당 게시물에 달린 해시태그가 없습니다."),
 
 
     /**

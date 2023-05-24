@@ -3,16 +3,14 @@ package com.devchw.gukmo.user.service;
 import com.devchw.gukmo.config.SessionConst;
 import com.devchw.gukmo.entity.board.Academy;
 import com.devchw.gukmo.entity.board.Board;
+import com.devchw.gukmo.entity.board.Curriculum;
 import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
 import com.devchw.gukmo.entity.hashtag.Hashtag;
 import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
-import com.devchw.gukmo.user.dto.board.AcademyFormDto;
-import com.devchw.gukmo.user.dto.board.BoardDto;
-import com.devchw.gukmo.user.dto.board.PrevAndNextBoardDto;
-import com.devchw.gukmo.user.dto.board.BoardFormDto;
+import com.devchw.gukmo.user.dto.board.*;
 import com.devchw.gukmo.user.dto.comments.CommentsDto;
 import com.devchw.gukmo.user.dto.login.LoginMemberDto;
 import com.devchw.gukmo.user.dto.member.WriterDto;
@@ -32,6 +30,7 @@ import java.util.stream.Collectors;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 import static com.devchw.gukmo.entity.member.Activity.Division.BOARD_WRITE;
 import static com.devchw.gukmo.user.dto.member.ActivityDto.*;
+import static com.devchw.gukmo.utils.DateUtil.*;
 import static org.springframework.util.StringUtils.*;
 
 @Slf4j
@@ -58,29 +57,18 @@ public class BoardService {
 
     /** 커뮤니티 게시글 작성 */
     @Transactional
-    public Long saveCommunity(BoardFormDto form) {
+    public Long saveCommunity(CommunityFormDto form) {
         Member writerMember = memberRepository.findById(form.getMemberId()).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         Board savedBoard = form.toEntity(writerMember);
         Long savedBoardId = boardRepository.save(savedBoard).getId();
 
-        //활동점수 올려주기
-        writerMember.pointPlus(10);
-
-        //활동내역 넣어주기
-        Activity activity = Activity.builder()
-                .member(writerMember)
-                .board(savedBoard)
-                .division(BOARD_WRITE)
-                .build();
-
-        Activity save = activityRepository.save(activity);
+        activitySaveAndMemberPointPlus(writerMember, savedBoard);
 
         //해시태그 저장
         saveHashtag(form.getHashtags(), savedBoard);
 
         return savedBoardId;
     }
-
 
     /** 게시글 상세보기 페이지에 맞춘 단건조회(추후 광고리스트 조회도 추가 예정)*/
     public BoardDto findBoardById(Long id, HttpSession session) {
@@ -131,29 +119,20 @@ public class BoardService {
         }
 
         // 조회된 데이터들을 Dto로 조합
-        return createBoardDto(id, likeExist, board, prevAndNextBoardDto, hashtags, commentsDtoList);
+        return new BoardDto().toDto(id, likeExist, board, prevAndNextBoardDto, hashtags, commentsDtoList);
     }
 
-    /**
-     * BoardDto 조합하기
-     */
-    private BoardDto createBoardDto(Long id, boolean likeExist, Board board, PrevAndNextBoardDto prevAndNextBoardDto, List<String> hashtags, List<CommentsDto> commentsDtoList) {
-        return BoardDto.builder()
-                .id(id)
-                .subject(board.getSubject())
-                .content(board.getContent())
-                .firstCategory(board.getFirstCategory())
-                .secondCategory(board.getSecondCategory())
-                .likeExist(likeExist)
-                .commentCount(board.getCommentCount())
-                .likeCount(board.getLikeCount())
-                .views(board.getViews())
-                .writeDate(DateUtil.calculateTime(board.getWriteDate()))
-                .comments(commentsDtoList)
-                .hashtags(hashtags)
-                .prevAndNextBoardDto(prevAndNextBoardDto)
-                .writer(WriterDto.toWriterDto(board.getMember()))
-                .build();
+    /** 교육과정 게시물 작성 */
+    @Transactional
+    public Long saveCurriculum(CurriculumFormDto form) {
+        Member writerMember = memberRepository.findById(form.getMemberId()).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+        Curriculum saveCurriculum = form.toEntity(writerMember);
+        Board savedBoard = boardRepository.save(saveCurriculum);
+
+        saveHashtag(form.getHashtags(), savedBoard);
+        //활동내역 저장, 포인트증가
+        activitySaveAndMemberPointPlus(writerMember, savedBoard);
+        return savedBoard.getId();
     }
 
     /** 로그인 여부 알아내기 */
@@ -190,11 +169,14 @@ public class BoardService {
         Board savedBoard = boardRepository.save(saveAcademy);
 
         saveHashtag(form.getHashtags(), savedBoard);
+
+        //활동내역 저장, 포인트증가
+        activitySaveAndMemberPointPlus(writerMember, savedBoard);
         return savedBoard.getId();
     }
 
 
-    /** 해시태그 저장하기 */
+    /** 해시태그 저장 */
     @Transactional
     private void saveHashtag(String hashtags, Board savedBoard) {
         //해시태그가 있다면 해시태그 저장하기
@@ -213,7 +195,7 @@ public class BoardService {
         }
     }
 
-    /** 국비학원 게시물 수정하기 */
+    /** 국비학원 게시물 수정 */
     @Transactional
     public Long editAcademy(Long id, AcademyFormDto form) {
         Academy academy = (Academy) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
@@ -238,8 +220,90 @@ public class BoardService {
                     form.getContent());
         }
 
-        // 해시태그 수정 개발 해야함.
-
+        if(hasText(form.getHashtags())) {
+            editHashtag(id, form.getHashtags(), academy);
+        } else {
+            List<BoardHashtag> boardHashtags = boardHashtagRepository.findAllBoardHashtagByBoardId(id);
+            if(boardHashtags.size() != 0) { //기존 해시태그가 있다면 삭제
+                boardHashtags.stream().forEach(bh -> boardHashtagRepository.deleteById(bh.getId()));
+            }
+        }
         return academy.getId();
+    }
+
+    /** 커뮤니티 게시물 수정 */
+    @Transactional
+    public Long editCommunity(Long id, CommunityFormDto form) {
+        Board community = boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+        community.changeBoardInfo(form.getSubject(), form.getContent());
+
+        if(hasText(form.getHashtags())) {
+            editHashtag(id, form.getHashtags(), community);
+        } else {
+            List<BoardHashtag> boardHashtags = boardHashtagRepository.findAllBoardHashtagByBoardId(id);
+            if(boardHashtags.size() != 0) { //기존 해시태그가 있다면 삭제
+                boardHashtags.stream().forEach(bh -> boardHashtagRepository.deleteById(bh.getId()));
+            }
+        }
+        return community.getId();
+    }
+
+    /** 해시태그 수정 */
+    private void editHashtag(Long id, String strHashtags, Board community) {
+        List<String> hashtags = Arrays.asList(strHashtags.split(","));
+        List<BoardHashtag> boardHashtags = boardHashtagRepository.findAllBoardHashtagByBoardId(id);
+        List<String> originTagNames = boardHashtags.stream().map(bh -> bh.getHashtag().getTagName()).collect(Collectors.toList());
+        // 기존 해시태그와 다른지 확인
+        if (!hashtags.equals(originTagNames)) {
+            if(boardHashtags.size() != 0) {
+                boardHashtags.stream().forEach(bh -> boardHashtagRepository.deleteById(bh.getId()));
+            }
+            saveHashtag(strHashtags, community);
+        }
+    }
+
+
+    /** 게시물 작성시 활동점수 올려주기, 활동점수 올려주기 */
+    private void activitySaveAndMemberPointPlus(Member writerMember, Board savedBoard) {
+
+        writerMember.pointPlus(10);
+
+        //활동내역 넣어주기
+        Activity activity = Activity.builder()
+                .member(writerMember)
+                .board(savedBoard)
+                .division(BOARD_WRITE)
+                .build();
+
+        Activity save = activityRepository.save(activity);
+    }
+
+    /** 교육과정 게시글 수정 */
+    @Transactional
+    public Long editCurriculum(Long id, CurriculumFormDto form) {
+        Curriculum curriculum = (Curriculum) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+
+        //수정 메소드 호출
+        curriculum.changeCurriculumInfo(
+                form.getCoreTechnology(),
+                form.getAcademyName(),
+                StringToLocalDateTimeConverter(form.getCurriculumStartDate()),
+                StringToLocalDateTimeConverter(form.getCurriculumEndDate()),
+                StringToLocalDateTimeConverter(form.getRecruitmentStartDate()),
+                StringToLocalDateTimeConverter(form.getRecruitmentEndDate()),
+                form.getRecruitsCount(),
+                form.getUrl(),
+                form.getContent(),
+                form.getSubject());
+
+        if(hasText(form.getHashtags())) {
+            editHashtag(id, form.getHashtags(), curriculum);
+        } else {
+            List<BoardHashtag> boardHashtags = boardHashtagRepository.findAllBoardHashtagByBoardId(id);
+            if(boardHashtags.size() != 0) { //기존 해시태그가 있다면 삭제
+                boardHashtags.stream().forEach(bh -> boardHashtagRepository.deleteById(bh.getId()));
+            }
+        }
+        return curriculum.getId();
     }
 }

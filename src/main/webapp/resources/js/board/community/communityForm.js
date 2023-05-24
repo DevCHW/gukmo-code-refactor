@@ -3,12 +3,6 @@ let all_ok = false;
 let obj = [];
 
 $(document).ready(function() {
-    let secondCategory = "";
-
-    if(secondCategory == null) { // 수정일때
-    	secondCategory = sessionStorage.getItem("secondCategory");
-    }
-    $("#secondCategory").val(secondCategory).attr("selected","selected");
 
     //스마트에디터 프레임생성
     nhn.husky.EZCreator.createInIFrame({
@@ -24,97 +18,6 @@ $(document).ready(function() {
             bUseModeChanger : true,
         }
     });
-
-    if(!secondCategory == null) { // 수정일때
-    	setTimeout(function() {
-    		let secondCategory = $("#secondCategory").val();
-	    	var sHTML;
-	    	switch (secondCategory) {
-	    	case "자유게시판":
-				sHTML =`자유게시판 유의사항<br>
-						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
-						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
-				break;
-			case "QnA":
-				sHTML =`QnA 유의사항<br>
-					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
-						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
-				break;
-			case "수강/취업후기":
-				sHTML=`수강/취업 후기 게시판 합격 후기를 자유롭게 남겨주세요 :)<br>
-						<br>
-						학원<br>
-							1.	지원한 학원에 대한 정보를 작성해주세요.<br>
-							&nbsp;&nbsp;-	지원시기 :<br>
-							&nbsp;&nbsp;-	학원위치 :<br>
-							&nbsp;&nbsp;-	교육기간 :<br>
-							&nbsp;&nbsp;-	프로그래밍 언어 :<br>
-							&nbsp;&nbsp;-	면접방식 :<br>
-							&nbsp;&nbsp;-	학원 후기 :<br>
-						    <br><br><br>
-						취업<br>
-							1.	지원한 회사에 대한 정보를 작성해주세요.<br>
-							&nbsp;&nbsp;-	지원시기 :<br>
-							&nbsp;&nbsp;-	지원회사와 부서 :<br>
-							&nbsp;&nbsp;-	나의 합격 스펙 :<br>
-							2.	서류 단계 :<br>
-							3.	인적성 단계 :<br>
-							4.	면접 단계 :<br>
-							&nbsp;&nbsp;-	면접일자 :<br>
-							&nbsp;&nbsp;-	면접형태(ex.일대일, 다대다 등) :<br>
-							5.	본인만의 꿀팁 또는 노하우 :<br>
-						    <br><br><br>
-						수강/취업 후기 게시판 유의사항<br>
-							⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-							⁃	부적절한 게시글 발견 시 신고해주세요.<br>
-							⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
-				break;
-			case "스터디":
-				sHTML=`스터디 게시판<br>
-						1.	스터디 종류 :<br>
-						2.	모집 인원 :<br>
-						3.	장소/시간 :<br>
-						4.	회비 :<br>
-						5.	진행 방식 :<br>
-						6.	팀장 연락처 :<br>
-						7.	커리큘럼 :<br>
-						8.	기타 :<br>
-					     <br><br><br>
-					스터디 게시판 유의사항<br>
-						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
-						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
-				break;
-
-			case "취미모임":
-				sHTML=`
-
-				취미 모임 게시판<br>
-				1.	모임 종류 :<br>
-				2.	모집 인원 :<br>
-				3.	장소/시간 :<br>
-				4.	회비 :<br>
-				5.	진행 방식 :<br>
-				6.	모임장 연락처 :<br>
-				7.	모임 방향성 :<br>
-				8.	기타 :<br>
-			    <br><br><br>
-			취미 모임 게시판 유의사항<br>
-				⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-				⁃	부적절한 모임 발견 시 신고해주세요.<br>
-				⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
-				break;
-			default:
-				sHTML= "";
-				break;
-
-			}
-
-	    	obj.getById["content"].exec("PASTE_HTML", [sHTML]);
-    	}, 1000);
-    }
 
     // ==== 해시태그 구현 시작 ==== //
       var hashtag = {};
@@ -147,7 +50,6 @@ $(document).ready(function() {
             	}
             }
       });
-
 
       $("#hashtag").on("keyup", function (e) {
           var self = $(this);
@@ -287,7 +189,6 @@ $(document).ready(function() {
 
 	// 등록 버튼을 클릭했을시
     $("button#btn_write").click(function() {
-    	replace_content();
     	frm_check();
 	    // 폼을 전송
     	if(all_ok){
@@ -300,13 +201,12 @@ $(document).ready(function() {
 
 	// 수정 버튼을 클릭했을시
     $("button#btn_modify").click(function() {
-    	replace_content();
     	frm_check();
     	if(all_ok){
 		    // 폼을 전송
-    		const frm = document.writerFrm;
+    		const frm = document.writeFrm;
     		frm.method = "POST";
-		    frm.action = getContextPath()+"/community/modify.do";
+		    frm.action = "/boards/community/edit/" + $("input#boardId").val();
 		    frm.submit();
     	}
 	});
@@ -368,7 +268,7 @@ function frm_check(){
 
     // 카테고리 유효성 검사
     const secondCategory = $("select#secondCategory").val();
-    if(secondCategory == "") {
+    if(secondCategory.trim() == "") {
         alert("카테고리를 선택하세요!!");
         return;
     }
@@ -399,39 +299,5 @@ function frm_check(){
     all_ok = true;
 }//end of method--
 
-
-/**
- * argBody 안의 내용 중 지정 문자열 삭제
- * argBody : 삭제본문 ( ex : 가나다 <pre style="width:100px">안녕하세요</pre> )
- * argStartSection : 삭제 시작 문자 ( ex : <pre )
- * argEndSection : 삭제 끝 문자 ( ex : ;"> )
- * argRemoveSection : 별도 replace 문자 ( ex : </pre> )
-  */
-function replace_content(){
-	var removeStyleAndImage  = function(argBody, argStartSection, argEndSection, argRemoveSection){
-	var bodyString = argBody;
-	var sectionChk = bodyString.match(new RegExp(argStartSection,'g'));
-	if(sectionChk != null){
-	    for(var i=0; i < sectionChk.length; i++){
-	        var tmpImg = bodyString.substring(bodyString.indexOf(argStartSection), (bodyString.indexOf(argEndSection)+(argEndSection.length)));
-	        bodyString = bodyString.replace(tmpImg, '').replace(/<br>/gi, '').replace(/&nbsp;/gi, ' ').replace(/<p>/gi, '').replace(/<\/p>/gi, ' ').replace(new RegExp(argRemoveSection,'gi'), '');
-	    }
-	}
-
-	return bodyString;
-
-	}
-
-	const contentval = $("textarea#content").val();
-	let content = "";
-
-	content = removeStyleAndImage(contentval, '<img src=', '">', '');      // 스마트에디터 내부의 이미지 제거
-	content = removeStyleAndImage(contentval, '<pre', ';">', '</pre>');    // 스마트에디터 내부의 스타일 제거
-	content = removeStyleAndImage(contentval, '<span', ';">', '</span>');  // 스마트에디터 내부의 스타일 제거
-
-	console.log(content);
-	$("input#replace_content").val(content);
-
-}//end of method-----
 
 

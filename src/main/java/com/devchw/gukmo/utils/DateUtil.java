@@ -85,4 +85,12 @@ public class DateUtil {
         LocalDate targetDate = dateTime.toLocalDate();
         return String.valueOf(ChronoUnit.DAYS.between(currentDate, targetDate));
     }
+
+    /**
+     * 날짜 차이 반환
+     */
+    public static int calculateDateGap(LocalDateTime startDate, LocalDateTime endDate) {
+        int result = (int) ChronoUnit.DAYS.between(startDate, endDate);
+        return result;
+    }
 }

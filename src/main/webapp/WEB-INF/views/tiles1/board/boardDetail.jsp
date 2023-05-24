@@ -96,14 +96,14 @@
           <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
             <div id="update_or_delete" class="border rounded px-3 py-2">
              <c:if test="${board.firstCategory == '커뮤니티'}">
-              <span onclick="location.href='/boards/edit/${board.id}'">수정하기</span>
+              <span onclick="location.href='/boards/community/edit/${board.id}'">수정하기</span>
              </c:if>
 
-             <c:if test="${board.firstCategory == '국비학원'}">
+             <c:if test="${board.secondCategory == '국비학원'}">
               <span onclick="location.href='/boards/academy/edit/${board.id}'">수정하기</span>
              </c:if>
 
-             <c:if test="${not empty board.secondCategory && board.secondCategory == '교육과정'}">
+             <c:if test="${board.secondCategory == '교육과정'}">
               <span onclick="location.href='/boards/academy/curriculum/edit/${board.id}'">수정하기</span>
              </c:if>
 

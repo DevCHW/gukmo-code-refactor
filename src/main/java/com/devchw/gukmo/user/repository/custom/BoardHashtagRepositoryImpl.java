@@ -19,6 +19,8 @@ import static com.devchw.gukmo.entity.hashtag.QHashtag.*;
 public class BoardHashtagRepositoryImpl implements BoardHashtagRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
+
+    /** 게시글 번호에 맞는 해시태그 조회 */
     @Override
     public List<String> findTagNamesByBoardId(Long boardId) {
         return queryFactory

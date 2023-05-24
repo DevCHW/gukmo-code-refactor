@@ -30,9 +30,9 @@
 	    <input type="hidden" id="academyId" name="academyId" value="${academy.id}"/>
 	  </c:if>
 
-      <%-- 학원명 --%>
+      <%-- 교육기관명 --%>
       <div class="d-flex align-items-center my-2">
-        <label for="subject" class="academy_label mt-3">학원명</label>
+        <label for="subject" class="academy_label mt-3">교육기관명</label>
         <c:if test="${loginMember.userRole == 'ACADEMY' && empty academy}">
         	<input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" value="${academyMember.academyName}" readonly>
         </c:if>
@@ -40,7 +40,7 @@
         	<input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" placeholder="학원명을 입력해주세요" maxlength="50">
         </c:if>
         <c:if test="${not empty academy}">
-            <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" value="${academy.subject}" placeholder="학원명을 입력해주세요" maxlength="50">
+            <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" value="${academy.subject}" placeholder="교육기관명을 입력해주세요" maxlength="50">
         </c:if>
       </div>
 
