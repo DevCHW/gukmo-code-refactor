@@ -1,7 +1,6 @@
 package com.devchw.gukmo.user.repository.custom;
 
 import com.devchw.gukmo.user.dto.board.*;
-import com.devchw.gukmo.user.dto.board.get.*;
 import com.devchw.gukmo.user.dto.member.QActivityDto_WriterNicknameDto;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;

@@ -34,7 +34,7 @@
       <span>/</span>
 
       <a id="detail_category_area">
-      	<div id="board_detail_category" onclick="goDetailCategory()">&nbsp;${board.secondCategory}</div>
+      	<div id="board_detail_category" onclick="location.href='/boards?firstCategory=${board.firstCategory}&secondCategory={board.secondCategory}'">&nbsp;${board.secondCategory}</div>
       </a>
       </c:if>
     </div>
@@ -87,8 +87,8 @@
       <%-- 신고버튼, 수정or삭제버튼 --%>
       <div id="report_edit_delete_area" class="d-flex justify-content-between align-items-center">
 
-          <c:if test="${not empty loginMember && loginMember.userRole != 'ADMIN' && loginMember.nickname != board.writer.nickname}">
-          	<span id="" class="ml-auto btn_report" onclick="openReport()">&#x1F6A8;</span>
+          <c:if test="${not empty loginMember && loginMember.userRole != 'ADMIN' && loginMember.id != board.writer.id}">
+          	<span id="btn_board_report" class="ml-auto btn_report">&#x1F6A8;</span>
           </c:if>
 
 

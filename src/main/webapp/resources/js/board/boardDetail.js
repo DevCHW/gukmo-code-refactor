@@ -240,6 +240,12 @@ $(document).ready(function(){
   });// end of Event---
 
 
+  // 게시글 신고하기 버튼 클릭시 이벤트
+  $("span#btn_board_report").click(function(e){
+    alert("확인");
+    openReport();
+  });
+
   // 댓글 신고하기 버튼 클릭시
   $("span.comment_btn_report").click(function(e) {
 	  const target = $(e.currentTarget);
@@ -372,49 +378,18 @@ function del_comment_blind(comment_num) {
 
 // 게시글 신고버튼 클릭시
 function openReport() {
-
 	// 신고 버튼
 	var openWin;
-	const board_num = $("input#board_num").val();
+	const boardId = $("input#hidden_board_id").val();
 
-	// alert(board_num)
-    // window.name = "부모창 이름";
     window.name = "boardDetail";
     // window.open("open할 window", "자식창 이름", "팝업창 옵션");
-    openWin = window.open("/board/community/report.do?boardNum="+board_num,
+    openWin = window.open("/report/boards/"+boardId,
             "reportForm", "width=576, height=700, left=500, top= 20");
 }
 
-//댓글 신고버튼 클릭시
-function openReport_comment(comment_write_nickname, comment_num,content) {
+// 댓글 신고버튼 클릭시
 
-	// 신고 버튼
-	var openWin;
-	const board_num = $("input#board_num").val();
-	const nickname = comment_write_nickname;
-
-
-    // window.name = "부모창 이름";
-    window.name = "boardDetail";
-    // window.open("open할 window", "자식창 이름", "팝업창 옵션");
-    openWin = window.open("/board/community/report_comment.do?boardNum="+board_num+"&comment_write_nickname="+comment_write_nickname+"&comment_num="+comment_num+"&nickname="+nickname+"&content="+content,
-            "reportForm", "width=576, height=700, left=500, top= 20");
-}
-
-//대댓글 신고버튼 클릭시
-function openReport_comment_of_comment(comment_write_nickname, comment_num,content) {
-
-	// 신고 버튼
-	var openWin;
-	const board_num = $("input#board_num").val();
-	const nickname = comment_write_nickname;
-
-    // window.name = "부모창 이름";
-    window.name = "boardDetail";
-    // window.open("open할 window", "자식창 이름", "팝업창 옵션");
-    openWin = window.open("/board/community/report_comment.do?boardNum="+board_num+"&comment_write_nickname="+comment_write_nickname+"&comment_num="+comment_num+"&nickname="+nickname+"&content="+content,
-            "reportForm", "width=576, height=700, left=500, top= 20");
-}
 
 // [...]클릭후, 게시글 삭제버튼 클릭시 이벤트
 function delete_board(boardId){
@@ -472,55 +447,6 @@ function no_login_comment() {
 	$("button.btn_login").trigger("click");// 로그인페이지로 보내기
 }
 
-나
-
-// 대댓글 작성
-function addCommentOfComment(content, fk_comment_num, re_content, alarm_nickname) {
-
-	const cmt_board_num = $("input#cmt_board_num").val();
-	const nickname = $("input#nickname").val();
-	const parent_write_nickname = $("input#parent_write_nickname").val();
-	const subject = $("input#board_subject").val();
-	const detail_category = $("input#detail_category").val();
-
-	if(content == "") {
-		alert("댓글내용을 입력하세요!!");
-		return;
-	}
-
-	  $.ajax({
-		  url:getContextPath()+"/addCommentOfComment.do",
-		  data:{ "cmt_board_num":cmt_board_num
-				,"nickname":nickname
-				,"parent_write_nickname":parent_write_nickname
-				,"content":content
-				,"re_content": re_content // 알람에 값 넣기 위한 원 댓글 내용
-				,"fk_comment_num":fk_comment_num
-				,"subject":subject
-				,"detail_category":detail_category
-				,"alarm_nickname":alarm_nickname},
-		  type:"POST",
-		  dataType:"JSON",
-		  success:function(json){
-			  const n = json.n;
-			  if(n==0) {
-				  alert("대댓글 작성 실패");
-			  }
-			  else {
-			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
-				  $("textarea#content2").val("");
-				  $(".big_comment_write_area").hide();
-				  window.location.reload();
-			  }
-
-			  // $("input#commentContent").val("");
-		  },
-		  error: function(request, status, error){
-			  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		  }
-	  });
-
-}
 
 // 댓글 삭제
 function deleteComment(commentId){
@@ -564,34 +490,3 @@ function comment_edit(commentsId, content) {
   });
 }//end of Method--
 
-
-// 카테고리 클릭시 이동
-function goDetailCategory() {
-	const detail_category = $("input#detail_category").val();
-
-	if(detail_category == '국비학원') {
-		location.href = getContextPath()+"/academy/academies.do";
-	}
-	if(detail_category == '교육과정') {
-		location.href = getContextPath()+"/academy/curricula.do";
-	}
-	if(detail_category == '자유게시판') {
-		location.href = getContextPath()+"/community/freeBoards.do";
-	}
-	if(detail_category == 'QnA') {
-		location.href = getContextPath()+"/community/questions.do";
-	}
-	if(detail_category == '스터디') {
-		location.href = getContextPath()+"/community/studies.do";
-	}
-	if(detail_category == '취미모임') {
-		location.href = getContextPath()+"/community/hobbies.do";
-	}
-	if(detail_category == '수강/취업후기') {
-		location.href = getContextPath()+"/community/reviews.do";
-	}
-	if(detail_category == '공지사항') {
-		location.href = getContextPath()+"/notices.do";
-	}
-
-}
