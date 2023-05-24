@@ -34,7 +34,7 @@ public class ReportController {
     }
 
     /** 댓글 신고 폼 */
-    @GetMapping("/comment/{id}")
+    @GetMapping("/comments/{id}")
     public String commentReport(@PathVariable("id") Long id, Model model) {
         Comments comments = commentsRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
         model.addAttribute("commentId", comments.getId());

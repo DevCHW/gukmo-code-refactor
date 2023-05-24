@@ -54,7 +54,7 @@ public class ReportService {
     }
 
     /** 댓글 신고 존재여부 조회 */
-    public Boolean commentsReportExist(Long memberId, Long commentId) {
-        return reportRepository.existsByMemberIdAndCommentsId(memberId, commentId);
+    public Boolean commentsReportExist(Long memberId, Long commentsId) {
+        return reportRepository.existsByMemberIdAndCommentsId(memberId, commentsId);
     }
 }

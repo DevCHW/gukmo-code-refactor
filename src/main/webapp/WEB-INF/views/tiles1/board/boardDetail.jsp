@@ -178,7 +178,7 @@
 	</c:if>
 
      <%-- 글내용 --%>
-      <div id="content" class="mt-5" style="font-size:16px;">${board.content}</div>
+      <div id="content" class="mt-5" style="font-size:18px;">${board.content}</div>
       <div class="d-flex justify-content-between mt-4">
          <div>
              <%-- 해시태그리스트 반복문시작 --%>
@@ -351,7 +351,6 @@
 
 
 
-
     <%---------------------- 댓글리스트 영역(반복문) 시작 ----------------------%>
 
     <%-- 댓글 반복문 시작 --%>
@@ -416,6 +415,7 @@
 			            <span id="${comment.likeCount}" class="comment_like_cnt">${comment.likeCount}</span>
 			          </div>
 			          <div class="d-flex justify-content-between align-items-center comment_edit_delete_area" style="width:0px;">
+			            <input type="hidden" value="${comment.id}"/>
 			          	<span class="comment_btn_report ml-auto">&#x1F6A8;</span>
 			          </div>
 		          </div>
@@ -619,7 +619,8 @@
 			          <input type="hidden" id="" value="${childComment.writer.nickname}" />
 		          	  <input type="hidden" id="" value="${childComment.id}" />
 			          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area" style="width:0px;">
-			          	<span class="big_comment_btn_report ml-auto">&#x1F6A8;</span>
+			            <input type="hidden" value="${childComment.id}"/>
+			          	<span class="comment_btn_report ml-auto">&#x1F6A8;</span>
 			          </div>
 		          </div>
           	  </c:if>

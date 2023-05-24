@@ -64,7 +64,8 @@ public class Comments {
     @ColumnDefault("0")
     private Long likeCount; //좋아요 개수
 
-    @OneToMany(mappedBy = "comments", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "comments")
+    @OnDelete(action = OnDeleteAction.CASCADE) //DB에서 처리됨.
     private List<Report> reports = new ArrayList<>();
 
     public enum Blind {

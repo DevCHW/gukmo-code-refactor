@@ -41,11 +41,6 @@ public class CommentsService {
         Long childSize = commentsRepository.countByParentId(comments.getId());
         board.commentMinus(1 + childSize);
 
-
-        //활동내역 삭제
-        Long memberId = comments.getMember().getId();
-        Long activityId = activityRepository.findWithCommentsWithMemberByCommentsIdAndMemberId(comments.getId(), memberId).getId();
-        activityRepository.deleteById(activityId);
         commentsRepository.deleteById(id);
 
         //포인트 감소

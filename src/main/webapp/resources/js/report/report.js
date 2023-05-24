@@ -1,7 +1,6 @@
 let all_ok = false;
 
 $(document).ready(function(){
-
     //댓글신고버튼 클릭시
 	$("button#btn_comment_report").click(function() {
 		frm_check();
@@ -10,7 +9,7 @@ $(document).ready(function(){
             const reporterId = $("input#hidden_reporterId").val();
             const simpleReason = $("select#simple_report_reason").val();
             const detailReason = $("textarea#detail_report_reason").val();
-            const data = {"boardId":boardId,
+            const data = {"commentId":commentId,
                           "reporterId":reporterId,
                           "simpleReason":simpleReason,
                           "detailReason":detailReason};

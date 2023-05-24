@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 import static com.devchw.gukmo.entity.member.Activity.*;
 
 public interface ActivityRepository extends JpaRepository<Activity, Long>, ActivityRepositoryCustom {
@@ -17,4 +19,5 @@ public interface ActivityRepository extends JpaRepository<Activity, Long>, Activ
     @EntityGraph(attributePaths = {"comments", "member"})
     Activity findWithCommentsWithMemberByCommentsIdAndMemberId(Long id, Long memberId);
 
+    Optional<Activity> findByMemberIdAndCommentsIdAndDivision(Long memberId, Long commentsId, Division commentLike);
 }

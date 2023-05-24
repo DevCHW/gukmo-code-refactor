@@ -1,6 +1,5 @@
 package com.devchw.gukmo.user.service;
 
-import com.devchw.gukmo.config.response.BaseResponseStatus;
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.BoardLike;
 import com.devchw.gukmo.entity.comment.Comments;
@@ -33,7 +32,7 @@ public class LikeService {
     @Transactional
     public String boardLike(Long memberId, Long boardId) {
         Boolean exist = boardLikeRepository.existsByBoardIdAndMemberId(boardId, memberId);
-        if(exist) { // 삭제
+        if(exist) { // 추천 삭제
             Long id = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).getId();
             Board board = boardRepository.findById(boardId).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
             boardLikeRepository.deleteById(id);
@@ -44,7 +43,7 @@ public class LikeService {
 
             board.likeMinus();
             return "delete";
-        } else { //생성
+        } else { //추천 생성
             Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
             Board board = boardRepository.findById(boardId).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
             BoardLike boardLike = BoardLike.builder()
@@ -71,20 +70,20 @@ public class LikeService {
     @Transactional
     public String commentLike(Long memberId, Long commentsId) {
         Boolean exist = commentsLikeRepository.existsByCommentsIdAndMemberId(commentsId, memberId);
-        if(exist) { // 삭제
+        if(exist) { // 추천 삭제
 
             Long id = commentsLikeRepository.findByCommentsIdAndMemberId(commentsId, memberId).getId();
             Comments comments = commentsRepository.findWithBoardById(commentsId).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
             commentsLikeRepository.deleteById(id);
 
             //활동내역 삭제
-            Long activityId = activityRepository.findByMemberIdAndBoardIdAndDivision(memberId, comments.getBoard().getId(), COMMENT_LIKE).getId();
+            Long activityId = activityRepository.findByMemberIdAndCommentsIdAndDivision(memberId, commentsId, COMMENT_LIKE).orElseThrow(() -> new BaseException(NOT_FOUND_ACTIVITY)).getId();
             activityRepository.deleteById(activityId);
 
             comments.likeMinus();
             return "delete";
 
-        } else { //생성
+        } else { // 추천 생성
             Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
             Comments comments = commentsRepository.findWithBoardById(commentsId).orElseThrow(() -> new BaseException(NOT_FOUND_COMMENT));
             CommentsLike commentsLike = CommentsLike.builder()
@@ -97,6 +96,7 @@ public class LikeService {
             Activity activity = Activity.builder()
                     .member(member)
                     .board(comments.getBoard())
+                    .comments(comments)
                     .division(COMMENT_LIKE)
                     .build();
 

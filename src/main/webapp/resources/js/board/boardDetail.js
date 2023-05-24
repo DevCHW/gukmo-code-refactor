@@ -159,46 +159,30 @@ $(document).ready(function(){
 
   // 댓글 블라인드 버튼 클릭시
   $("span#commentBlind").click(e=>{
-
 	const target = $(e.currentTarget);
-
 	const comment_num = target.parent().prev().val();
-
 	comment_blind(comment_num);
-
   });
 
   //대댓글 블라인드 버튼 클릭시
   $("span#bigCommentBlind").click(e=>{
-
 	const target = $(e.currentTarget);
-
 	const comment_num = target.parent().prev().val();
-
 	comment_blind(comment_num);
-
   });
 
   //댓글 블라인드해제  버튼 클릭시
   $("span#delCommentBlind").click(e=>{
-
 	const target = $(e.currentTarget);
-
 	const comment_num = target.parent().prev().val();
-
 	del_comment_blind(comment_num);
-
   });
 
   //대댓글 블라인드 해제 버튼 클릭시
   $("span#delBigCommentBlind").click(e=>{
-
 	const target = $(e.currentTarget);
-
 	const comment_num = target.parent().prev().val();
-
 	del_comment_blind(comment_num);
-
   });
 
 
@@ -245,33 +229,16 @@ $(document).ready(function(){
 
   // 댓글 신고하기 버튼 클릭시
   $("span.comment_btn_report").click(function(e) {
-      alert("댓글신고하기 버튼 클릭");
+      const target = $(e.currentTarget);
 	  const memberId = $("input#hidden_member_id").val();
-      const commentId = $("input#hidden_board_id").val();
+      const commentId = target.prev().val();
 
-      const data = {"memberId":memberId, "commentId":boardId};
+      const data = {"memberId":memberId, "commentId":commentId};
 
       reportCommentExistCheck(data);
-      openReport();
   })//end of Event--
 
-
-  // 대댓글 신고하기 버튼 클릭시
-  $("span.big_comment_btn_report").click(function(e) {
-	  const target = $(e.currentTarget);
-	  const comment_write_nickname = target.parent().prev().prev().val();
-	  const comment_num = target.parent().prev().val();
-	  const content = target.parent().parent().parent().next().find('div.detail_comment_of_comment').text();
-	  // alert(comment_write_nickname);
-	  // alert(comment_num);
-
-	  openReport_comment_of_comment(comment_write_nickname, comment_num, content);
-  })//end of
-
-
 });// end of $(document).ready(function(){})---
-
-
 
 
 // == Function Declaration == //
@@ -376,7 +343,7 @@ function del_comment_blind(comment_num) {
 }
 
 // 게시글 신고버튼 클릭시
-function openReport() {
+function openBoardReport() {
 	// 신고 버튼
 	var openWin;
 	const boardId = $("input#hidden_board_id").val();
@@ -388,6 +355,14 @@ function openReport() {
 }
 
 // 댓글 신고버튼 클릭시
+function openCommentReport(id) {
+	// 신고 버튼
+	var openWin;
+    window.name = "boardDetail";
+    // window.open("open할 window", "자식창 이름", "팝업창 옵션");
+    openWin = window.open("/report/comments/"+id,
+            "reportForm", "width=576, height=700, left=500, top= 20");
+}
 
 
 // [...]클릭후, 게시글 삭제버튼 클릭시 이벤트
@@ -500,7 +475,7 @@ function reportBoardExistCheck(data) {
             if(res.result){
                alert("이미 신고한 게시물입니다.");
             } else {
-               openReport();
+               openBoardReport();
             }
         },
         error: function(xhr, status, error){
@@ -521,7 +496,7 @@ function reportCommentExistCheck(data) {
             if(res.result){
                alert("이미 신고한 게시물입니다.");
             } else {
-               openReport();
+               openCommentReport(data.commentId);
             }
         },
         error: function(xhr, status, error){
