@@ -28,6 +28,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -137,7 +140,20 @@ public class BoardController {
 
     /** 게시글 단건 조회 */
     @GetMapping("/{id}")
-    public String board(@PathVariable Long id, HttpSession session, Model model) {
+    public String board(@PathVariable Long id, HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) {
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("boardView")) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+
+        //조회 수 증가
+        viewCountUp(id, response, oldCookie);
+
         // 조건에 맞는 게시물 페이지 광고 5개 조회
         LocalDateTime currentDateTime = LocalDateTime.now();
         Set<Advertisement> advertisements = advertisementService.findAdvertisement(currentDateTime, BOARD);
@@ -162,6 +178,26 @@ public class BoardController {
 
         model.addAttribute("board", boardDto);
         return "board/boardDetail.tiles1";
+    }
+
+    /** 게시물 조회 수 증가 */
+    private void viewCountUp(Long id, HttpServletResponse response, Cookie oldCookie) {
+        //게시물 조회 수 증가
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + id.toString() + "]")) {
+                boardService.viewCountUp(id);
+                oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60 * 60 * 24);
+                response.addCookie(oldCookie);
+            }
+        } else {
+            boardService.viewCountUp(id);
+            Cookie newCookie = new Cookie("boardView","[" + id + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60 * 60 * 24);
+            response.addCookie(newCookie);
+        }
     }
 
     /** 커뮤니티 작성 폼 */

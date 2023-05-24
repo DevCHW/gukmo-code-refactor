@@ -1,14 +1,6 @@
-// js파일에서 contextPath를 알아내는 함수
-function getContextPath(){
-  let hostIndex = location.href.indexOf(location.host) + location.host.length;
-  let contextPath = location.href.substring(hostIndex, location.href.indexOf('/',hostIndex+1));
-  return contextPath;
-}
-
 
 // 답글모두숨기기 클릭횟수
 let btn_comment_toggle_click_cnt = 0;
-
 $(document).ready(function(){
   //전역변수
   var obj = [];
@@ -237,24 +229,31 @@ $(document).ready(function(){
         const data = {"commentId": commentId,"memberId": memberId};
         commentLikeClick(data, target);	// 좋아요 클릭시 처리 메소드 호출
       }
-  });// end of Event---
+  });//end of Event---
 
 
   // 게시글 신고하기 버튼 클릭시 이벤트
   $("span#btn_board_report").click(function(e){
-    alert("확인");
-    openReport();
-  });
+    const memberId = $("input#hidden_member_id").val();
+    const boardId = $("input#hidden_board_id").val();
+
+    const data = {"memberId":memberId, "boardId":boardId};
+
+    reportBoardExistCheck(data);
+  });//end of Event---
+
 
   // 댓글 신고하기 버튼 클릭시
   $("span.comment_btn_report").click(function(e) {
-	  const target = $(e.currentTarget);
-	  const comment_write_nickname = target.parent().prev().prev().val();
-	  const comment_num = target.parent().prev().val();
-	  const content = target.parent().parent().parent().next().find('div.detail_comment').text();
+      alert("댓글신고하기 버튼 클릭");
+	  const memberId = $("input#hidden_member_id").val();
+      const commentId = $("input#hidden_board_id").val();
 
-	  openReport_comment(comment_write_nickname, comment_num, content);
-  })//end of
+      const data = {"memberId":memberId, "commentId":boardId};
+
+      reportCommentExistCheck(data);
+      openReport();
+  })//end of Event--
 
 
   // 대댓글 신고하기 버튼 클릭시
@@ -490,3 +489,43 @@ function comment_edit(commentsId, content) {
   });
 }//end of Method--
 
+// 게시물 신고 이미 했는지 체크
+function reportBoardExistCheck(data) {
+    $.ajax({
+        type : 'get',
+        url : '/api/v1/report/boards/exist',
+        data : data,
+        dataType : 'json',
+        success : function(res){
+            if(res.result){
+               alert("이미 신고한 게시물입니다.");
+            } else {
+               openReport();
+            }
+        },
+        error: function(xhr, status, error){
+            alert("서버 오류입니다. 관리자에게 문의해주세요");
+        }
+    });//end of ajax
+}//end of Method--
+
+
+// 댓글 신고 이미 했는지 체크
+function reportCommentExistCheck(data) {
+    $.ajax({
+        type : 'get',
+        url : '/api/v1/report/comments/exist',
+        data : data,
+        dataType : 'json',
+        success : function(res){
+            if(res.result){
+               alert("이미 신고한 게시물입니다.");
+            } else {
+               openReport();
+            }
+        },
+        error: function(xhr, status, error){
+            alert("서버 오류입니다. 관리자에게 문의해주세요");
+        }
+    });//end of ajax
+}//end of Method--

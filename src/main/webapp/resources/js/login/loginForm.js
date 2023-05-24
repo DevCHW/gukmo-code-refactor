@@ -71,8 +71,6 @@ $(document).ready(function(){
 
 //Function Declaration
 
-
-
 /**
  * 카카오로그인 객체 보내기
  * @param response

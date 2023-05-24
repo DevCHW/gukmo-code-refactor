@@ -34,7 +34,7 @@
       <span>/</span>
 
       <a id="detail_category_area">
-      	<div id="board_detail_category" onclick="location.href='/boards?firstCategory=${board.firstCategory}&secondCategory={board.secondCategory}'">&nbsp;${board.secondCategory}</div>
+      	<div id="board_detail_category" onclick="location.href='/boards?firstCategory=${board.firstCategory}&secondCategory=${board.secondCategory}'">&nbsp;${board.secondCategory}</div>
       </a>
       </c:if>
     </div>
@@ -86,11 +86,9 @@
       </div>
       <%-- 신고버튼, 수정or삭제버튼 --%>
       <div id="report_edit_delete_area" class="d-flex justify-content-between align-items-center">
-
           <c:if test="${not empty loginMember && loginMember.userRole != 'ADMIN' && loginMember.id != board.writer.id}">
           	<span id="btn_board_report" class="ml-auto btn_report">&#x1F6A8;</span>
           </c:if>
-
 
         <c:if test="${loginMember.nickname == board.writer.nickname && loginMember.userRole != 'ADMIN'}">
           <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
@@ -152,7 +150,6 @@
             </div>
           </span>
         </c:if>
-
       </div>
     </div>
     <%-- 글 상세보기 페이지 머리부분 --%>
@@ -160,8 +157,8 @@
 
     <%-------------------- 글 본문 시작 ------------------%>
     <div id="content_area" class="d-flex flex-column py-2">
-      <div id="subject" class="mt-3">
-        <h2 id="board_subject">${board.subject}</h2>
+      <div id="subject" class="mt-5">
+        <h3 id="board_subject">${board.subject}</h3>
       </div>
 
 
@@ -180,14 +177,13 @@
 		<%-------------------- curriculumDetail 호출 시작 ----------------------%>
 	</c:if>
 
-
      <%-- 글내용 --%>
-      <div id="content" class="mt-3">${board.content} </div>
+      <div id="content" class="mt-5" style="font-size:16px;">${board.content}</div>
       <div class="d-flex justify-content-between mt-4">
          <div>
              <%-- 해시태그리스트 반복문시작 --%>
               <c:forEach var="hashtag" items="${board.hashtags}">
-                <a id="hashtag" onclick="location.href='<%=ctxPath %>/main_search.do?searchWord=${hashtag}&hashtag=${hashtag}'" class="hashtag mx-1">#<span>${hashtag}</span></a>
+                <a id="hashtag" style="color:#4B89DC;" onclick="location.href='<%=ctxPath %>/main_search.do?searchWord=${hashtag}&hashtag=${hashtag}'" class="hashtag mx-1">#<span>${hashtag}</span></a>
               </c:forEach>
               <%-- 해시태그리스트 반복문 끝--%>
          </div>
@@ -216,7 +212,6 @@
     <%---------------------- 이전글,다음글 영역 시작 ----------------------%>
     <div id="previous_next_area" class="px-3 d-flex justify-content-center align-items-center rounded mt-4">
       <div class="w-100">
-
 
         <div id="previous" class="my-2">
           <span>이전글 |</span>
@@ -300,7 +295,6 @@
     <%---------------------- 광고 영역 끝 ----------------------%>
 
 
-    <hr>
 
 
     <%---------------------- 댓글쓰기 영역 시작 ----------------------%>
@@ -325,7 +319,7 @@
 	            <input id="userid" type="hidden" name="userid" value="${loginMember.id}"  />
 	            <input id="cmt_board_num"  type="hidden" name="cmt_board_num" value="${board.id}"  />
 	            <input id="nickname"  type="hidden" name="nickname" value="${loginMember.nickname}"  />
-	            <input id="parent_write_nickname" type="hidden" name="parent_write_nickname" value="${board.writer.nickname}"  />
+	            <input id="parent_write_nickname" type="hidden" name="parent_write_nickname" value="${board.writer.nickname}"/>
 	        <div class="ml-3 w-100">
 	          <div class="mb-1">내용</div>
 	          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>

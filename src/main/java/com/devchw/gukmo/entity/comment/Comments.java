@@ -3,6 +3,7 @@ package com.devchw.gukmo.entity.comment;
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
+import com.devchw.gukmo.entity.report.Report;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -62,6 +63,9 @@ public class Comments {
 
     @ColumnDefault("0")
     private Long likeCount; //좋아요 개수
+
+    @OneToMany(mappedBy = "comments", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Report> reports = new ArrayList<>();
 
     public enum Blind {
         YES, NO

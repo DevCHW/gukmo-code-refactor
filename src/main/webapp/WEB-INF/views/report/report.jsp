@@ -24,7 +24,7 @@
 
   <!-- 직접 만든 CSS -->
   <style type="text/css">
-    button#reportWrite {
+    button#btn_comment_report, button#btn_board_report {
     	background-color: #14587D;
     	color: white;
     }
@@ -43,55 +43,63 @@
 
       <hr style="background-color: black; height: 1px;">
 
-	  <div class="border-bottom d-flex flex-column">
+	  <div class="d-flex flex-column">
 		<table class="my-2">
 			<tbody>
 				 <tr>
-				 <c:if test="${not empty comment}">
-    				 <td style="font-weight:bold">댓글번호</td>
+				 <c:if test="${not empty commentId}">
+    				 <td style="font-weight:bold; width:100px;">댓글번호</td>
 				 </c:if>
-				 <c:if test="${not empty comment}">
-                     <td style="font-weight:bold">글번호</td>
+				 <c:if test="${not empty boardId}">
+                     <td style="font-weight:bold; width:100px;">게시물번호</td>
                  </c:if>
 
-                 <c:if test="${not empty comment}">
-    				 <td><span id="commentId" class="input_signup rounded pl-2" >${comment.id}</span></td>
-                 </c:if><c:if test="${not empty board}">
-	    			 <td><span id="boardId" class="input_signup rounded pl-2" >${board.id}</span></td>
+                 <c:if test="${not empty commentId}">
+    				 <td><span id="commentId" class="input_signup rounded pl-2" >${commentId}</span></td>
+                 </c:if><c:if test="${not empty boardId}">
+	    			 <td><span id="boardId" class="input_signup rounded pl-2" >${boardId}</span></td>
                  </c:if>
 				</tr>
 			</tbody>
 		</table>
 	   </div>
-	     <!-- 신고자 id -->
-		 <input type="hidden" name="reportId" value="${loginMember.id}"/>
   	  <div>
 
-      <select name="simple_report_reason" id="simple_report_reason" class="px-2 py-2 my-2 w-100 border rounded">
-	       <option value="">구분</option>
-	       <option>스팸홍보/도배글입니다.</option>
-	       <option>불법정보를 포함하고 있습니다.</option>
-	       <option>청소년에게 유해한 내용입니다.</option>
-	       <option>욕설/생명경시/혐오/차별적 표현입니다.</option>
-	       <option>개인정보 노출 게시물입니다.</option>
-	       <option>불쾌한 표현이 있습니다.</option>
-	       <option>기타</option>
+      <select name="simpleReason" id="simple_report_reason" class="px-2 py-2 my-2 w-100 border rounded">
+	       <option value="사유">사유</option>
+	       <option value="스팸홍보/도배글입니다.">스팸홍보/도배글입니다.</option>
+	       <option value="불법정보를 포함하고 있습니다.">불법정보를 포함하고 있습니다.</option>
+	       <option value="청소년에게 유해한 내용입니다.">청소년에게 유해한 내용입니다.</option>
+	       <option value="욕설/생명경시/혐오/차별적 표현입니다.">욕설/생명경시/혐오/차별적 표현입니다.</option>
+	       <option value="개인정보 노출 게시물입니다.">개인정보 노출 게시물입니다.</option>
+	       <option value="불쾌한 표현이 있습니다.">불쾌한 표현이 있습니다.</option>
+	       <option value="기타">기타</option>
       </select>
 
 
     <div class="line">
-        <label for="detail_report_reason" class="label_signup mt-3">상세사유</label>
+        <label for="detail_report_reason" class="label_signup mt-3" style="font-size:14px; font-weight:bold;">상세사유</label>
     </div>
         <div>
-          <textarea name="detail_report_reason" id="detail_report_reason" class="form-control" style="height:250px;" placeholder="신고 상세사유를 적어주세요."></textarea>
+          <textarea name="detailReason" id="detail_report_reason" class="form-control" style="height:250px;" placeholder="신고 상세사유를 적어주세요."></textarea>
         </div>
 	</div>
 	<footer>
-		  <button type="button" id="reportWrite" class="btn border rounded w-100 mt-3">신고하기</button>
+	      <c:if test="${not empty commentId}">
+		    <button type="button" id="btn_comment_report" class="btn border rounded w-100 mt-3">신고하기</button>
+	      </c:if>
+	      <c:if test="${not empty boardId}">
+		    <button type="button" id="btn_board_report" class="btn border rounded w-100 mt-3">신고하기</button>
+          </c:if>
 	      <button type="button" id="btn_close" class="btn btn-light border rounded w-100 mt-3">취소</button>
 	</footer>
 	</form>
-	 </div>
+</div>
+
+<input type="hidden" id="hidden_boardId" value="${boardId}"/>
+<input type="hidden" id="hidden_commentId" value="${commentId}"/>
+<!-- 신고자 id -->
+<input type="hidden" id="hidden_reporterId" value="${loginMember.id}"/>
 
 
 

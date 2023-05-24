@@ -4,6 +4,7 @@ import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
 import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
+import com.devchw.gukmo.entity.report.Report;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
@@ -66,6 +67,9 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Activity> activities = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Report> reports = new ArrayList<>();
+
     /** 추천 수 증가 */
     public void likePlus() {
         likeCount++;
@@ -87,7 +91,7 @@ public class Board {
     }
 
     /** 조회 수 증가 */
-    public void views() {
+    public void viewCountPlus() {
         views++;
     }
 

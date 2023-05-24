@@ -306,4 +306,11 @@ public class BoardService {
         }
         return curriculum.getId();
     }
+
+    /** 게시물 조회 수 증가 */
+    @Transactional
+    public void viewCountUp(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+        board.viewCountPlus();
+    }
 }

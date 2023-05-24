@@ -4,6 +4,7 @@ import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.member.Member;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -23,18 +24,14 @@ public class Report {
     @Column(name = "report_id")
     private Long id;
 
-    private String simpleReason;
+    private String simpleReason; //간단사유
 
     @Lob
-    private String detailReason;
+    private String detailReason; //상세사유
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "report_member_id")
-    private Member reportMember;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "reported_member_id")
-    private Member reportedMember;
+    @JoinColumn(name = "member_id")
+    private Member member; //신고자
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "board_id")
@@ -44,7 +41,8 @@ public class Report {
     @JoinColumn(name = "comments_id")
     private Comments comments;
 
-    private LocalDateTime reportDate;
+    @ColumnDefault("sysdate")
+    private LocalDateTime reportDate; //신고일자
 
     private ReportType type; //BOARD, COMMENT
     public enum ReportType {
