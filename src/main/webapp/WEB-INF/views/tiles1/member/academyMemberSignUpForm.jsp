@@ -6,18 +6,16 @@
 
 
  <%-- 직접 만든 CSS --%>
- <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/member/academy/signUpForm.css" />
- 
+ <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/member/academyMemberSignUpForm.css" />
+
  <%-- Google reCAPTCHA v2 --%>
  <script src="https://www.google.com/recaptcha/api.js"></script>
  <%-- 직접만든 javascript --%>
- <script type="text/javascript" src="<%=ctxPath %>/resources/js/member/academy/signUpForm.js" ></script>
- 
- 
- 
+ <script type="text/javascript" src="<%=ctxPath %>/resources/js/member/academyMemberSignUpForm.js" ></script>
+
  <div id="signup" class="d-flex flex-column mx-auto my-5">
     <%-- 로고 이미지 --%>
-    <div id="logo_img_box" class="m-auto" style="cursor:pointer;" onclick="location.href='<%=ctxPath%>/index.do'">
+    <div id="logo_img_box" class="m-auto" style="cursor:pointer;" onclick="location.href='/'">
       <img id="logo" src="<%=ctxPath %>/resources/images/logo.png" class="rounded">
     </div>
 
@@ -31,13 +29,13 @@
       <form name="acaSignup_form" class="d-flex flex-column">
         <%-- userid (unique,중복체크)--%>
         <label for="userid" class="label_signup mt-3">아이디</label>
-        <input type="text" id="userid" name="userid" class="input_signup rounded pl-2" placeholder="영문 또는 숫자 5~15자 아이디">
+        <input type="text" id="userid" name="userid" class="input_signup rounded pl-2" placeholder="영문 또는 숫자 5~15자 아이디" maxlength="15" value="${form.userId}">
         <p id="userid_error" class="error"></p>
         <p id="userid_ok" class="ok">사용할 수 있는 아이디입니다.</p>
 
         <%-- passwd --%>
         <label for="passwd" class="label_signup mt-3">비밀번호</label>
-        <input type="password" id="passwd" name="passwd" class="input_signup rounded pl-2" placeholder="소문자,특수문자를 포함한 8~15자 비밀번호">
+        <input type="password" id="passwd" name="passwd" class="input_signup rounded pl-2" placeholder="소문자,특수문자를 포함한 8~15자 비밀번호" maxlength="15" value="${form.password}">
         <p id="passwd_error" class="error">비밀번호는 소문자,특수문자를 포함한 8~15자이어야 합니다.</p>
 
         <%-- passwd_check --%>
@@ -47,57 +45,57 @@
 
         <%-- email (unique,중복체크)--%>
         <label for="email" class="label_signup mt-3">이메일</label>
-        <input type="text" id="email" name="email" class="input_signup rounded pl-2" placeholder="example@google.com">
+        <input type="text" id="email" name="email" class="input_signup rounded pl-2" placeholder="example@google.com" value="${form.email}">
         <div id="email_error_area">
           <p id="email_error" class="error"><%-- 이미 가입된 이메일입니다. --%></p>
           <p id="email_ok" class="ok">사용할 수 있는 이메일입니다.</p>
           <button id="btn_email_certification" type="button" class="btn border rounded mt-2 ml-auto" data-toggle="modal" data-target="#email_certification" data-dismiss="modal">이메일 인증</button>
         </div>
-        
 
         <%-- username --%>
         <label for="username" class="label_signup mt-3">이름</label>
-        <input type="text" id="username" name="username" class="input_signup rounded pl-2" placeholder="ex)홍길동" maxlength="10">
-		<p id="username_error" class="error">이름은 특수문자,영어,숫자를 제외한 2~10글자이어야 합니다.</p>
+        <input type="text" id="username" name="username" class="input_signup rounded pl-2" placeholder="ex)홍길동" maxlength="10" value="${form.username}">
+        <p id="username_error" class="error">이름은 특수문자,영어,숫자를 제외한 2~10글자이어야 합니다.</p>
 
-        <%-- nickname (unique,중복체크) --%>
+        <%-- nickname (unique,중복체크)--%>
         <label for="nickname" class="label_signup mt-3">닉네임</label>
-        <input type="text" id="nickname" name="nickname" class="input_signup rounded pl-2" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10">
+        <input type="text" id="nickname" name="nickname" class="input_signup rounded pl-2" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10" value="${form.nickname}">
         <p id="nickname_error" class="error">닉네임 형식에 맞지 않습니다.</p>
         <p id="nickname_ok" class="ok">사용할 수 있는 닉네임입니다.</p>
-		
-		
+
+
 		<%-- 교육기관명(유니크,중복체크) --%>
         <label for="academy_name" class="label_signup mt-3">교육기관명</label>
-        <input type="text" id="academy_name" name="academy_name" class="input_signup rounded pl-2" placeholder="교육기관명을 입력해주세요">
+        <input type="text" id="academy_name" name="academyName" class="input_signup rounded pl-2" placeholder="교육기관명을 입력해주세요">
         <p id="academy_name_error" class="error"></p>
-        
-        
+        <p id="academy_name_ok" class="ok">사용할 수 있는 교육기관명입니다.</p>
+
+
         <%-- 사업자등록번호 --%>
         <label for="company_num" class="label_signup mt-3">사업자등록번호(xx-xxx-xxxxx)</label>
         <div class="d-flex align-items-center">
-          <input type="text" id="input_company_num1" class="input_company_num rounded pl-2" placeholder="숫자3자리" maxlength="3">
+          <input type="text" id="input_company_num1" class="input_company_num border rounded pl-2" placeholder="숫자3자리" maxlength="3">
           <span>&nbsp;-&nbsp;</span>
-          <input type="text" id="input_company_num2" class="input_company_num rounded pl-2" placeholder="숫자2자리" maxlength="2">
+          <input type="text" id="input_company_num2" class="input_company_num border rounded pl-2" placeholder="숫자2자리" maxlength="2">
           <span>&nbsp;-&nbsp;</span>
-          <input type="text" id="input_company_num3" class="input_company_num rounded pl-2" placeholder="숫자5자리" maxlength="5">
+          <input type="text" id="input_company_num3" class="input_company_num border rounded pl-2" placeholder="숫자5자리" maxlength="5">
         </div>
         <p id="company_num_error" class="error">올바른 사업자 등록번호를 입력해주세요.</p>
-        
-        
+
+
         <%-- 교육기관 전화번호--%>
         <label for="tel" class="label_signup mt-3">교육기관 전화번호</label>
         <input type="text" id="tel" name="tel" class="input_signup rounded pl-2" placeholder="교육기관 번호를 입력해주세요(- 제외)">
         <p id="tel_error" class="error">올바른 전화번호를 입력해주세요.</p>
-		
-		
+
+
 		<%-- 교육기관 홈페이지 주소--%>
         <label for="homepage" class="label_signup mt-3">교육기관 홈페이지 URL</label>
         <input type="text" id="homepage" name="homepage" class="input_signup rounded pl-2" placeholder="교육기관 홈페이지 URL을 입력해주세요">
 		<p id="homepage_error" class="error">올바른 URL을 입력해주세요.</p>
-		
-		
-		
+
+
+
         <%-- email 수신동의 --%>
         <div id="email_agreement" class="d-flex justify-content-between my-3">
           <span>이메일 수신동의</span>
@@ -107,8 +105,8 @@
             <span class="slider round"></span>
           </label>
         </div>
-        <input type="hidden" id="email_acept" name="email_acept" value="0"/>
-        <input type="hidden" id="company_num" name="company_num"/>
+        <input type="hidden" id="emailAccept" name="emailAccept" value="0"/>
+        <input type="hidden" id="company_num" name="companyNum"/>
       </form>
 
       <div class="my-1">
@@ -117,36 +115,27 @@
 
       <%-- Google reCAPTCHA --%>
       <div class="d-flex justify-content-center my-2">
-        <div class="g-recaptcha" data-sitekey="6LdO7zkjAAAAAFk660Urlo0EbazNdIIW9aFnJXLH"></div>
+        <div class="g-recaptcha" data-callback="callBackRecaptcha" data-sitekey="6LdO7zkjAAAAAFk660Urlo0EbazNdIIW9aFnJXLH"></div>
       </div>
-      
-	  
-	  
-      <button type="button" id="btn_signup" class="btn border rounded w-100 mt-3">회원가입</button>
 
+      <button type="button" id="btn_signup" class="btn border rounded w-100 mt-3">회원가입</button>
 
     </div>
     <%-- signupform 끝 --%>
-    
-    <%-- 유효성검사 테스트 버튼 --%>
-    <%--
-    <button type="button" id="btn_test">유효성검사 테스트</button>
-    --%>
-
-  </div>
+ </div>
 
 
 <%-- 이메일인증 Modal --%>
   <div class="modal fade" id="email_certification">
     <div class="modal-dialog">
       <div class="modal-content">
-      
+
         <%-- Modal header --%>
         <div class="modal-header">
           <h5 class="modal-title">이메일인증코드 발송</h5>
           <button type="button" class="close email_certificationClose" data-dismiss="modal">&times;</button>
         </div>
-        
+
         <%-- Modal body --%>
         <div class="modal-body">
           <div class="d-flex flex-column mt-2">
@@ -160,13 +149,12 @@
             </div>
           </div>
         </div>
-        
+
         <%-- Modal footer --%>
         <div class="modal-footer">
           <button id="btn_certification_complete" type="button" class="btn border">인증완료</button>
           <button type="button" class="btn border email_certification_close" data-dismiss="modal">Close</button>
         </div>
       </div>
-      
     </div>
   </div>

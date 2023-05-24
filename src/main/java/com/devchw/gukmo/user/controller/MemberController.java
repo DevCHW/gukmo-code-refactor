@@ -3,6 +3,7 @@ package com.devchw.gukmo.user.controller;
 import com.devchw.gukmo.entity.member.Activity;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
+import com.devchw.gukmo.user.dto.member.AcademyMemberSignUpFormDto;
 import com.devchw.gukmo.user.dto.member.ActivityDto;
 import com.devchw.gukmo.user.dto.member.ActivityDto.WriterNicknameDto;
 import com.devchw.gukmo.user.dto.member.MyPageDto;
@@ -47,9 +48,9 @@ public class MemberController {
     }
 
     /** 교육기관회원 가입 페이지 */
-    @GetMapping("/signUp/academy")
+    @GetMapping("/signUp/academyMember")
     public String academyMemberSignUpForm() {
-        return "member/academy/signUpForm.tiles1";
+        return "member/academyMemberSignUpForm.tiles1";
     }
 
     /** 일반회원 가입 페이지 */
@@ -62,11 +63,23 @@ public class MemberController {
     @PostMapping("/signUp")
     public String save(@Valid @ModelAttribute SignUpFormDto form,
                        BindingResult bindingResult) {
-        log.info("회원가입 회원정보={}", form);
+        log.info("SignUpFormDto={}", form);
         if (bindingResult.hasErrors()) {    // SignUpForm 검증
-            return "login/loginForm.tiles1";
+            return "member/signUpForm.tiles1";
         }
         memberService.signUp(form); //회원가입시키기
+        return "redirect:/login";
+    }
+
+    /** 교육기관회원 회원가입 */
+    @PostMapping("/signUp/academyMember")
+    public String saveAcademyMember(@Valid @ModelAttribute AcademyMemberSignUpFormDto form,
+                       BindingResult bindingResult) {
+        log.info("AcademyMemberSignUpFormDto={}", form);
+        if (bindingResult.hasErrors()) {    // SignUpForm 검증
+            return "member/academyMemberSignUpForm.tiles1";
+        }
+        memberService.signUpAcademyMember(form); //회원가입시키기
         return "redirect:/login";
     }
 

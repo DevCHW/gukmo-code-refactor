@@ -29,7 +29,6 @@ let send_email_click_cnt = 0;
 let certificationCode;
 
 
-
 $(document).ready(function(){
   //가입하기 버튼 비활성화
   $("button#btn_signup").attr("disabled",true);
@@ -170,9 +169,8 @@ $(document).ready(function(){
 	username_ok = false;
 
     if(test_username(username)){  //유효성검사 통과시
-    	username_ok = true;
+    	test_all();
     }
-    test_all();
   });//end of Event---
 
 
@@ -195,15 +193,20 @@ $(document).ready(function(){
   $("input#academy_name").keyup(()=>{
 	const academy_name = $("input#academy_name").val();
 	academy_name_ok = false;
-
+    if(academy_name.trim() == "") {
+        $("input#academy_name").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)
+        $("p#academy_name_error").text("교육기관명을 입력해주세요");
+        $("p#academy_name_error").css("display","block");  //에러문구(비밀번호 칸)
+        $("label[for='academy_name']").css("color","red");  //라벨 빨간색(비밀번호 칸)
+        $("p#academy_name_ok").css("display","none");
+        academy_name_ok = false;
+        return;
+    }
     if(test_academy_name(academy_name)){  //유효성검사 통과시
-    	if(academy_name_exist_check(academy_name)){	//중복검사 통과시
-    	  academy_name_ok = true;
-    	}
+      academy_name_ok = true;
     }
     test_all();
   });//end of Event---
-
 
 
   //사업자등록번호 칸 값 입력시 이벤트
@@ -261,17 +264,11 @@ $(document).ready(function(){
 
   //가입하기 버튼 클릭시 이벤트
   $("button#btn_signup").click(()=>{
-      reCAPTCHA();
-      if(recaptcha_ok){	//자동가입방지를 통과했다면
-	    const frm = document.acaSignup_form;
+    const frm = document.acaSignup_form;
 
-        frm.action = getContextPath()+"/member/save.do";
-        frm.method = "POST";
-        frm.submit();
-      }
-      else{	//자동가입방지 봇을 통과하지 못했다면
-    	alert("자동가입방지 봇 통과 후 가입해주세요");
-      }
+    frm.action = "/members/signUp/academyMember";
+    frm.method = "POST";
+    frm.submit();
   });//end of Event---
 
 
@@ -280,33 +277,11 @@ $(document).ready(function(){
   //이메일 수신동의 토글스위치 값 변경시 이벤트
   $("input#email_agreement").change(()=>{
     if($("input#email_agreement").is(":checked")){	//이메일 수신동의 체크시
-        $("input#email_acept").val("1");
+      $("input#emailAccept").val("YES");
     }else{	//이메일수신동의 체크해제시
-    	$("input#email_acept").val("0");
+      $("input#emailAccept").val("NO");
     }
   });//end of Event---
-
-
-
-
-  //유효성검사 잘 개발하였는지 테스트
-//  $("button#btn_test").click(()=>{
-//	 console.log("");
-//	 console.log("==========================");
-//	 console.log("==========================");
-//	 console.log("userid_ok : " + userid_ok);
-//	 console.log("passwd_ok : " + passwd_ok);
-//	 console.log("email_ok : " + email_ok);
-//	 console.log("nickname_ok : " + nickname_ok);
-//	 console.log("recaptcha_ok : " + recaptcha_ok);
-//	 console.log("username_ok : " + username_ok);
-//	 console.log("email_certification : " + email_certification);
-//	 console.log("==========================");
-//	 console.log("==========================");
-//	 console.log("");
-//  });
-
-
 
 });//end of $(document).ready(function(){})---
 
@@ -318,9 +293,11 @@ $(document).ready(function(){
 // =========================== Function Declaration =========================== //
 
 
-
-
-
+// 로봇이 아닙니다 클릭시
+function callBackRecaptcha(){
+    reCAPTCHA();
+    test_all();
+}
 
 /**
  * 아이디 유효성검사(5~15자)
@@ -353,19 +330,18 @@ function test_userid(userid){
  */
 function userid_exist_check(userid){
   $.ajax({
-    url:getContextPath()+"/member/idExistCheck.do",
-    data:{"userid": userid},
-    type:"post",
+    url:"/api/v1/signUp/userId/exist",
+    data:{"userId": userid},
+    type:"get",
     dataType:"json",
     async:false,
-    success:function(json){
-      if(json.idExist){	//아이디가 존재한다면
+    success:function(res){
+      if(res.result){	//아이디가 존재한다면
         $("input#userid").css("border","solid 1px red");  //빨간색 테두리
         $("p#userid_error").text("이미 가입된 아이디입니다.");
         $("p#userid_error").css("display","block");  //에러문구
         $("label[for='userid']").css("color","red");  //라벨 빨간색
-      }
-      else{	//아이디가 존재하지 않는다면
+      } else{	//아이디가 존재하지 않는다면
         $("input#userid").css("border","");  //빨간색 테두리 없애기
         $("p#userid_error").text("");
         $("p#userid_error").css("display","");  //에러문구 없애기
@@ -374,11 +350,6 @@ function userid_exist_check(userid){
         userid_ok = true;
       }
     },//end of success
-
-    //success 대신 error가 발생하면 실행될 코드
-    error: function(request,status,error){
-      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    }
   });// end of $.ajax({})---
 }//end of method----
 
@@ -472,13 +443,13 @@ function test_email(email){
  */
 function email_exist_check(email){
   $.ajax({
-    url:getContextPath()+"/member/emailExistCheck.do",
+    url:"/api/v1/members/email/exist",
     data:{"email": email},
-    type:"post",
+    type:"get",
     dataType:"json",
     async:false,
-    success:function(json){
-      if(json.emailExist){	//이메일이 존재한다면
+    success:function(res) {
+      if(res.result){	//이메일이 존재한다면
         $("input#email").css("border","solid 1px red");  //빨간색 테두리
         $("p#email_error").text("이미 가입된 이메일입니다.");
         $("p#email_error").css("display","block");  //에러문구
@@ -487,8 +458,7 @@ function email_exist_check(email){
         $("button#btn_email_certification").attr("disabled",true); //이메일인증 버튼 비활성화
         $("button#btn_email_certification").css("background","#EBEBEB");
         $("button#btn_email_certification").css("color","white");
-      }
-      else{	//이메일이 존재하지 않는다면
+      } else {	//이메일이 존재하지 않는다면
         $("input#email").css("border","");  //빨간색 테두리 없애기
         $("p#email_error").text("");
         $("p#email_error").css("display","none");  //에러문구 없애기
@@ -500,15 +470,9 @@ function email_exist_check(email){
         $("button#btn_email_certification").css("color","");
         email_ok = true;
       }
-    },//end of success
-
-    //success 대신 error가 발생하면 실행될 코드
-    error: function(request,status,error){
-      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    }
+    }//end of success
   });// end of $.ajax({})---
 }//end of method----
-
 
 
 
@@ -520,13 +484,13 @@ function email_exist_check(email){
  */
 function sendCertificationCode(email){
 	$.ajax({
-	  url:getContextPath()+"/sendEmailCertificationCode.do",
+	  url:"/api/v1/email/certificationCode",
 	  data:{"email": email},
 	  type:"post",
 	  dataType:"json",
-	  success:function(json){
-	    if(json.sendMailSuccess){	//이메일 전송에 성공했다면
-	      certificationCode = json.certificationCode;
+	  success:function(res){
+	    if(res.result.sendMailSuccess){	//이메일 전송에 성공했다면
+	      certificationCode = res.result.certificationCode;
 	    } else {	//이메일 전송에 실패했다면
 	      $("span#send_guide").html("입력하신 이메일로 전송을 실패했습니다.입력하신 이메일을 다시한번 확인해주세요");
 	    }
@@ -573,19 +537,18 @@ function test_nickname(nickname){
  */
 function nickname_exist_check(nickname){
   $.ajax({
-    url:getContextPath()+"/member/nicknameExistCheck.do",
+    url:"/api/v1/members/nickname/exist",
     data:{"nickname": nickname},
-    type:"post",
+    type:"get",
     dataType:"json",
     async:false,
-    success:function(json){
-      if(json.nicknameExist){	//닉네임이 존재한다면
+    success:function(res){
+      if(res.result){	//닉네임이 존재한다면
         $("input#nickname").css("border","solid 1px red");  //빨간색 테두리
         $("p#nickname_error").text("이미 존재하는 닉네임입니다.");
         $("p#nickname_error").css("display","block");  //에러문구
         $("label[for='nickname']").css("color","red");  //라벨 빨간색
-      }
-      else{	//닉네임이 존재하지 않는다면
+      } else {	//닉네임이 존재하지 않는다면
         $("input#nickname").css("border","");  //빨간색 테두리 없애기
         $("p#nickname_error").text("");
         $("p#nickname_error").css("display","");  //에러문구 없애기
@@ -593,11 +556,6 @@ function nickname_exist_check(nickname){
         $("p#nickname_ok").css("display","block");
         nickname_ok = true;
       }
-    },//end of success
-
-    //success 대신 error가 발생하면 실행될 코드
-    error: function(request,status,error){
-      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });// end of $.ajax({})---
 }//end of method----
@@ -616,12 +574,14 @@ function test_username(username){
     $("input#username").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)
     $("p#username_error").css("display","block");  //에러문구(비밀번호 칸)
     $("label[for='username']").css("color","red");  //라벨 빨간색(비밀번호 칸)
+    username_ok = false;
     return false;
   }
   else{ //유효성검사를 통과한다면
     $("input#username").css("border","");  //빨간색 테두리없애기
     $("p#username_error").css("display","none");  //에러문구 없애기
     $("label[for='username']").css("color","");  //라벨 빨간색 없애기
+    username_ok = true;
     return true;
   }
 }// end of method---
@@ -631,30 +591,30 @@ function test_username(username){
 
 
 /**
- * 교육기관명 유효성검사(특수문자,영어,숫자 사용 금지2~10자)
+ * 교육기관명 유효성검사(특수문자,영어,숫자 사용 금지5~10자)
  * @param 사용자가 입력한 유저이름 값
  * @returns 검사를 통과하면 true, 통과하지 못하면 false
  */
 function test_academy_name(academy_name){
-  const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
-
-  if((regExp.test(academy_name))){	//유효성검사를 통과못하면
+  const regExp = /^[가-힣]{5,10}$/;
+  if(!regExp.test(academy_name)){	//유효성검사를 통과못하면
     $("input#academy_name").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)
-    $("p#academy_name_error").text("교육기관명에는 특수문자를 쓸 수 없습니다.");
+    $("p#academy_name_error").text("교육기관명은 한글 5~10자를 입력하셔야 합니다.");
     $("p#academy_name_error").css("display","block");  //에러문구(비밀번호 칸)
     $("label[for='academy_name']").css("color","red");  //라벨 빨간색(비밀번호 칸)
-
+    $("p#academy_name_ok").css("display","none");
+    academy_name_ok = false;
     return false;
-  }
-  else{ //유효성검사를 통과한다면
+  } else{ //유효성검사를 통과한다면
     $("input#academy_name").css("border","");  //빨간색 테두리없애기
     $("p#academy_name_error").text("");
     $("p#academy_name_error").css("display","none");  //에러문구 없애기
     $("label[for='academy_name']").css("color","");  //라벨 빨간색 없애기
+    $("p#academy_name_ok").css("display","none");
+    academy_name_exist_check(academy_name);
     return true;
   }
 }// end of method---
-
 
 
 /**
@@ -663,25 +623,27 @@ function test_academy_name(academy_name){
  */
 function academy_name_exist_check(academyName){
   $.ajax({
-    url:getContextPath()+"/member/academyNameExistCheck.do",
+    url:"/api/v1/signUp/academyName/exist",
     data:{"academyName": academyName},
-    type:"post",
+    type:"get",
     dataType:"json",
     async:false,
-    success:function(json){
-      if(json.academyNameExist){	//교육기관명이 존재한다면
+    success:function(res){
+      if(res.result){	//교육기관명이 존재한다면
         $("input#academy_name").css("border","solid 1px red");  //빨간색 테두리
         $("p#academy_name_error").text("이미 가입된 교육기관입니다.");
         $("p#academy_name_error").css("display","block");  //에러문구
         $("label[for='academy_name']").css("color","red");  //라벨 빨간색
+        $("p#academy_name_ok").css("display","none");
+        academy_name_ok = false;
         return false;
-      }
-      else{	//닉네임이 존재하지 않는다면
+      } else {	//교육기관명이 존재하지 않는다면
         $("input#academy_name").css("border","");  //빨간색 테두리 없애기
         $("p#academy_name_error").text("");
         $("p#academy_name_error").css("display","");  //에러문구 없애기
         $("label[for='academy_name']").css("color","");  //라벨 빨간색 없애기
-        $("p#nickname_ok").css("display","block");
+        $("p#academy_name_ok").css("display","block");
+        academy_name_ok = true;
         return true;
       }
     },//end of success
@@ -692,9 +654,6 @@ function academy_name_exist_check(academyName){
     }
   });// end of $.ajax({})---
 }//end of method----
-
-
-
 
 
 
@@ -724,7 +683,6 @@ function test_company_num(company_num){
   return false;
 
 }// end of method---
-
 
 
 
@@ -784,13 +742,6 @@ function test_homepage(homepage){
 
 
 
-
-
-
-
-
-
-
 //타이머 함수 만들기
 const timer = function timer(){
   if(time<0){ // 타임이 0보다 작게된다면
@@ -817,9 +768,26 @@ const timer = function timer(){
  * 모든 유효성 검사 통과시 회원가입 버튼을 활성화시키기
  */
 function test_all(){
+//  console.log("");
+//  console.log("==========================");
+//  console.log("==========================");
+//  console.log("userid_ok : " + userid_ok);
+//  console.log("passwd_ok : " + passwd_ok);
+//  console.log("email_ok : " + email_ok);
+//  console.log("nickname_ok : " + nickname_ok);
+//  console.log("recaptcha_ok : " + recaptcha_ok);
+//  console.log("email_certification : " + email_certification);
+//  console.log("username_ok : " + username_ok);
+//  console.log("company_num_ok : " + company_num_ok);
+//  console.log("homepage_ok : " + homepage_ok);
+//  console.log("tel_ok : " + tel_ok);
+//  console.log("academy_name_ok : " + academy_name_ok);
+//  console.log("==========================");
+//  console.log("==========================");
+//  console.log("");
   if(!userid_ok || !passwd_ok || !email_ok || !nickname_ok ||
      !email_certification || !username_ok || !company_num_ok ||
-     !homepage_ok || !tel_ok || !academy_name) { // 유효성검사를 하나라도 통과하지 못했다면
+     !homepage_ok || !tel_ok || !academy_name_ok || !recaptcha_ok) { // 유효성검사를 하나라도 통과하지 못했다면
     $("button#btn_signup").attr("disabled",true);
     $("button#btn_signup").css("background","#EBEBEB");
     $("button#btn_signup").css("color","white");
@@ -836,19 +804,18 @@ function test_all(){
 
 
 /**
- * reCAPTCHA v2 사용하기
- * @returns
+ * reCAPTCHA v2
  */
 function reCAPTCHA(){
 	$.ajax({
-        url: getContextPath()+'/member/verifyRecaptcha.do',
+        url: '/api/v1/recaptcha/verify',
         type: 'post',
         data: {
             recaptcha: $("#g-recaptcha-response").val()
         },
         async:false,
-        success: function(data) {
-            switch (data) {
+        success: function(res) {
+            switch (res.result) {
                 case 0:
                     console.log("자동 가입 방지 봇 통과");
                     recaptcha_ok = true;
@@ -864,7 +831,6 @@ function reCAPTCHA(){
             }
         }
     });//end of $.ajax({})
-
 }//end of method-----
 
 

@@ -191,7 +191,7 @@ input#input_certificationCode:focus{
 }
 input#input_certificationCode::placeholder{
   font-size:small;
-  
+
 }
 div#certification_area{
   display:none;

@@ -26,9 +26,7 @@ $(document).ready(function(){
       return;
     }
     else if(check_length == 2){
-      location.href = "/members/academy/signUp";
+      location.href = "/members/signUp/academyMember";
     }
   });
-  
-  
 });

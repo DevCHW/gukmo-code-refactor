@@ -58,7 +58,7 @@
       <div id="writer_profile_body" class="d-flex flex-column w-100 px-2 py-1">
         <%-- 작성자 닉네임 들어가면 해당 유저의 활동내역을 볼수 있는 페이지로 이동--%>
         <div>
-        <a onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${board.writer.nickname}'" id="board_writer_nickname" class="pl-2" style="font-size: 18px; color:#212529;">${board.writer.nickname}</a>
+        <a id="board_writer_nickname" class="pl-2" style="font-size: 18px; color:#212529;">${board.writer.nickname}</a>
         </div>
         <%-- 활동점수,작성일자,조회수 영역--%>
         <div class="d-flex">
@@ -370,7 +370,7 @@
           </div>
 
           <div class="d-flex flex-column w-100">
-            <div class="comment_writer_nickname" id ="${comment.id}" onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${bcommentList.nickname}'" style="cursor:pointer; width:20%;">${comment.writer.nickname}</div>
+            <div class="comment_writer_nickname" id ="${comment.id}" style="width:20%;">${comment.writer.nickname}</div>
             <div class="mt-1">
               <%-- 댓글작성자 활동점수 --%>
               <span class="mr-2">
@@ -574,8 +574,7 @@
 	            </div>
 
 	            <div class="d-flex flex-column w-100">
-	              <div class="comment_writer_nickname" id="${childComment.id}"
-	                   onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${spcial_commentList.nickname}'" style="cursor:pointer; width:20%;">${childComment.writer.nickname}</div>
+	              <div class="comment_writer_nickname" id="${childComment.id}" style="width:20%;">${childComment.writer.nickname}</div>
 	              <div class="mt-1">
 	                <%-- 대댓글작성자 활동점수 --%>
 	                <span class="mr-2">

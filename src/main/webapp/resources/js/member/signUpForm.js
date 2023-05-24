@@ -169,6 +169,7 @@ $(document).ready(function(){
     test_all();
   });//end of Event---
 
+
   //가입하기 버튼 클릭시 이벤트
   $("button#btn_signup").click(()=>{
     const form = document.signup_form;

@@ -3,6 +3,7 @@ package com.devchw.gukmo.user.service;
 import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
+import com.devchw.gukmo.user.dto.member.AcademyMemberSignUpFormDto;
 import com.devchw.gukmo.user.dto.member.SignUpFormDto;
 import com.devchw.gukmo.user.dto.api.member.UpdateInfoRequest;
 import com.devchw.gukmo.user.repository.LoginRepository;
@@ -33,6 +34,13 @@ public class MemberService {
         Member saveMember = memberRepository.save(member);
         Login login = form.toLoginEntity(saveMember);
         loginRepository.save(login);
+    }
+
+    /** 교육기관회원 회원가입 */
+    @Transactional
+    public void signUpAcademyMember(AcademyMemberSignUpFormDto form) {
+        Member newMember = form.toEntity();
+        Member saveMember = memberRepository.save(newMember);
     }
 
     /** 이메일 수정 */
