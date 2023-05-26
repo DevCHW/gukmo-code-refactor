@@ -60,6 +60,10 @@ public class BoardController {
     public String boards(@ModelAttribute BoardRequestDto boardRequest,
                          Pageable pageable,
                          Model model) {
+        //필독 공지사항 조회
+        List<NoticeListDto> mustReadNotices = boardRepository.findMustReadNoticeList();
+        log.info("조회한 필독공지사항={}", mustReadNotices);
+        model.addAttribute("mustReadNotices", mustReadNotices);
 
         List<Long> boardIds = new ArrayList<>();
         int totalPage = 0;

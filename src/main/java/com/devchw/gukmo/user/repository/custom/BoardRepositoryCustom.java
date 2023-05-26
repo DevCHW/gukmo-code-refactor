@@ -17,4 +17,6 @@ public interface BoardRepositoryCustom {
     Page<AcademyListDto> findAcademyList(BoardRequestDto boardRequest, Pageable pageable);
 
     List<ActivityDto.WriterNicknameDto> findAllWriterNicknamesByBoardId(List<Long> boardIds);
+
+    List<NoticeListDto> findMustReadNoticeList();
 }

@@ -234,6 +234,20 @@ public class DBinit {
                         .build();
                 em.persist(notice);
             }//end of for--
+
+            // 공지사항 데이터 넣기
+            for(int i=1; i<=5; i++) {
+                Member member = memberRepository.findById(6L).get();
+                Notice notice = Notice.builder()
+                        .subject("필독공지사항"+i)
+                        .content("필독공지사항"+i)
+                        .firstCategory("공지사항")
+                        .secondCategory("공지사항")
+                        .member(member)
+                        .mustRead(Notice.MustRead.YES)
+                        .build();
+                em.persist(notice);
+            }//end of for--
         }
 
         /**

@@ -1,5 +1,6 @@
 package com.devchw.gukmo.user.repository.custom;
 
+import com.devchw.gukmo.entity.board.Notice;
 import com.devchw.gukmo.user.dto.board.*;
 import com.devchw.gukmo.user.dto.member.QActivityDto_WriterNicknameDto;
 import com.querydsl.core.types.Order;
@@ -63,6 +64,34 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return new PageImpl<>(boardList, pageable, total);
     }
 
+    /** 필독 공지사항 조회 */
+    @Override
+    public List<NoticeListDto> findMustReadNoticeList() {
+        return queryFactory
+                .select(new QNoticeListDto(notice.id,
+                        member.nickname,
+                        notice.firstCategory,
+                        notice.secondCategory,
+                        notice.subject,
+                        notice.content,
+                        notice.writeDate,
+                        notice.views,
+                        member.profileImage,
+                        member.point.as("writerPoint"),
+                        notice.commentCount,
+                        notice.likeCount,
+                        notice.mustRead))
+                .from(notice)
+                .where(
+                        firstCategoryEq("공지사항"),
+                        secondCategoryEq("공지사항"),
+                        notice.mustRead.eq(Notice.MustRead.YES)
+                )
+                .join(notice.member, member)   //ManyToOne
+                .orderBy(notice.id.desc())
+                .fetch();
+    }
+
     /**
      * 글 작성자 닉네임 목록 조회
      */
@@ -77,6 +106,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .join(board.member, member)   //ManyToOne
                 .fetch();
     }
+
 
 
     /** 국비학원 리스트 조회 쿼리 */
