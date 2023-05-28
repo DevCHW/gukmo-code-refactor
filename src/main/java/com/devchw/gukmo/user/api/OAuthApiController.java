@@ -28,7 +28,7 @@ public class OAuthApiController {
     public BaseResponse<OauthLoginResponse> kakaoLogin(OauthLoginRequest kakaoLoginRequest, HttpSession session) {
         Member member = oauthService.oauthLogin(kakaoLoginRequest);
 
-        LoginMemberDto loginMemberDto = LoginMemberDto.toDto(member);
+        LoginMemberDto loginMemberDto = new LoginMemberDto().toDto(member);
 
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMemberDto);
 
@@ -43,7 +43,7 @@ public class OAuthApiController {
     public BaseResponse<OauthLoginResponse> facebookLogin(OauthLoginRequest facebookLoginRequest, HttpSession session) {
         Member member = oauthService.oauthLogin(facebookLoginRequest);
 
-        LoginMemberDto loginMemberDto = LoginMemberDto.toDto(member);
+        LoginMemberDto loginMemberDto = new LoginMemberDto().toDto(member);
 
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMemberDto);
 
@@ -58,7 +58,7 @@ public class OAuthApiController {
     public BaseResponse<OauthLoginResponse> googleLogin(OauthLoginRequest googleLoginRequest, HttpSession session) {
         Member member = oauthService.oauthLogin(googleLoginRequest);
 
-        LoginMemberDto loginMemberDto = LoginMemberDto.toDto(member);
+        LoginMemberDto loginMemberDto = new LoginMemberDto().toDto(member);
 
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMemberDto);
 

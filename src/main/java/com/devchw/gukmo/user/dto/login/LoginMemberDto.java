@@ -26,13 +26,24 @@ public class LoginMemberDto {
     /**
      * Entity -> Dto
      */
-    public static LoginMemberDto toDto(Member member) {
-       return LoginMemberDto.builder()
-               .id(member.getId())
-               .profileImage(member.getProfileImage())
-               .userRole(member.getUserRole())
-               .nickname(member.getNickname())
-               .point(member.getPoint())
-               .build();
+    public LoginMemberDto toDto(Member member) {
+        if(member.getPoint() != null) {
+            return LoginMemberDto.builder()
+                    .id(member.getId())
+                    .profileImage(member.getProfileImage())
+                    .userRole(member.getUserRole())
+                    .nickname(member.getNickname())
+                    .point(member.getPoint())
+                    .build();
+        } else {
+            return LoginMemberDto.builder()
+                    .id(member.getId())
+                    .profileImage(member.getProfileImage())
+                    .userRole(member.getUserRole())
+                    .nickname(member.getNickname())
+                    .point(0L)
+                    .build();
+        }
+
     }
 }

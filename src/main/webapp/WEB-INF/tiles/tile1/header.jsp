@@ -110,17 +110,14 @@
 			<c:if test="${not empty loginMember}">
 				<div id="start_login" class="login justify-content-between align-items-center">
 
-					<%-- 알림 --%>
-					<jsp:include page="/WEB-INF/views/tiles1/component/alarm.jsp" />
-					
 					<%-- 프로필 drop --%>
 					<div class="dropdown">
 						<div class="dropbtn">
 							<c:if test="${fn:substring(loginMember.profileImage,0,4) != 'http'}">
-			                  <img src="<%=ctxPath%>/resources/images/${loginMember.profileImage}" onclick="drop_profile()"/>
+			                  <img src="<%=ctxPath%>/resources/images/${loginMember.profileImage}"/>
 			                </c:if>
 			                <c:if test="${fn:substring(loginMember.profileImage,0,4) == 'http'}">
-			             	   <img src="${loginMember.profileImage}" onclick="drop_profile()"/>
+			             	   <img src="${loginMember.profileImage}"/>
 			                </c:if>
 						</div>
 						<div id="profile_dropContent" class="dropdown-content2">

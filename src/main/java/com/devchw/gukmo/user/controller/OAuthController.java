@@ -58,7 +58,7 @@ public class OAuthController {
             log.info("네이버 로그인 요청, 사용자정보={}", naverLoginRequest);
 
             Member member = oauthService.oauthLogin(naverLoginRequest);
-            LoginMemberDto loginMemberDto = LoginMemberDto.toDto(member);
+            LoginMemberDto loginMemberDto = new LoginMemberDto().toDto(member);
 
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMemberDto);
 

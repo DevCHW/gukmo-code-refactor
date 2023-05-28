@@ -18,10 +18,8 @@ $(document).ready(function(){
   /*
   	// == url 정리 == //
   	[회원 관련 페이지]
-  	/admin/members/normal -- 일반회원내역 페이지
-  	/admin/members/academy -- 교육기관회원내역 페이지
-  	/admin/members/detail.do -- 회원 상세페이지
-  		
+  	/admin/members -- 회원내역 페이지
+
   	[광고 관련 페이지]
   	/admin/advertisements/list.do --광고내역 페이지
   	/admin/advertisements/ --광고 상세페이지
@@ -139,7 +137,7 @@ $(document).ready(function(){
 <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
 	
     <%-- Sidebar - Brand --%>
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=ctxPath %>/index.do">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
         <img src="<%=ctxPath %>/resources/images/titleicon.png" style="width:60px; height:60px;">
         <div class="sidebar-brand-text mx-3">ADMIN MENU</div>
     </a>
@@ -150,7 +148,7 @@ $(document).ready(function(){
 
     <%-- Nav Item - Dashboard --%>
     <li class="nav-item dashboardMenu">
-        <a class="nav-link" href="<%=ctxPath %>/admin/index.do">
+        <a class="nav-link" href="/admin">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>대시보드</span>
         </a>
@@ -178,8 +176,7 @@ $(document).ready(function(){
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Member</h6>
-                <a class="collapse-item normalMemberMenu" href="<%=ctxPath %>/admin/member/normal/list.do">일반회원 내역</a>
-                <a class="collapse-item acaMemberMenu" href="<%=ctxPath %>/admin/member/academy/list.do">교육기관회원 내역</a>
+                <a class="collapse-item normalMemberMenu" href="<%=ctxPath %>/admin/members">회원 내역</a>
             </div>
         </div>
     </li>
@@ -223,21 +220,11 @@ $(document).ready(function(){
 	<%--------------------------------신고 영역 끝--------------------------------------%>
 	
 	
-	<%-------------------------------- 통계메뉴 영역 시작--------------------------------------%>
-	<%-- Divider --%>
+    <%-- Divider --%>
     <hr class="sidebar-divider">
 
     <%-- Heading --%>
     <div class="sidebar-heading">view</div>
-
-    <%-- Nav Item - Member Collapse Menu --%>
-    <li class="nav-item statisticsMenu">
-    	<a class="nav-link" href="<%=ctxPath %>/admin/statistics.do">
-            <i class="fa-solid fa-chart-simple"></i>
-            <span>통계</span></a>
-    </li>
-    <%-------------------------------- 통계메뉴 영역 끝--------------------------------------%>
-    
     
     <%-------------------------------- 일정메뉴 영역 시작--------------------------------------%>
 

@@ -63,7 +63,7 @@ public class LoginController {
             Member loginMember = loginService.login(form.getUserId(), form.getPassword());
 
             //Member -> LoginMemberDto 변환
-            LoginMemberDto loginMemberDto = LoginMemberDto.toDto(loginMember);
+            LoginMemberDto loginMemberDto = new LoginMemberDto().toDto(loginMember);
 
             //session에 필요한 값만 저장.
             HttpSession session = request.getSession();

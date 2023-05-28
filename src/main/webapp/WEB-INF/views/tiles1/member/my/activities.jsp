@@ -85,9 +85,6 @@
           <div id="view_activities" class="filter mx-4 py-3">
             	활동내역
           </div>
-          <div id="view_alarm" class="filter mx-4 py-3">
-            	알림
-          </div>
         </div>
       </div>
 
@@ -173,20 +170,6 @@
           ${pageBar}
         </nav>
         <%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
-      </div>
-
-
-
-      <div id="alarm" class="mt-4">
-
- 		<%-- 알림 리스트 영역 --%>
- 		<div id="alarmList" class="mb-4"></div>
-
- 		<%-- 페이지 바 영역 --%>
- 		<div>
- 			<nav id="pageBar" class="d-flex justify-content-center"></nav>
- 		</div>
-
       </div>
 
     </div>

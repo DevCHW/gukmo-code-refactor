@@ -26,6 +26,6 @@ public class IndexController {
         Map<String, Long> summaryMap = indexService.findSummaryCount();
 
         model.addAttribute("summaryMap", summaryMap);
-        return "admin/index.tiles2";
+        return "index.tiles2";
     }
 }

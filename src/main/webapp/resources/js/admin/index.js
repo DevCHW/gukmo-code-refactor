@@ -1,9 +1,3 @@
-// js파일에서 contextPath를 알아내는 함수
-function getContextPath(){
-  let hostIndex = location.href.indexOf(location.host) + location.host.length;
-  let contextPath = location.href.substring(hostIndex, location.href.indexOf('/',hostIndex+1));
-  return contextPath;
-}
 
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -15,8 +9,8 @@ const month = today.getMonth() + 1;  // 월
 const date = today.getDate();  // 날짜
 
 $("document").ready(function(){
-	$("#area-chart-title").html(year+"년 월별 사이트 접속량 수")
-	let areaChartData = getVisitCountMonthlyData();
+	$("#area-chart-title").html(year+"년 사이트 이용자 증가 수")
+	let areaChartData = getJoinMemberCountMonthlyData();
 	getAreaChart(areaChartData);
 	
 	let pieChartData = getCommunityActiveData();
@@ -66,7 +60,7 @@ function getAreaChart(data){
 	  data: {
 	    labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 	    datasets: [{
-	      label: "방문자 수",
+	      label: "가입자 수",
 	      lineTension: 0.3,
 	      backgroundColor: "rgba(78, 115, 223, 0.05)",
 	      borderColor: "rgba(78, 115, 223, 1)",
@@ -188,17 +182,18 @@ function getPieChart(data){
 
 
 /**
- * 이번년도 월별 방문자 수 데이터 얻기
+ * 이번년도 사이트 이용자 증가 수 얻기
  */
-function getVisitCountMonthlyData(){
+function getJoinMemberCountMonthlyData(){
 	let visitCountMonthlydata = [];
 	$.ajax({
 		type : 'get',
-		url:getContextPath()+"/admin/getVisitCountMonthlyData.do",
+		url: "/api/v1/admin/members/increase/stats",
 		async:false,
 		dataType : 'json',
 		success : function(res){
-			visitCountMonthlydata.push(...res);
+		    console.log(res.result.data);
+			visitCountMonthlydata.push(...res.result.data);
 		},//end of success
 		error: function(xhr, status, error){
 			alert(status+":"+error);
@@ -216,11 +211,11 @@ function getCommunityActiveData(){
 	let communityActiveData = [];
 	$.ajax({
 		type : 'get',
-		url:getContextPath()+"/admin/getCommunityActiveData.do",
+		url:"/api/v1/admin/boards/community/activity/stats",
 		async:false,
 		dataType : 'json',
 		success : function(res){
-			communityActiveData.push(...res);
+			communityActiveData.push(...res.result.data);
 		},//end of success
 		error: function(xhr, status, error){
 			alert(status+":"+error);
