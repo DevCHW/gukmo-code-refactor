@@ -4,13 +4,14 @@ import com.devchw.gukmo.admin.dto.api.board.CommunityActivityStatsResponse;
 import com.devchw.gukmo.admin.dto.api.member.IncreaseStatsResponse;
 import com.devchw.gukmo.admin.service.AdminBoardService;
 import com.devchw.gukmo.config.response.BaseResponse;
+import com.devchw.gukmo.config.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 
 @Slf4j
 @RestController

@@ -19,6 +19,7 @@ import java.util.List;
 public class AdminMemberApiController {
     private final AdminMemberService adminMemberService;
 
+    /** 관리자 사이트 이용자 수 증가 통계 */
     @GetMapping("/increase/stats")
     public BaseResponse<IncreaseStatsResponse> IncreaseStats() {
         List<Long> findData = adminMemberService.findIncreaseStats();
@@ -29,6 +30,7 @@ public class AdminMemberApiController {
         return new BaseResponse<>(data);
     }
 
+    /** 관리자 회원내역 조회 */
     @PostMapping
     public BaseResponse<DataTableResponse> members(@RequestBody MultiValueMap<String, String> formData) {
         int draw = Integer.parseInt(formData.get("draw").get(0));

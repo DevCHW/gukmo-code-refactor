@@ -213,7 +213,7 @@ public class DBinit {
                         .curriculumStartDate(DateUtil.StringToLocalDateTimeConverter("2023-06-03"))
                         .curriculumEndDate(DateUtil.StringToLocalDateTimeConverter("2023-12-30"))
                         .recruitmentStartDate(DateUtil.StringToLocalDateTimeConverter("2023-05-20"))
-                        .recruitmentEndDate(DateUtil.StringToLocalDateTimeConverter("2023-05-30"))
+                        .recruitmentEndDate(DateUtil.StringToLocalDateTimeConverter("2023-12-30"))
                         .recruitsCount(0)
                         .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
                         .recruitmentPeriod(10)

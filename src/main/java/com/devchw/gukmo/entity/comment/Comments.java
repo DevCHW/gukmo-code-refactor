@@ -82,4 +82,12 @@ public class Comments {
     public void changeContent(String content) {
         this.content = content;
     }
+
+    public void blind() {
+        this.blind = Blind.YES;
+    }
+
+    public void clearBlind() {
+        this.blind = Blind.NO;
+    }
 }

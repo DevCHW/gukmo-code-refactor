@@ -183,7 +183,7 @@
          <div>
              <%-- 해시태그리스트 반복문시작 --%>
               <c:forEach var="hashtag" items="${board.hashtags}">
-                <a id="hashtag" style="color:#4B89DC;" onclick="location.href='<%=ctxPath %>/main_search.do?searchWord=${hashtag}&hashtag=${hashtag}'" class="hashtag mx-1">#<span>${hashtag}</span></a>
+                <a id="hashtag" style="color:#4B89DC;" href="#" class="hashtag mx-1">#<span>${hashtag}</span></a>
               </c:forEach>
               <%-- 해시태그리스트 반복문 끝--%>
          </div>

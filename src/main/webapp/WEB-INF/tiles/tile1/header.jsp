@@ -45,7 +45,7 @@
          <li class="border-bottom"><a href="/boards?firstCategory=공지사항">공지사항</a></li>
 
          <c:if test="${loginMember.userRole eq 'ADMIN'}">
-         <li class="border-bottom"><a href="board/admin/index.do">국모 관리</a></li>
+         <li class="border-bottom"><a href="/admin">국모 관리</a></li>
          </c:if>
 
          <c:if test="${not empty loginMember}">
@@ -84,7 +84,7 @@
 					<%-- 관리자로 로그인 했을 경우 추가 메뉴 --%>
 					<c:if test="${sessionScope.loginMember.userRole eq 'ADMIN'}">
 						<li class="adminMenu">
-							<a class="nav-link adminMenu" href="admin/index.do">국모 관리</a>
+							<a class="nav-link adminMenu" href="/admin">국모 관리</a>
 						</li>
 					</c:if>
 				</ul>
