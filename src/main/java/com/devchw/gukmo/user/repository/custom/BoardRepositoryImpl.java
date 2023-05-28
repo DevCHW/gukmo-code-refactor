@@ -202,7 +202,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(
                         firstCategoryEq(boardRequest.getFirstCategory()),
                         secondCategoryEq(boardRequest.getSecondCategory()),
-                        subjectContainsKeywordForNotice(boardRequest.getKeyword())
+                        subjectContainsKeywordForNotice(boardRequest.getKeyword()),
+                        notice.mustRead.ne(Notice.MustRead.YES)
                 )
                 .join(notice.member, member)   //ManyToOne
                 .orderBy(orderSpecifiers)

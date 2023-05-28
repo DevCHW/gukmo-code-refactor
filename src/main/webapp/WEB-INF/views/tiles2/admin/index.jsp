@@ -4,7 +4,6 @@
 	String ctxPath = request.getContextPath();
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%-- 관리자 메인 페이지입니다.. --%>
 
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/admin/index.css" />
@@ -55,53 +54,43 @@
                     <%-- 인기콘텐츠 card-body 시작 --%>
                     <div id="popular-content" class="card-body">
                     	<%-- 인기콘텐츠 반복문 시작 --%>
-                    	<c:forEach var="popularBoard" items="${requestScope.popularBoardList}" varStatus="status">
+                    	<c:forEach var="popularBoard" items="${popularBoardList}" varStatus="status">
                     	<div>
 					      <%-- 글제목 --%>
-					      <a id="popular-subject" href="<%=ctxPath %>/detail.do?boardNum=${popularBoard.board_num}" class="subject align-items-center mb-2 pl-1">
+					      <a id="popular-subject" href="<%=ctxPath %>/boards/${popularBoard.id}" class="subject align-items-center mb-2 pl-1">
 					        ${popularBoard.subject}
 					      </a>
 
 					      <div class="d-flex justify-content-between align-items-center my-1 pl-1">
 					      	<div>
-						        <c:if test="${popularBoard.detail_category eq '자유게시판'}">
+						        <c:if test="${popularBoard.secondCategory eq '자유게시판'}">
 							        <a class="detail_category rounded mr-2 px-1 py-1" href="<%=ctxPath %>/community/freeBoards.do">
-							        	${popularBoard.detail_category}
+							        	${popularBoard.secondCategory}
 							        </a>
 						        </c:if>
-						        <c:if test="${popularBoard.detail_category eq 'QnA'}">
+						        <c:if test="${popularBoard.secondCategory eq 'QnA'}">
 							        <a class="detail_category rounded mr-2 px-1 py-1" href="<%=ctxPath %>/community/questions.do">
-							        	${popularBoard.detail_category}
+							        	${popularBoard.secondCategory}
 							        </a>
 						        </c:if>
-						        <c:if test="${popularBoard.detail_category eq '스터디'}">
+						        <c:if test="${popularBoard.secondCategory eq '스터디'}">
 							        <a class="detail_category rounded mr-2 px-1 py-1" href="<%=ctxPath %>/community/studies.do">
-							        	${popularBoard.detail_category}
+							        	${popularBoard.secondCategory}
 							        </a>
 						        </c:if>
-						        <c:if test="${popularBoard.detail_category eq '취미모임'}">
+						        <c:if test="${popularBoard.secondCategory eq '취미모임'}">
 							        <a class="detail_category rounded mr-2 px-1 py-1" href="<%=ctxPath %>/community/hobbies.do">
-							        	${popularBoard.detail_category}
+							        	${popularBoard.secondCategory}
 							        </a>
 						        </c:if>
-						        <c:if test="${popularBoard.detail_category eq '수강/취업후기'}">
+						        <c:if test="${popularBoard.secondCategory eq '수강/취업후기'}">
 							        <a class="detail_category rounded mr-2 px-1 py-1" href="<%=ctxPath %>/community/reviews.do">
-							        	${popularBoard.detail_category}
+							        	${popularBoard.secondCategory}
 							        </a>
 						        </c:if>
-						        <c:if test="${popularBoard.detail_category eq '국비학원'}">
-							        <a class="detail_category rounded mr-2 px-1 py-1" href="<%=ctxPath %>/academy/academies.do">
-							        	${popularBoard.detail_category}
-							        </a>
-						        </c:if>
-						        <c:if test="${popularBoard.detail_category eq '교육과정'}">
-							        <a class="detail_category rounded mr-2 px-1 py-1" href="<%=ctxPath %>/academy/curricula.do">
-							        	${popularBoard.detail_category}
-							        </a>
-						        </c:if>
+
 						        <%-- 작성자 닉네임 --%>
-						        <%-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. --%>
-						        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${popularBoard.nickname}" class="writer_nickname mr-2">
+						        <a href="#" class="writer_nickname mr-2">
 						         	 ${popularBoard.nickname}
 						        </a>
 					        </div>
@@ -114,17 +103,17 @@
 
 					          <%-- 댓글수 --%>
 					          <div class="ml-2">
-					            <span>댓글수 ${popularBoard.comment_cnt}</span>
+					            <span>댓글수 ${popularBoard.commentCount}</span>
 					          </div>
 
 					          <%-- 추천수 --%>
 					          <div class="ml-2">
-					            <span>추천수 ${popularBoard.like_cnt}</span>
+					            <span>추천수 ${popularBoard.likeCount}</span>
 					          </div>
 					        </div>
 					      </div>
 					    </div>
-					    <c:if test="${status.index != requestScope.popularBoardList.size()-1}">
+					    <c:if test="${status.index != popularBoardList.size()-1}">
 					    	<hr>
 					    </c:if>
 					    </c:forEach>
@@ -146,52 +135,38 @@
                     <%-- Card Body(신규회원,방문자,트래픽,주간평균방문자) --%>
                     <div class="card-body">
 
-                    	<h4 class="small font-weight-bold">오늘 신규회원  : ${summaryMap.CNT_JOIN_MEMBER}명
-                    		<c:if test="${member_percentage != 100}">
-                    		<span class="float-right">${member_percentage}%</span>
+                    	<h4 class="small font-weight-bold">오늘 신규회원  : ${summaryMap.todayJoinMemberCount}명
+                    		<c:if test="${summaryMap.memberPercentage != 100}">
+                    		<span class="float-right">${summaryMap.memberPercentage}%</span>
                     		</c:if>
-                    		<c:if test="${member_percentage == 100}">
+                    		<c:if test="${summaryMap.memberPercentage == 100}">
                     		<span class="float-right">기록갱신!</span>
                     		</c:if>
                         </h4>
                         <div class="progress mb-4">
-                            <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${member_percentage}%"
-                                aria-valuenow="${member_percentage}" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${summaryMap.memberPercentage}%"
+                                aria-valuenow="${summaryMap.memberPercentage}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
 
-
-                        <h4 class="small font-weight-bold">오늘 접속량 : ${summaryMap.CNT_VISIT}
-                        	<c:if test="${visit_percentage != 100}">
-                    		<span class="float-right">${visit_percentage}%</span>
+                        <h4 class="small font-weight-bold progress-bar-striped progress-bar-animated">오늘 작성된 게시물 : ${summaryMap.todayBoardCount}개
+                        	<c:if test="${summaryMap.boardPercentage != 100}">
+                    		<span class="float-right">${summaryMap.boardPercentage}%</span>
                     		</c:if>
-                    		<c:if test="${visit_percentage == 100}">
-                    		<span class="float-right">기록갱신!</span>
-                    		</c:if>
-                        </h4>
-                        <div class="progress mb-4">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: ${visit_percentage}%"
-                                aria-valuenow="${visit_percentage}" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-
-                        <h4 class="small font-weight-bold progress-bar-striped progress-bar-animated">오늘 작성된 게시물 : ${summaryMap.CNT_BOARD}개
-                        	<c:if test="${board_percentage != 100}">
-                    		<span class="float-right">${board_percentage}%</span>
-                    		</c:if>
-                    		<c:if test="${board_percentage == 100}">
+                    		<c:if test="${summaryMap.boardPercentage == 100}">
                     		<span class="float-right">기록갱신!</span>
                     		</c:if>
                         </h4>
                         <div class="progress">
-                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${board_percentage}%"
-                                aria-valuenow="${board_percentage}" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${summaryMap.boardPercentage}%"
+                                aria-valuenow="${summaryMap.boardPercentage}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
+
                 <%-- donut chart --%>
                 <div class="card shadow mb-4">
                 	<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                		<h6 id="pie-chart-title" class="m-0 font-weight-bold text-primary">오늘 현재 커뮤니티 활성 비율</h6>
+                		<h6 id="pie-chart-title" class="m-0 font-weight-bold text-primary">오늘 커뮤니티 활성 비율</h6>
                 	</div>
                 	<div class="card-body">
                 		<div class="chart-pie pt-4">

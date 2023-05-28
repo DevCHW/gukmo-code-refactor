@@ -43,7 +43,9 @@
   
   <%-- Core plugin JavaScript--%>
   <script src="<%=ctxPath %>/resources/js/admin/jquery.easing.min.js"></script>
-  
+
+  <%-- 공통 JS --%>
+  <link rel="stylesheet" href="<%=ctxPath %>/resources/js/admin/admin.js">
 
 </head>
 <body>

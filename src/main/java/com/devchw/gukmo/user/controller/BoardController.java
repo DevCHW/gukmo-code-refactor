@@ -63,7 +63,11 @@ public class BoardController {
         //필독 공지사항 조회
         List<NoticeListDto> mustReadNotices = boardRepository.findMustReadNoticeList();
         log.info("조회한 필독공지사항={}", mustReadNotices);
+        List<Long> noticeIds = mustReadNotices.stream().map(n -> n.getId()).collect(Collectors.toList());
+        List<BoardHashtagDto> noticeHashtags = boardService.findBoardHashtagByBoardId(noticeIds).stream()
+                .map(BoardHashtagDto::toDto).collect(Collectors.toList());
         model.addAttribute("mustReadNotices", mustReadNotices);
+        model.addAttribute("noticeHashtags", noticeHashtags);
 
         List<Long> boardIds = new ArrayList<>();
         int totalPage = 0;

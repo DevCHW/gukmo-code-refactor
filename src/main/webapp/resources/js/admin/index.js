@@ -158,7 +158,7 @@ function getPieChart(data){
 	var myPieChart = new Chart(ctx, {
 	  type: 'doughnut',
 	  data: {
-	    labels: ["자유게시판", "Q&A", "스터디", "취미모임", "수강/취업후기"],
+	    labels: ["자유", "Q&A", "스터디", "취미모임", "수강/취업후기"],
 	    datasets: [{
 	      data: data,
 	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'],

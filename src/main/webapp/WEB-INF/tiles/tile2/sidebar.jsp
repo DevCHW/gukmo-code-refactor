@@ -18,15 +18,15 @@ $(document).ready(function(){
   /*
   	// == url 정리 == //
   	[회원 관련 페이지]
-  	/admin/member/normal/list.do -- 일반회원내역 페이지
-  	/admin/member/academy/list.do -- 교육기관회원내역 페이지
-  	/admin/member/detail.do -- 회원 상세페이지
+  	/admin/members/normal -- 일반회원내역 페이지
+  	/admin/members/academy -- 교육기관회원내역 페이지
+  	/admin/members/detail.do -- 회원 상세페이지
   		
   	[광고 관련 페이지]
-  	/admin/advertisement/list.do --광고내역 페이지
-  	/admin/advertisement/detail.do --광고 상세페이지
-  	/admin/advertisement/new.do -- 광고등록 페이지
-  	/admin/advertisement/calendar.do -- 광고일정 페이지
+  	/admin/advertisements/list.do --광고내역 페이지
+  	/admin/advertisements/ --광고 상세페이지
+  	/admin/advertisements/new.do -- 광고등록 페이지
+  	/admin/advertisements/calendar.do -- 광고일정 페이지
   	
   	[신고 관련 페이지]
   	/admin/report/list.do --신고내역 페이지
