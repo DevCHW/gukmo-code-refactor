@@ -23,4 +23,14 @@ public class Notice extends Board {
     public enum MustRead {
         YES, NO
     }
+
+    //변경 메소드
+    public void changeBoardInfo(String subject, String content, String mustRead) {
+        if("YES".equals(mustRead)) {
+            this.mustRead = MustRead.YES;
+        } else {
+            this.mustRead = MustRead.NO;
+        }
+        super.changeBoardInfo(subject, content);
+    }
 }

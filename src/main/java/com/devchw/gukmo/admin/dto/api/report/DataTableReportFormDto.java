@@ -43,17 +43,6 @@ public class DataTableReportFormDto {
         String reportDate = formData.get("columns[6][search][value]").get(0);
         String sort = formData.get("order[0][column]").get(0);
         String direction = formData.get("order[0][dir]").get(0);
-        System.out.println("======================================");
-        System.out.println("id = " + id);
-        System.out.println("strReportType = " + strReportType);
-        System.out.println("nickname = " + nickname);
-        System.out.println("boardId = " + boardId);
-        System.out.println("commentsId = " + commentsId);
-        System.out.println("simpleReason = " + simpleReason);
-        System.out.println("reportDate = " + reportDate);
-        System.out.println("sort = " + sort);
-        System.out.println("direction = " + direction);
-        System.out.println("======================================");
         switch (sort) {
             case "0":
                 sort = "id";

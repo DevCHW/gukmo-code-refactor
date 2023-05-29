@@ -31,7 +31,7 @@ public class BoardHashtagRepositoryImpl implements BoardHashtagRepositoryCustom 
                 .fetch();
     }
 
-    /** 게시글 번호에 맞는 해시태그 조회 */
+    /** 게시글 번호리스트에 해당하는 해시태그 조회 */
     @Override
     public List<BoardHashtag> findBoardHashtagByBoardIdList(List<Long> boardIds) {
         return queryFactory

@@ -60,7 +60,7 @@
              <%-- 해시태그리스트 시작 --%>
              <c:forEach var="noticeHashtag" items="${noticeHashtags}">
                  <c:if test="${mustReadNotice.id == noticeHashtag.boardId}">
-                 <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+                 <a href="#" class="hashtag mx-1">#<span>${noticeHashtag.hashtag}</span></a>
                  </c:if>
              </c:forEach>
              <%-- 해시태그리스트 끝 --%>

@@ -1,7 +1,6 @@
 package com.devchw.gukmo.admin.controller;
 
 import com.devchw.gukmo.admin.service.AdminReportService;
-import com.devchw.gukmo.entity.advertisement.Advertisement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

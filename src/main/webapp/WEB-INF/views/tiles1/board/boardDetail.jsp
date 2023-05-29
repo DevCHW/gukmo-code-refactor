@@ -105,6 +105,9 @@
               <span onclick="location.href='/boards/academy/curriculum/edit/${board.id}'">수정하기</span>
              </c:if>
 
+             <c:if test="${board.secondCategory == '공지사항'}">
+               <span onclick="location.href='/admin/boards/notice/edit/${board.id}'">수정하기</span>
+              </c:if>
               <span id="board_delete">삭제하기</span>
             </div>
           </span>
@@ -126,7 +129,7 @@
              </c:if>
 
              <c:if test="${board.secondCategory == '공지사항'}">
-              <span onclick="location.href='/boards/notice/edit/${board.id}'">수정하기</span>
+              <span onclick="location.href='/admin/boards/notice/edit/${board.id}'">수정하기</span>
              </c:if>
 
               <span id="board_delete" onclick="del_board(${board.id})">삭제하기</span>

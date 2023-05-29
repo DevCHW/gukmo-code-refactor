@@ -4,6 +4,7 @@ import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.comment.Comments;
 import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.login.Oauth;
+import com.devchw.gukmo.entity.penalty.Penalty;
 import com.devchw.gukmo.entity.report.Report;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -79,6 +80,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Report> reports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<Penalty> penalties = new ArrayList<>();
 
     public enum EmailAccept {
         YES, NO

@@ -40,13 +40,12 @@
 
   <%-- *** ajax로 파일을 업로드할때 가장 널리 사용하는 방법 ==> ajaxForm *** --%>
   <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery.form.min.js"></script>
-  
-  <%-- Core plugin JavaScript--%>
-  <script src="<%=ctxPath %>/resources/js/admin/jquery.easing.min.js"></script>
 
   <%-- 공통 JS --%>
   <link rel="stylesheet" href="<%=ctxPath %>/resources/js/admin/admin.js">
 
+  <%-- Core plugin JavaScript--%>
+  <script src="<%=ctxPath %>/resources/js/admin/jquery.easing.min.js"></script>
 </head>
 <body>
 	<%-- Page Wrapper --%>

@@ -247,7 +247,7 @@ $(document).ready(function(){
     
     <%-- Nav Item - Member Collapse Menu --%>
     <li class="nav-item noticeMenu">
-    	<a class="nav-link" href="<%=ctxPath %>/admin/notice/new.do">
+    	<a class="nav-link" href="/admin/boards/notice/new">
             <i class="fa-solid fa-bullhorn"></i>
             <span>공지</span></a>
     </li>
@@ -268,19 +268,6 @@ $(document).ready(function(){
          </a>
     </li>
 	<%------------------------------------------ 버그메뉴 끝---------------------------------------%>
-
-	
-	
-	<%-------------------------------- 토글버튼(왼쪽으로 살짝닫기) 영역 시작--------------------------------------%>
-    <%-- Divider --%>
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <%-- Sidebar Toggler (Sidebar) --%>
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
-    
-    <%-------------------------------- 토글버튼(왼쪽으로 살짝닫기) 영역 끝--------------------------------------%>
 
 </ul>
 <%-- End of Sidebar --%>

@@ -53,21 +53,6 @@ public class BoardService {
         return boardHashtagRepository.findBoardHashtagByBoardIdList(boardIds);
     }
 
-    /** 커뮤니티 게시글 작성 */
-    @Transactional
-    public Long saveCommunity(CommunityFormDto form) {
-        Member writerMember = memberRepository.findById(form.getMemberId()).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
-        Board savedBoard = form.toEntity(writerMember);
-        Long savedBoardId = boardRepository.save(savedBoard).getId();
-
-        activitySaveAndMemberPointPlus(writerMember, savedBoard);
-
-        //해시태그 저장
-        saveHashtag(form.getHashtags(), savedBoard);
-
-        return savedBoardId;
-    }
-
     /** 게시글 상세보기 페이지에 맞춘 단건조회(추후 광고리스트 조회도 추가 예정)*/
     public BoardDto findBoardById(Long id, HttpSession session) {
         boolean likeExist = false;  //게시글 좋아요 여부
@@ -118,6 +103,21 @@ public class BoardService {
 
         // 조회된 데이터들을 Dto로 조합
         return new BoardDto().toDto(id, likeExist, board, prevAndNextBoardDto, hashtags, commentsDtoList);
+    }
+
+    /** 커뮤니티 게시글 작성 */
+    @Transactional
+    public Long saveCommunity(CommunityFormDto form) {
+        Member writerMember = memberRepository.findById(form.getMemberId()).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+        Board savedBoard = form.toEntity(writerMember);
+        Long savedBoardId = boardRepository.save(savedBoard).getId();
+
+        activitySaveAndMemberPointPlus(writerMember, savedBoard);
+
+        //해시태그 저장
+        saveHashtag(form.getHashtags(), savedBoard);
+
+        return savedBoardId;
     }
 
     /** 교육과정 게시물 작성 */
@@ -247,6 +247,7 @@ public class BoardService {
     }
 
     /** 해시태그 수정 */
+    @Transactional
     private void editHashtag(Long id, String strHashtags, Board community) {
         List<String> hashtags = Arrays.asList(strHashtags.split(","));
         List<BoardHashtag> boardHashtags = boardHashtagRepository.findAllBoardHashtagByBoardId(id);
@@ -262,6 +263,7 @@ public class BoardService {
 
 
     /** 게시물 작성시 활동점수 올려주기, 활동점수 올려주기 */
+    @Transactional
     private void activitySaveAndMemberPointPlus(Member writerMember, Board savedBoard) {
 
         writerMember.pointPlus(10);

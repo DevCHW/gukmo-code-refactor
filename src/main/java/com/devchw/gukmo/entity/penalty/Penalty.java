@@ -13,7 +13,6 @@ import static javax.persistence.FetchType.LAZY;
 @Builder
 @Getter
 public class Penalty {
-
     @Id @GeneratedValue
     @Column(name = "penalty_id")
     private Long id; //PK
