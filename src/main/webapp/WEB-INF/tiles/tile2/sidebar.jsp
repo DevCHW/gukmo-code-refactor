@@ -198,9 +198,9 @@ $(document).ready(function(){
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Advertisement</h6>
-                <a class="collapse-item advertisementList" href="<%=ctxPath %>/admin/advertisement/list.do">광고내역</a>
-                <a class="collapse-item advertisementNew" href="<%=ctxPath %>/admin/advertisement/new.do">광고등록</a>
-                <a class="collapse-item advertisementCalendar" href="<%=ctxPath %>/admin/advertisement/calendar.do">광고일정</a>
+                <a class="collapse-item advertisementList" href="<%=ctxPath %>/admin/advertisements">광고내역</a>
+                <a class="collapse-item advertisementNew" href="<%=ctxPath %>/admin/advertisements/new">광고등록</a>
+                <a class="collapse-item advertisementCalendar" href="<%=ctxPath %>/admin/advertisements/calendar">광고일정</a>
             </div>
         </div>
     </li>
@@ -211,7 +211,7 @@ $(document).ready(function(){
 	<%--------------------------------신고 영역 시작--------------------------------------%>
 	<%-- Nav Item - Member Collapse Menu --%>
     <li class="nav-item reportMenu">
-    	<a class="nav-link" href="<%=ctxPath %>/admin/report/list.do">
+    	<a class="nav-link" href="<%=ctxPath %>/admin/reports">
             <i class="fa-solid fa-land-mine-on"></i>
             <span>신고</span>
          </a>

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface AdminMemberRepository extends JpaRepository<Member, Long>, AdminMemberRepositoryCustom {
     Long countByJoinDateBetween(LocalDateTime startDatetime, LocalDateTime endDatetime);
@@ -33,4 +34,6 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long>, Admi
                  " on a.monthlydata = b.monthlydata" +
                  " order by b.monthlydata", nativeQuery = true)
     List<Long> findIncreaseStats();
+
+    Optional<Member> findByNickname(String nickname);
 }

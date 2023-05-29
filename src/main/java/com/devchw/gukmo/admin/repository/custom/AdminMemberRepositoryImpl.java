@@ -1,10 +1,8 @@
 package com.devchw.gukmo.admin.repository.custom;
 
-import com.devchw.gukmo.admin.dto.member.DataTableMemberFormDto;
+import com.devchw.gukmo.admin.dto.api.member.DataTableMemberFormDto;
 import com.devchw.gukmo.entity.member.Member.Status;
 import com.devchw.gukmo.entity.member.Member;
-import com.devchw.gukmo.user.dto.board.BoardRequestDto;
-import com.devchw.gukmo.user.dto.board.QCommunityListDto;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -13,17 +11,11 @@ import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.devchw.gukmo.entity.board.QAcademy.academy;
-import static com.devchw.gukmo.entity.board.QBoard.board;
-import static com.devchw.gukmo.entity.board.QCurriculum.curriculum;
-import static com.devchw.gukmo.entity.board.QNotice.notice;
 import static com.devchw.gukmo.entity.login.QLogin.login;
 import static com.devchw.gukmo.entity.member.QMember.member;
 import static org.springframework.util.StringUtils.hasText;

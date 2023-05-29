@@ -4,8 +4,7 @@ function getContextPath(){
   let contextPath = location.href.substring(hostIndex, location.href.indexOf('/',hostIndex+1));
   return contextPath;
 }
-
-//일반회원 내역 js파일입니다.
+//광고내역 js파일입니다.
 const today = new Date();
 
 const year = today.getFullYear(); // 년도
@@ -97,53 +96,50 @@ $(document).ready(function() {
 
   $('#dataTable').DataTable({
 	"serverSide": true,
-	"order": [[3, 'desc']],
+	"order": [[0, 'desc']],
     "processing": true,
     "ajax": {
-        "url": "/api/v1/admin/members",
-        "type": "post",
+        "url": "/api/v1/admin/advertisements",
+        "type": "POST",
         "dataSrc": function(res) {
             let data = res.data;
             return data;
         },
     },
     "columns" : [
-        {"data": "nickname"},
-        {"data": "userId"},
-        {"data": "email"},
-        {"data": "joinDate"},
-        {"data": "status"},
+    	{"data": "id"},
+        {"data": "type"},
+        {"data": "startDate"},
+        {"data": "endDate"}
     ],
     dom: 'Bfrtip',
     buttons: [
 		{
 			extend: 'excel'
 			,text: "<img src='../../resources/images/dataTable/excel.png' style='width:25px; height:17px;'/>Excel&nbsp;&nbsp;"
-			,filename: '국모 일반회원내역'+year+month+day
-			,title: '국비의모든것 일반회원내역'+year+month+day
+			,filename: '국비의모든것 광고내역'+year+month+day
+			,title: '국비의모든것 광고내역'+year+month+day
 			,action: newExportAction
 		},
 		{
 			extend: 'copy'
 			,text: '📋&nbsp;Copy&nbsp;'
-			,title: '국비의모든것 일반회원내역'+year+month+day
+			,title: '국비의모든것 광고내역'+year+month+day
 		},
 		{
 			extend: 'pdf'
 			,text: "<img src='https://toppng.com/public/uploads/preview/pdf-icon-11549528510ilxx4eex38.png' style='width:25px; height:20px;'/>&nbsp;PDF&nbsp;"
-			,filename: '국비의모든것 일반회원내역'+year+month+day
+			,filename: '국비의모든것 광고내역'+year+month+day
 		},
 		{
 			extend: 'csv'
-			,charset: 'UTF-8'
-			,bom: true
-			,text: "<img src='../../resources/images/dataTable/csv.png' style='width:20px; height:20px;'/>&nbsp;CSV&nbsp;"
-			,filename: '국비의모든것 일반회원내역'+year+month+day
+			,text: "<img src='../../resources/images/dataTable/csv.png' style='width:20px; height:20px;'/>&nbsp;CSV&nbsp;'"
+			,filename: '국비의모든것 광고내역'+year+month+day
 		},
 		{
 			extend: 'print'
 			,text: '️🖨&nbsp;Print&nbsp;'
-			,filename: '국비의모든것 일반회원내역'+year+month+day
+			,filename: '국비의모든것 광고내역'+year+month+day
 		},
 	]
   });//end of Event---
@@ -180,11 +176,11 @@ $(document).ready(function() {
 
       if($("#start_date").val() != ''){
     	  searchWord = $("#start_date").val() + "," +$("#end_date").val();
-    	  table.column(3).search(searchWord);
+    	  table.column(2).search(searchWord);
       }
-      if($("#status").val() != '상태선택'){
-    	  searchWord = $("status").val();
-    	  table.column(4).search(searchWord);
+      if($("#division").val() != '구분선택'){
+    	  searchWord = $("#division").val();
+    	  table.column(1).search(searchWord);
       }
       table.draw();
   });//end of Event--
@@ -193,70 +189,105 @@ $(document).ready(function() {
   //필터버튼 클릭시
   $("#btn_filter").click(function(){
 	  btn_filter_click_cnt++;
-
-	  if(btn_filter_click_cnt%2==0){
+	  if(btn_filter_click_cnt%2==0){	//짝수번 클릭시 숨기기
 		  $("#filter_area").css("display","none");
-		  $('#status').selectpicker('hide');
-		  $("#status").val('상태선택');
+		  $('#division').selectpicker('hide');
+		  $("#division").val('구분선택');
 		  $("#start_date").val('');
 		  $("#end_date").val(sysdate);
-	  }else{
+	  }else{							//홀수번 클릭시 보이기
 		  $("#filter_area").css("display","flex");
 		  $('#status').selectpicker('show');
+		  $('#division').selectpicker('show');
 	  }
   });//end of Event--
 
 
    //날짜 변경시 검색
+   $('#start_date').bind('change', function(){
+        if($("#start_date").val() ==''){
+   	    	return;
+   	    } else {
+            if(test_date()){	//날짜유효성검사 통과시
+                let numCols = table.columns().nodes().length;
+                for(let i=0; i<numCols; i++) { table.column(i).search(''); }
+
+                let searchType = $("#searchType").val();
+
+                let searchWord = $("#searchWord").val();
+                table.column(searchType).search(searchWord);
+
+                if($("#division").val() != '구분선택'){
+                  searchWord = $("#division").val();
+                  table.column(1).search(searchWord);
+                }
+
+                table.column(2).search($("#start_date").val());
+                table.column(3).search($("#end_date").val());
+                table.draw();
+            }else{
+                $("#start_date").val('');
+                $("#end_date").val(sysdate);
+            }
+        }
+   });
+
+   $('#end_date').bind('change', function(){
+        if($("#start_date").val() ==''){
+            return;
+        } else{
+            if(test_date()){	//날짜유효성검사 통과시
+                let numCols = table.columns().nodes().length;
+                for(let i=0; i<numCols; i++) { table.column(i).search(''); }
+
+                let searchType = $("#searchType").val();
+
+                let searchWord = $("#searchWord").val();
+                table.column(searchType).search(searchWord);
+
+                if($("#division").val() != '구분선택'){
+                  searchWord = $("#division").val();
+                  table.column(1).search(searchWord);
+                }
+
+                table.column(2).search($("#start_date").val());
+                table.column(3).search($("#end_date").val());
+
+                table.draw();
+            }else{
+                $("#start_date").val('');
+                $("#end_date").val(sysdate);
+            }
+        }
+   });
+
    $('#start_date, #end_date').bind('change',function(){
-	    if($("#start_date").val() ==''){
-	    	return;
-	    }else{
-	    	if(test_date()){	//날짜유효성검사 통과시
-	    		let numCols = table.columns().nodes().length;
-		    	for(let i=0; i<numCols; i++) { table.column(i).search(''); }
-
-		    	let join_date = $("#start_date").val() + "," +$("#end_date").val();
-		    	table.column(3).search(join_date);
-
-		    	let searchType = $("#searchType").val();
-
-		    	let searchWord = $("#searchWord").val();
-		        table.column(searchType).search(searchWord);
-
-		        if($("#status").val() != '상태선택'){
-		      	  searchWord = $("#status").val();
-		      	  table.column(4).search(searchWord);
-		        }
-
-		        table.draw();
-	    	}else{
-	    		$("#start_date").val('');
-	    		$("#end_date").val(sysdate);
-	    	}
-	    }
    });//end of Event--
 
 
-   //status 변경시 검색
-   $("#status").change(function(){
+   //division 변경시 검색
+   $("#division").change(function(){
 	   let status = $("#status").val();
 	   let numCols = table.columns().nodes().length;
+	   //초기화
 	   for(let i=0; i<numCols; i++) { table.column(i).search(''); }
 
-	   let searchWord = $("#start_date").val() + "," +$("#end_date").val();
-	   table.column(3).search(searchWord);
-
-	   let searchType = $("#searchType").val();
-
-	   searchWord = $("#searchWord").val();
-	   table.column(searchType).search(searchWord);
-
-	   if($("#status").val() != '상태선택'){
-		   searchWord = $("#status").val();
-	       table.column(4).search(searchWord);
+	   //날짜넣기
+	   if($("#start_date").val() !=''){
+		   let searchWord = $("#start_date").val() + "," +$("#end_date").val();
+		   table.column(5).search(searchWord);
 	   }
 
+	   //검색조건
+	   let searchType = $("#searchType").val();
+	   let searchWord = $("#searchWord").val();
+	   table.column(searchType).search(searchWord);
+
+	   //구분체크
+	   if($("#division").val() != '구분선택'){
+    	  searchWord = $("#division").val();
+    	  table.column(1).search(searchWord);
+       }
        table.draw();
    });//end of Event
 
@@ -268,11 +299,13 @@ $(document).ready(function() {
 	  }
 	});//end of Event--
 
+
   //tr 클릭시 링크 걸기
   $(document).on('click', '#dataTable > tbody > tr' , function(e){
+	//아이디가 id 인거를 'click', 클릭할때마다 이벤트가 일어난다.
 	const target = $(e.currentTarget);
-	const nickname = target.children().eq(0).text();
-	location.href = "/admin/members/" + nickname;
+	const id = target.children(":first").text();
+	location.href = "/admin/advertisements/"+id;
   });
 });//end of $(document).ready(function() {})--
 

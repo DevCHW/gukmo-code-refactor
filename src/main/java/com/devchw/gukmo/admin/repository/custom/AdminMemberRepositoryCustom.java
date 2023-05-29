@@ -1,6 +1,6 @@
 package com.devchw.gukmo.admin.repository.custom;
 
-import com.devchw.gukmo.admin.dto.member.DataTableMemberFormDto;
+import com.devchw.gukmo.admin.dto.api.member.DataTableMemberFormDto;
 import com.devchw.gukmo.entity.member.Member;
 import java.util.List;
 public interface AdminMemberRepositoryCustom {

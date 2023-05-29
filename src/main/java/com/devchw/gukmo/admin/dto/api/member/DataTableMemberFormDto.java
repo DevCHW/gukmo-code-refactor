@@ -1,4 +1,4 @@
-package com.devchw.gukmo.admin.dto.member;
+package com.devchw.gukmo.admin.dto.api.member;
 
 import com.devchw.gukmo.entity.member.Member.Status;
 import com.devchw.gukmo.utils.DateUtil;
