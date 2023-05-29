@@ -5,17 +5,15 @@ function getContextPath(){
   return contextPath;
 }
 
-
-//신고내역 js파일입니다.
-
-
 const today = new Date();
 
 const year = today.getFullYear(); // 년도
-const month = today.getMonth() + 1;  // 월
-const date = today.getDate();  // 날짜
+let month = today.getMonth() + 1;  // 월
+let day = today.getDate();  // 날짜
 
-const sysdate = year + '-' + month + '-' + date;
+if(month < 10) month = "0"+month;
+if(day < 10) day = "0"+day;
+const sysdate = year + '-' + month + '-' + day;
 
 //필터버튼 클릭횟수
 let btn_filter_click_cnt = 0;
@@ -103,7 +101,7 @@ $(document).ready(function() {
 	"order": [[0, 'desc']],
     "processing": true,
     "ajax": {
-        "url": getContextPath()+"/admin/report/listSelect.do",
+        "url": "/api/v1/admin/reports",
         "type": "POST",
         "dataSrc": function(res) {
             let data = res.data;
@@ -111,42 +109,42 @@ $(document).ready(function() {
         },
     },
     "columns" : [
-    	{"data": "REPORT_NUM"},
-        {"data": "REPORT_TYPE"},
-        {"data": "REPORT_NICKNAME"},
-        {"data": "REPORTED_NICKNAME"},
-        {"data": "SIMPLE_REPORT_REASON"},
-        {"data": "REPORT_DATE"},
-        {"data": "RECEIPT"},
+    	{"data": "id"},
+        {"data": "reportType"},
+        {"data": "nickname"},
+        {"data": "boardId"},
+        {"data": "commentsId"},
+        {"data": "simpleReason"},
+        {"data": "reportDate"},
     ],
     dom: 'Bfrtip',
     buttons: [
 		{
 			extend: 'excel'
-			,text: "<img src='"+getContextPath()+"/resources/images/dataTable/excel.png' style='width:25px; height:17px;'/>Excel&nbsp;&nbsp;"
-			,filename: '국비의모든것 신고내역'+year+month+date
-			,title: '국비의모든것 신고내역'+year+month+date
+			,text: "<img src='../../resources/images/dataTable/excel.png' style='width:25px; height:17px;'/>Excel&nbsp;&nbsp;"
+			,filename: '국비의모든것 신고내역'+year+month+day
+			,title: '국비의모든것 신고내역'+year+month+day
 			,action: newExportAction
 		},
 		{
 			extend: 'copy'
 			,text: '📋&nbsp;Copy&nbsp;'
-			,title: '국비의모든것 신고내역'+year+month+date
+			,title: '국비의모든것 신고내역'+year+month+day
 		},
 		{
 			extend: 'pdf'
 			,text: "<img src='https://toppng.com/public/uploads/preview/pdf-icon-11549528510ilxx4eex38.png' style='width:25px; height:20px;'/>&nbsp;PDF&nbsp;"
-			,filename: '국비의모든것 신고내역'+year+month+date
+			,filename: '국비의모든것 신고내역'+year+month+day
 		},
 		{
 			extend: 'csv'
-			,text: "<img src='"+getContextPath()+"/resources/images/dataTable/csv.png' style='width:20px; height:20px;'/>&nbsp;CSV&nbsp;"
-			,filename: '국비의모든것 신고내역'+year+month+date
+			,text: "<img src='../../resources/images/dataTable/csv.png' style='width:20px; height:20px;'/>&nbsp;CSV&nbsp;"
+			,filename: '국비의모든것 신고내역'+year+month+day
 		},
 		{
 			extend: 'print'
 			,text: '️🖨&nbsp;Print&nbsp;'
-			,filename: '국비의모든것 신고내역'+year+month+date
+			,filename: '국비의모든것 신고내역'+year+month+day
 		},
 	]
   });//end of Event---
@@ -301,8 +299,6 @@ $(document).ready(function() {
        table.draw();
    });//end of Event
 
-
-
    //simple_report_reason 변경시 검색
    $("#simple_report_reason").change(function(){
 	   let receipt = $("#receipt").val();
@@ -338,8 +334,6 @@ $(document).ready(function() {
        }
        table.draw();
    });//end of Event
-
-
 
    //report_type 변경시 검색
    $("#report_type").change(function(){
@@ -378,17 +372,12 @@ $(document).ready(function() {
    });//end of Event
 
 
-
    //검색창에서 엔터 입력시 검색되게하기
 	$("input#searchWord").keydown(function(e){	//검색창에서 엔터 입력시
 	  if(e.keyCode == 13){	//엔터를 했을 경우
 		$("#btn_search").trigger("click");
 	  }
 	});//end of Event--
-
-
-
-
 
   //tr 클릭시 링크 걸기
   $(document).on('click', '#dataTable > tbody > tr' , function(e){
@@ -400,8 +389,6 @@ $(document).ready(function() {
 	location.href = getContextPath()+"/admin/report/detail.do?report_num="+report_num+"&report_nickname="+report_nickname+"&reported_nickname="+reported_nickname;
   });
 });//end of $(document).ready(function() {})--
-
-
 
 
 

@@ -55,7 +55,8 @@
               <select id="searchType" class="selectpicker mr-3 border rounded" data-style="btn-info" data-width="120px">
 			      <option value="0">신고번호</option>
 			      <option value="2">신고자 닉네임</option>
-			      <option value="3">피신고자 닉네임</option>
+			      <option value="3">게시글번호</option>
+			      <option value="4">댓글번호</option>
 			  </select>
 
 			  <%-- 검색바 시작 --%>
@@ -81,8 +82,8 @@
 					<%-- 필터버튼클릭시 나올 report_type selectBox --%>
 		            <select id="report_type" class="selectpicker mr-4 mt-3 border rounded" data-style="btn-light border" data-width="120px">
 		            	<option>신고분류선택</option>
-		            	<option>게시글</option>
-		            	<option>댓글</option>
+		            	<option value="BOARD">게시글</option>
+		            	<option value="COMMENT">댓글</option>
 					</select>
 
 					<%-- 필터버튼클릭시 나올 simple_report_reason selectBox --%>
@@ -95,14 +96,6 @@
 		                <option>개인정보 노출 게시물입니다.</option>
 		                <option>불쾌한 표현이 있습니다.</option>
 		                <option>기타</option>
-					</select>
-
-
-					<%-- 필터버튼클릭시 나올 receipt selectBox --%>
-		            <select id="receipt" class="selectpicker mr-4 mt-3 border rounded" data-style="btn-light border" data-width="140px">
-		            	<option>접수여부선택</option>
-		            	<option>접수전</option>
-		            	<option>접수완료</option>
 					</select>
 
 				    <%-- 검색조건을 가입일자를 눌렀을 시에 나올 selectBox --%>
@@ -125,13 +118,13 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>번호</th>
+                                <th>신고번호</th>
                                 <th>분류</th>
                                 <th>신고자 닉네임</th>
-                                <th>피신고자 닉네임</th>
+                                <th>게시글번호</th>
+                                <th>댓글번호</th>
                                 <th>사유</th>
                                 <th>신고일자</th>
-                                <th>접수여부</th>
                             </tr>
                         </thead>
                     </table>
@@ -140,7 +133,6 @@
         </div>
     </div>
     <%-- /.container-fluid --%>
-
 </div>
 <%-- End of Main Content --%>
 
