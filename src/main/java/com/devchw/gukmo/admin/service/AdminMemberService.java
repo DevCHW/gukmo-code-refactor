@@ -6,6 +6,8 @@ import com.devchw.gukmo.entity.member.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +21,8 @@ public class AdminMemberService {
         return adminMemberRepository.findIncreaseStats();
     }
 
-    public List<MemberListDto> findAllMemberList(int start, int length) {
+    /** 관리자 회원내역 조회 */
+    public List<MemberListDto> findAllMemberList(int start, int length, MultiValueMap<String, String> formData) {
         List<Member> findMembers = adminMemberRepository.findAll();
         return findMembers.stream().map(m -> new MemberListDto().toDto(m)).collect(Collectors.toList());
     }

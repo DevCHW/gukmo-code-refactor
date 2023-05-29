@@ -7,6 +7,8 @@ import com.devchw.gukmo.admin.service.AdminMemberService;
 import com.devchw.gukmo.config.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +40,7 @@ public class AdminMemberApiController {
         int length = Integer.parseInt(formData.get("length").get(0));
 
         log.info("formData={}", formData);
-        List<MemberListDto> findData = adminMemberService.findAllMemberList(start, length);
+        List<MemberListDto> findData = adminMemberService.findAllMemberList(start, length, formData);
         DataTableResponse data = DataTableResponse.builder()
                 .build();
         return new BaseResponse<>(data);
