@@ -33,6 +33,18 @@ public class AdminAdvertisementController {
         return "advertisement/advertisementDetail.tiles2";
     }
 
+    /** 광고 등록 폼 */
+    @GetMapping("/new")
+    public String advertisementForm() {
+        return "advertisement/advertisementForm.tiles2";
+    }
+
+    /** 광고 등록 폼 */
+    @GetMapping("/calendar")
+    public String calendar() {
+        return "advertisement/calendar.tiles2";
+    }
+
     /** 광고배너 다운로드 */
 //    @GetMapping("/{id}/download")
 //    public String advertisementDownload(@PathVariable Long id, Model model) {

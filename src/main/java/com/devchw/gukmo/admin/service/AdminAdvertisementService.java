@@ -1,5 +1,6 @@
 package com.devchw.gukmo.admin.service;
 
+import com.devchw.gukmo.admin.dto.advertisement.AdvertisementDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementListDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.DataTableAdvertisementFormDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.UpdateAdvertisementRequest;
@@ -71,5 +72,11 @@ public class AdminAdvertisementService {
             findAdvertisement.change(DateUtil.stringToLocalDateTimeConverter(request.getStartDate()), DateUtil.stringToLocalDateTimeConverter(request.getEndDate()));
         }
         return findAdvertisement.getId();
+    }
+
+    /** 모든 광고목록 조회 */
+    public List<AdvertisementDto> findAll() {
+        List<Advertisement> findAdvertisementList = adminAdvertisementRepository.findAll();
+        return findAdvertisementList.stream().map(a -> new AdvertisementDto().toDto(a)).collect(Collectors.toList());
     }
 }

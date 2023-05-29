@@ -1,6 +1,7 @@
 package com.devchw.gukmo.admin.api;
 
 import com.devchw.gukmo.admin.dto.DataTableResponse;
+import com.devchw.gukmo.admin.dto.advertisement.AdvertisementDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementListDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.UpdateAdvertisementRequest;
 import com.devchw.gukmo.admin.service.AdminAdvertisementService;
@@ -56,5 +57,12 @@ public class AdminAdvertisementApiController {
                                                   @RequestParam(required = false) MultipartFile advertisementFile) {
         Long changedId = adminAdvertisementService.edit(id, request, advertisementFile);
         return new BaseResponse<>(SUCCESS);
+    }
+
+    /** 광고 리스트 조회 */
+    @GetMapping
+    public BaseResponse<List<AdvertisementDto>> advertisementList() {
+        List<AdvertisementDto> data = adminAdvertisementService.findAll();
+        return new BaseResponse<>(data);
     }
 }
