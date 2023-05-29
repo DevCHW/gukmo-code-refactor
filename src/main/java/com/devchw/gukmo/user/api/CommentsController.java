@@ -25,7 +25,6 @@ public class CommentsController {
         return new BaseResponse<>(SUCCESS);
     }
 
-
     /** 댓글 수정 */
     @PatchMapping("/{id}")
     public BaseResponse<String> edit(@PathVariable("id") Long id,

@@ -36,5 +36,13 @@ public class Advertisement {
         MAIN, BOARD //메인페이지, 게시글 페이지
     }
 
-
+    // 변경 메소드
+    public void change(LocalDateTime startDate, LocalDateTime endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+    public void change(LocalDateTime startDate, LocalDateTime endDate, String fileName) {
+        this.fileName = fileName;
+        change(startDate, endDate);
+    }
 }

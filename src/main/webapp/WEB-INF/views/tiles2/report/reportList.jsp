@@ -81,7 +81,7 @@
 				<div id="filter_area" class="align-items-center">
 					<%-- 필터버튼클릭시 나올 report_type selectBox --%>
 		            <select id="report_type" class="selectpicker mr-4 mt-3 border rounded" data-style="btn-light border" data-width="120px">
-		            	<option>신고분류선택</option>
+		            	<option>신고분류</option>
 		            	<option value="BOARD">게시글</option>
 		            	<option value="COMMENT">댓글</option>
 					</select>

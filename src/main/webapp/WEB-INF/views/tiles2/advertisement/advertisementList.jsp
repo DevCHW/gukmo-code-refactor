@@ -54,8 +54,6 @@
               <%-- 검색조건 selectBOX --%>
               <select id="searchType" class="selectpicker mr-3 border rounded" data-style="btn-info" data-width="120px">
               	  <option value="0">광고번호</option>
-			      <option value="2">고객명</option>
-			      <option value="3">고객연락처</option>
 			  </select>
 
 			  <%-- 검색바 시작 --%>
@@ -80,8 +78,8 @@
 					<%-- 필터버튼클릭시 나올 상태 selectBox --%>
 		            <select id="division" class="selectpicker mr-4 mt-3 border rounded" data-style="btn-light border" data-width="120px">
 		            	<option>구분선택</option>
-		            	<option value="MAIN">메인</option>
-						<option value="BOARD">게시판</option>
+		            	<option value="MAIN">MAIN</option>
+						<option value="BOARD">BOARD</option>
 					</select>
 
 				    <%-- 기간 범위 선택 --%>

@@ -158,17 +158,8 @@ $(document).ready(function() {
   $("button.buttons-print").addClass("btn btn-light border");
 
 
-
   //기존 dataTable 검색바 숨기기
   $("#dataTable_filter").attr("hidden", "hidden");
-
-
-
-  //검색조건 변경시 이벤트
-  $('#searchType').change(function (e) {
-//	  const target = $(e.currentTarget);
-//      let searchTypeVal = target.val();
-  });//end of Event--
 
 
   //검색버튼을 눌렀을 때 이벤트
@@ -183,19 +174,15 @@ $(document).ready(function() {
 
       if($("#start_date").val() != ''){
     	  searchWord = $("#start_date").val() + "," +$("#end_date").val();
-    	  table.column(5).search(searchWord);
-      }
-      if($("#receipt").val() != '접수여부선택'){
-    	  searchWord = $("#receipt").val();
     	  table.column(6).search(searchWord);
       }
-      if($("#report_type").val() != '신고분류선택'){
+      if($("#report_type").val() != '신고분류'){
     	  searchWord = $("#report_type").val();
     	  table.column(1).search(searchWord);
       }
       if($("#simple_report_reason").val() != '사유선택'){
     	  searchWord = $("#simple_report_reason").val();
-    	  table.column(4).search(searchWord);
+    	  table.column(5).search(searchWord);
       }
       table.draw();
   });//end of Event--
@@ -206,11 +193,9 @@ $(document).ready(function() {
 	  btn_filter_click_cnt++;
 	  if(btn_filter_click_cnt%2==0){	//짝수번 클릭시 숨기기
 		  $("#filter_area").css("display","none");
-		  $('#receipt').selectpicker('hide');
-		  $("#receipt").val('접수여부선택');
 		  $('#simple_report_reason').selectpicker('hide');
 		  $("#simple_report_reason").val('사유선택');
-		  $("#report_type").val('신고분류선택');
+		  $("#report_type").val('신고분류');
 		  $("#report_type").selectpicker('hide');
 		  $("#start_date").val('');
 		  $("#end_date").val(sysdate);
@@ -232,23 +217,19 @@ $(document).ready(function() {
 		    	for(let i=0; i<numCols; i++) { table.column(i).search(''); }
 
 		    	let join_date = $("#start_date").val() + "," +$("#end_date").val();
-		    	table.column(5).search(join_date);
+		    	table.column(6).search(join_date);
 
 		    	let searchType = $("#searchType").val();
 		    	let searchWord = $("#searchWord").val();
 
 		        table.column(searchType).search(searchWord);
 
-		        if($("#receipt").val() != '접수여부선택'){
-		      	  searchWord = $("#receipt").val();
-		      	  table.column(6).search(searchWord);
-		        }
 		        if($("#simple_report_reason").val() != '사유선택'){
 		      	  searchWord = $("#simple_report_reason").val();
-		      	  table.column(4).search(searchWord);
+		      	  table.column(5).search(searchWord);
 		        }
 		        //신고분류 체크
-		 	    if($("#report_type").val() != '신고분류선택'){
+		 	    if($("#report_type").val() != '신고분류'){
 		     	  searchWord = $("#report_type").val();
 		     	  table.column(1).search(searchWord);
 		 	    }
@@ -261,47 +242,8 @@ $(document).ready(function() {
 	    }
    });//end of Event--
 
-
-   //receipt 변경시 검색
-   $("#receipt").change(function(){
-	   let receipt = $("#receipt").val();
-	   let numCols = table.columns().nodes().length;
-	   //초기화
-	   for(let i=0; i<numCols; i++) { table.column(i).search(''); }
-
-
-	   //검색조건
-	   let searchType = $("#searchType").val();
-	   let searchWord = $("#searchWord").val();
-	   table.column(searchType).search(searchWord);
-
-	   //날짜넣기
-	   if($("#start_date").val() !=''){
-		   searchWord = $("#start_date").val() + "," +$("#end_date").val();
-		   table.column(5).search(searchWord);
-	   }
-
-	   //접수여부선택체크
-	   if(receipt != '접수여부선택'){
-		   searchWord = receipt;
-	       table.column(6).search(searchWord);
-	   }
-	   //신고분류 체크
-	   if($("#report_type").val() != '신고분류선택'){
-	    	  searchWord = $("#report_type").val();
-	    	  table.column(1).search(searchWord);
-	   }
-	   //사유체크
-	   if($("#simple_report_reason").val() != '사유선택'){
-    	  searchWord = $("#simple_report_reason").val();
-    	  table.column(4).search(searchWord);
-       }
-       table.draw();
-   });//end of Event
-
    //simple_report_reason 변경시 검색
    $("#simple_report_reason").change(function(){
-	   let receipt = $("#receipt").val();
 	   let numCols = table.columns().nodes().length;
 	   //초기화
 	   for(let i=0; i<numCols; i++) { table.column(i).search(''); }
@@ -309,7 +251,7 @@ $(document).ready(function() {
 	   //날짜넣기
 	   if($("#start_date").val() !=''){
 		   let searchWord = $("#start_date").val() + "," +$("#end_date").val();
-		   table.column(5).search(searchWord);
+		   table.column(6).search(searchWord);
 	   }
 
 	   //검색조건
@@ -317,27 +259,21 @@ $(document).ready(function() {
 	   let searchWord = $("#searchWord").val();
 	   table.column(searchType).search(searchWord);
 
-	   //상태체크
-	   if(receipt != '접수여부선택'){
-		   searchWord = receipt;
-	       table.column(6).search(searchWord);
-	   }
 	   //신고분류 체크
-	   if($("#report_type").val() != '신고분류선택'){
+	   if($("#report_type").val() != '신고분류'){
     	  searchWord = $("#report_type").val();
     	  table.column(1).search(searchWord);
 	   }
 	   //구분체크
 	   if($("#simple_report_reason").val() != '사유선택'){
     	  searchWord = $("#simple_report_reason").val();
-    	  table.column(4).search(searchWord);
+    	  table.column(5).search(searchWord);
        }
        table.draw();
    });//end of Event
 
    //report_type 변경시 검색
    $("#report_type").change(function(){
-	   let receipt = $("#receipt").val();
 	   let numCols = table.columns().nodes().length;
 	   //초기화
 	   for(let i=0; i<numCols; i++) { table.column(i).search(''); }
@@ -345,7 +281,7 @@ $(document).ready(function() {
 	   //날짜넣기
 	   if($("#start_date").val() !=''){
 		   let searchWord = $("#start_date").val() + "," +$("#end_date").val();
-		   table.column(5).search(searchWord);
+		   table.column(6).search(searchWord);
 	   }
 
 	   //검색조건
@@ -353,20 +289,15 @@ $(document).ready(function() {
 	   let searchWord = $("#searchWord").val();
 	   table.column(searchType).search(searchWord);
 
-	   //상태체크
-	   if(receipt != '접수여부선택'){
-		   searchWord = receipt;
-	       table.column(6).search(searchWord);
-	   }
 	   //신고분류 체크
-	   if($("#report_type").val() != '신고분류선택'){
+	   if($("#report_type").val() != '신고분류'){
     	  searchWord = $("#report_type").val();
     	  table.column(1).search(searchWord);
 	   }
 	   //구분체크
 	   if($("#simple_report_reason").val() != '사유선택'){
     	  searchWord = $("#simple_report_reason").val();
-    	  table.column(4).search(searchWord);
+    	  table.column(5).search(searchWord);
        }
        table.draw();
    });//end of Event
@@ -379,17 +310,15 @@ $(document).ready(function() {
 	  }
 	});//end of Event--
 
+
   //tr 클릭시 링크 걸기
   $(document).on('click', '#dataTable > tbody > tr' , function(e){
 	//아이디가 id 인거를 'click', 클릭할때마다 이벤트가 일어난다.
 	const target = $(e.currentTarget);
-	const report_num = target.children(":first").text();
-	const report_nickname = target.children().eq("2").text();
-	const reported_nickname = target.children().eq("3").text();
-	location.href = getContextPath()+"/admin/report/detail.do?report_num="+report_num+"&report_nickname="+report_nickname+"&reported_nickname="+reported_nickname;
+	const id = target.children(":first").text();
+	location.href = "/admin/reports/" + id;
   });
 });//end of $(document).ready(function() {})--
-
 
 
 // == Function Declaration == //
@@ -397,7 +326,6 @@ $(document).ready(function() {
  * 날짜 유효성검사
  */
 function test_date(){
-
   let start_date = $("input#start_date").val();
   let end_date = $("input#end_date").val();
 
