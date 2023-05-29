@@ -5,7 +5,6 @@
 %> 
     
 
-    
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" href="<%=ctxPath %>/resources/css/admin/admin.css">
     
@@ -20,7 +19,7 @@
             <div class="error mx-auto" data-text="ERROR">ERROR</div>
             <p class="lead text-gray-800 mb-5">서버 문제로 연결이 불가능합니다.</p>
             <p class="text-gray-500 mb-0">It looks like you found a glitch in the matrix...</p>
-            <a href="<%=ctxPath %>/index.do">&larr; Back to GUKMO</a>
+            <a href="/">&larr; Back to GUKMO</a>
         </div>
 
     </div>

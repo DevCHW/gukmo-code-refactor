@@ -47,7 +47,6 @@ public class OAuthController {
         try {
             ObjectMapper objectMapper =new ObjectMapper();
             Map<String, Object> naverUserInfo = (Map<String, Object>) objectMapper.readValue(response, Map.class).get("response");
-            log.info("네이버로그인 요청 아이디값={}", naverUserInfo.get("id"));
             OauthLoginRequest naverLoginRequest = OauthLoginRequest.builder()
                     .authId((String)naverUserInfo.get("id"))
                     .email((String)naverUserInfo.get("email"))
@@ -55,7 +54,6 @@ public class OAuthController {
                     .profileImage((String)naverUserInfo.get("profile_image"))
                     .username((String)naverUserInfo.get("name"))
                     .build();
-            log.info("네이버 로그인 요청, 사용자정보={}", naverLoginRequest);
 
             Member member = oauthService.oauthLogin(naverLoginRequest);
             LoginMemberDto loginMemberDto = new LoginMemberDto().toDto(member);

@@ -30,7 +30,6 @@ public class LoginApiController {
     @PatchMapping("/{id}/password")
     public BaseResponse<String> editPassword (@PathVariable("id") Long id,
                                               @RequestParam String password) {
-        log.info("비밀번호 변경요청 id={}", id);
         loginService.editPassword(id, password);
         return new BaseResponse<>(PASSWORD_CHANGE_SUCCESS);
     }

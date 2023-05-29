@@ -1,6 +1,5 @@
 package com.devchw.gukmo.user.dto.board;
 
-import com.devchw.gukmo.entity.board.Academy;
 import com.devchw.gukmo.entity.board.Curriculum;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.utils.DateUtil;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 import static com.devchw.gukmo.utils.DateUtil.*;
-import static com.devchw.gukmo.utils.DateUtil.StringToLocalDateTimeConverter;
+import static com.devchw.gukmo.utils.DateUtil.stringToLocalDateTimeConverter;
 
 @Data
 @Builder
@@ -39,10 +38,10 @@ public class CurriculumFormDto {
      * Dto -> Entity
      */
     public Curriculum toEntity(Member writerMember) {
-        LocalDateTime curriculumStartDate = StringToLocalDateTimeConverter(this.curriculumStartDate);
-        LocalDateTime curriculumEndDate = StringToLocalDateTimeConverter(this.curriculumEndDate);
-        LocalDateTime recruitmentStartDate = StringToLocalDateTimeConverter(this.recruitmentStartDate);
-        LocalDateTime recruitmentEndDate = StringToLocalDateTimeConverter(this.recruitmentEndDate);
+        LocalDateTime curriculumStartDate = stringToLocalDateTimeConverter(this.curriculumStartDate);
+        LocalDateTime curriculumEndDate = stringToLocalDateTimeConverter(this.curriculumEndDate);
+        LocalDateTime recruitmentStartDate = stringToLocalDateTimeConverter(this.recruitmentStartDate);
+        LocalDateTime recruitmentEndDate = stringToLocalDateTimeConverter(this.recruitmentEndDate);
         return Curriculum.builder()
                 .subject(subject)
                 .content(content)

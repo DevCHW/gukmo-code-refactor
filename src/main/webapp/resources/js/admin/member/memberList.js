@@ -9,10 +9,12 @@ function getContextPath(){
 const today = new Date();
 
 const year = today.getFullYear(); // 년도
-const month = today.getMonth() + 1;  // 월
-const date = today.getDate();  // 날짜
+let month = today.getMonth() + 1;  // 월
+let day = today.getDate();  // 날짜
 
-const sysdate = year + '-' + month + '-' + date;
+if(month < 10) month = "0"+month;
+if(day < 10) day = "0"+day;
+const sysdate = year + '-' + month + '-' + day;
 
 //필터버튼 클릭횟수
 let btn_filter_click_cnt = 0;
@@ -101,47 +103,47 @@ $(document).ready(function() {
         "url": "/api/v1/admin/members",
         "type": "post",
         "dataSrc": function(res) {
-            let data = res.result.data;
+            let data = res.data;
             return data;
         },
     },
     "columns" : [
-        {"data": "NICKNAME"},
-        {"data": "USERID"},
-        {"data": "EMAIL"},
-        {"data": "JOIN_DATE"},
-        {"data": "STATUS"},
+        {"data": "nickname"},
+        {"data": "userId"},
+        {"data": "email"},
+        {"data": "joinDate"},
+        {"data": "status"},
     ],
     dom: 'Bfrtip',
     buttons: [
 		{
 			extend: 'excel'
 			,text: "<img src='../../resources/images/dataTable/excel.png' style='width:25px; height:17px;'/>Excel&nbsp;&nbsp;"
-			,filename: '국모 일반회원내역'+year+month+date
-			,title: '국비의모든것 일반회원내역'+year+month+date
+			,filename: '국모 일반회원내역'+year+month+day
+			,title: '국비의모든것 일반회원내역'+year+month+day
 			,action: newExportAction
 		},
 		{
 			extend: 'copy'
 			,text: '📋&nbsp;Copy&nbsp;'
-			,title: '국비의모든것 일반회원내역'+year+month+date
+			,title: '국비의모든것 일반회원내역'+year+month+day
 		},
 		{
 			extend: 'pdf'
 			,text: "<img src='https://toppng.com/public/uploads/preview/pdf-icon-11549528510ilxx4eex38.png' style='width:25px; height:20px;'/>&nbsp;PDF&nbsp;"
-			,filename: '국비의모든것 일반회원내역'+year+month+date
+			,filename: '국비의모든것 일반회원내역'+year+month+day
 		},
 		{
 			extend: 'csv'
 			,charset: 'UTF-8'
 			,bom: true
 			,text: "<img src='../../resources/images/dataTable/csv.png' style='width:20px; height:20px;'/>&nbsp;CSV&nbsp;"
-			,filename: '국비의모든것 일반회원내역'+year+month+date
+			,filename: '국비의모든것 일반회원내역'+year+month+day
 		},
 		{
 			extend: 'print'
 			,text: '️🖨&nbsp;Print&nbsp;'
-			,filename: '국비의모든것 일반회원내역'+year+month+date
+			,filename: '국비의모든것 일반회원내역'+year+month+day
 		},
 	]
   });//end of Event---
@@ -259,16 +261,12 @@ $(document).ready(function() {
    });//end of Event
 
 
-
    //검색창에서 엔터 입력시 검색되게하기
 	$("input#searchWord").keydown(function(e){	//검색창에서 엔터 입력시
 	  if(e.keyCode == 13){	//엔터를 했을 경우
 		$("#btn_search").trigger("click");
 	  }
 	});//end of Event--
-
-
-
 
 
   //tr 클릭시 링크 걸기

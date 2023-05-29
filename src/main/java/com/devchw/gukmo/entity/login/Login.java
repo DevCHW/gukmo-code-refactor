@@ -30,14 +30,6 @@ public class Login {
     @OneToOne(fetch = LAZY, mappedBy = "login")
     private Member member;
 
-    @Enumerated(EnumType.STRING)
-    @ColumnDefault("'ACTIVE'")
-    private Status status; //상태 {REST, SUSPENSION, ACTIVE, WAIT}
-
-    public enum Status {
-        REST, SUSPENSION, ACTIVE, WAIT
-    }
-
     /** 비밀번호 수정 */
     public void changePassword(String password) {
         this.password = password;

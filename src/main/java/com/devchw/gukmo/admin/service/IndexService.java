@@ -32,7 +32,6 @@ public class IndexService {
 
         String firstCategory = "커뮤니티";
         List<Board> findBoardList = adminBoardRepository.findTop3ByFirstCategoryAndWriteDateBetweenOrderByViewsDesc(firstCategory, startDatetime, endDatetime);
-        log.info("조회된 인기게시물 3개={}", findBoardList);
         return findBoardList.stream().map(b -> new BoardDto().toDto(b)).collect(Collectors.toList());
     }
 
@@ -47,17 +46,11 @@ public class IndexService {
         //오늘 가입한 회원 수
         Long todayJoinMemberCount = adminMemberRepository.countByJoinDateBetween(startDatetime, endDatetime);
 
-        log.info("오늘 작성된 게시물 수={}", todayBoardCount);
-        log.info("오늘 가입한 회원 수={}", todayJoinMemberCount);
-
-
         //회원가입이 가장 많았던 날의 회원가입 수
         Long joinMemberCountMax = adminMemberRepository.countByJoinMemberMax();
-        log.info("회원가입이 가장 많았던 날의 회원가입 수={}", joinMemberCountMax);
 
         //작성된 게시물이 가장 많았던 날의 게시물 수
         Long writeBoardCountMax = adminBoardRepository.countByWriteBoardCountMax();
-        log.info("회원가입이 가장 많았던 날의 회원가입 수={}", writeBoardCountMax);
 
         double maxCntBoard = (double) writeBoardCountMax;
         double maxCntJoinMember = (double) joinMemberCountMax;

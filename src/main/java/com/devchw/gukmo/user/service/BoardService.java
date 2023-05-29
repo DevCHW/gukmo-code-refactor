@@ -13,9 +13,7 @@ import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.dto.board.*;
 import com.devchw.gukmo.user.dto.comments.CommentsDto;
 import com.devchw.gukmo.user.dto.login.LoginMemberDto;
-import com.devchw.gukmo.user.dto.member.WriterDto;
 import com.devchw.gukmo.user.repository.*;
-import com.devchw.gukmo.utils.DateUtil;
 import com.devchw.gukmo.utils.FileManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -287,10 +285,10 @@ public class BoardService {
         curriculum.changeCurriculumInfo(
                 form.getCoreTechnology(),
                 form.getAcademyName(),
-                StringToLocalDateTimeConverter(form.getCurriculumStartDate()),
-                StringToLocalDateTimeConverter(form.getCurriculumEndDate()),
-                StringToLocalDateTimeConverter(form.getRecruitmentStartDate()),
-                StringToLocalDateTimeConverter(form.getRecruitmentEndDate()),
+                stringToLocalDateTimeConverter(form.getCurriculumStartDate()),
+                stringToLocalDateTimeConverter(form.getCurriculumEndDate()),
+                stringToLocalDateTimeConverter(form.getRecruitmentStartDate()),
+                stringToLocalDateTimeConverter(form.getRecruitmentEndDate()),
                 form.getRecruitsCount(),
                 form.getUrl(),
                 form.getContent(),

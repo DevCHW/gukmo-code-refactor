@@ -46,6 +46,10 @@ public class Member {
     private LocalDateTime joinDate; //가입일자
 
     @Enumerated(EnumType.STRING)
+    @ColumnDefault("'ACTIVE'")
+    private Status status; //상태 {REST, SUSPENSION, ACTIVE, WAIT}
+
+    @Enumerated(EnumType.STRING)
     @ColumnDefault("'NO'")
     private EmailAccept emailAccept;    //이메일수신동의 여부 YES, NO
 
@@ -82,6 +86,10 @@ public class Member {
 
     public enum UserRole {
         ADMIN, MEMBER, ACADEMY
+    }
+
+    public enum Status {
+        SUSPENDED, ACTIVE, WAIT
     }
 
     /** 회원 정보 수정 1.*/

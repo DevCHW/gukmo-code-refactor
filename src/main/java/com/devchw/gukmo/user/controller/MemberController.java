@@ -63,7 +63,6 @@ public class MemberController {
     @PostMapping("/signUp")
     public String save(@Valid @ModelAttribute SignUpFormDto form,
                        BindingResult bindingResult) {
-        log.info("SignUpFormDto={}", form);
         if (bindingResult.hasErrors()) {    // SignUpForm 검증
             return "member/signUpForm.tiles1";
         }
@@ -75,7 +74,6 @@ public class MemberController {
     @PostMapping("/signUp/academyMember")
     public String saveAcademyMember(@Valid @ModelAttribute AcademyMemberSignUpFormDto form,
                        BindingResult bindingResult) {
-        log.info("AcademyMemberSignUpFormDto={}", form);
         if (bindingResult.hasErrors()) {    // SignUpForm 검증
             return "member/academyMemberSignUpForm.tiles1";
         }
@@ -88,7 +86,6 @@ public class MemberController {
     public String info(@PathVariable Long id, Model model) {
         Member loginMemberInfo = memberRepository.findMemberById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         MyPageDto memberInfo = new MyPageDto().toDto(loginMemberInfo);
-        log.info("마이페이지 - 내 정보 페이지 member={}", memberInfo);
         model.addAttribute("memberInfo", memberInfo);
         return "member/my/info.tiles1";
     }
@@ -98,7 +95,6 @@ public class MemberController {
     public String account(@PathVariable Long id, Model model) {
         Member loginMemberInfo = memberRepository.findMemberById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
         MyPageDto memberInfo = new MyPageDto().toDto(loginMemberInfo);
-        log.info("마이페이지 - 내 계정 페이지 member={}", memberInfo);
         model.addAttribute("memberInfo", memberInfo);
         return "member/my/account.tiles1";
     }
@@ -119,8 +115,6 @@ public class MemberController {
         String url = "/"+id+"/my/activities";
         int totalPage = activityList.getTotalPages();
         String pageBar = PageBarUtil.createPageBar(pageable.getPageNumber(), totalPage, url, queryString);
-        log.info("조회된 activities={}", activities);
-        log.info("조회된 writerNicknames={}", writerNicknames);
 
         model.addAttribute("activities",activities);
         model.addAttribute("writerNicknames",writerNicknames);

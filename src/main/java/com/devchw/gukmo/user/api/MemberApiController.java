@@ -49,8 +49,6 @@ public class MemberApiController {
     @DeleteMapping("/{id}")
     public BaseResponse<String> delete(@PathVariable("id") Long id,
                                        HttpSession session) {
-        log.info("계정삭제 요청 memberId={}", id);
-
         memberRepository.deleteById(id);
 
         LoginMemberDto loginMemberInfo = (LoginMemberDto) session.getAttribute("loginMember");

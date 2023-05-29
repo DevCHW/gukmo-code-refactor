@@ -46,7 +46,6 @@ public class DBinit {
          * 1. 테스트용 아이디 추가
          */
         public void dbInit1() {
-            log.info("테스트 회원 데이터를 추가합니다.");
 
             Login loginMember1 = Login.builder()
                     .userId("test123")
@@ -210,10 +209,10 @@ public class DBinit {
                         .member(member)
                         .coreTechnology("Java")
                         .academyName("쌍용강북교육센터"+i)
-                        .curriculumStartDate(DateUtil.StringToLocalDateTimeConverter("2023-06-03"))
-                        .curriculumEndDate(DateUtil.StringToLocalDateTimeConverter("2023-12-30"))
-                        .recruitmentStartDate(DateUtil.StringToLocalDateTimeConverter("2023-05-20"))
-                        .recruitmentEndDate(DateUtil.StringToLocalDateTimeConverter("2023-12-30"))
+                        .curriculumStartDate(DateUtil.stringToLocalDateTimeConverter("2023-06-03"))
+                        .curriculumEndDate(DateUtil.stringToLocalDateTimeConverter("2023-12-30"))
+                        .recruitmentStartDate(DateUtil.stringToLocalDateTimeConverter("2023-05-20"))
+                        .recruitmentEndDate(DateUtil.stringToLocalDateTimeConverter("2023-12-30"))
                         .recruitsCount(0)
                         .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
                         .recruitmentPeriod(10)
@@ -296,16 +295,16 @@ public class DBinit {
                 Advertisement advertisement1 = Advertisement.builder()
                         .type(Advertisement.Type.MAIN)
                         .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
-                        .startDate(DateUtil.StringToLocalDateTimeConverter("2023-01-01"))
-                        .endDate(DateUtil.StringToLocalDateTimeConverter("2025-12-31"))
+                        .startDate(DateUtil.stringToLocalDateTimeConverter("2023-01-01"))
+                        .endDate(DateUtil.stringToLocalDateTimeConverter("2025-12-31"))
                         .fileName("fake_main_banner0"+i+".png")
                         .build();
 
                 Advertisement advertisement2 = Advertisement.builder()
                         .type(Advertisement.Type.BOARD)
                         .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
-                        .startDate(DateUtil.StringToLocalDateTimeConverter("2023-01-01"))
-                        .endDate(DateUtil.StringToLocalDateTimeConverter("2025-12-31"))
+                        .startDate(DateUtil.stringToLocalDateTimeConverter("2023-01-01"))
+                        .endDate(DateUtil.stringToLocalDateTimeConverter("2025-12-31"))
                         .fileName("fake_main_banner0"+i+".png")
                         .build();
                 em.persist(advertisement1);

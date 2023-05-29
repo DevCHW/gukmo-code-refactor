@@ -61,7 +61,7 @@ public class CurriculumListDto {
     }
 
     public int getDday() {
-        LocalDateTime recruitmentEndDate = DateUtil.StringToLocalDateTimeConverter(this.recruitmentEndDate);
+        LocalDateTime recruitmentEndDate = DateUtil.stringToLocalDateTimeConverter(this.recruitmentEndDate);
         return Integer.parseInt(DateUtil.getDaysFromNow(recruitmentEndDate));
     }
 }

@@ -1,10 +1,5 @@
 package com.devchw.gukmo.utils;
 
-import com.devchw.gukmo.config.response.BaseResponseStatus;
-import com.devchw.gukmo.exception.BaseException;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,8 +7,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-
-import static com.devchw.gukmo.config.response.BaseResponseStatus.INTERNAL_SERVER_ERROR;
 
 public class DateUtil {
 
@@ -59,7 +52,7 @@ public class DateUtil {
     /**
      * String -> LocalDateTime변환
      */
-    public static LocalDateTime StringToLocalDateTimeConverter(String dateString) {
+    public static LocalDateTime stringToLocalDateTimeConverter(String dateString) {
         // DateTimeFormatter를 사용하여 문자열을 LocalDateTime으로 변환
         dateString += " 00:00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -67,6 +60,7 @@ public class DateUtil {
 
         return localDateTime;
     }
+
 
     /**
      * LocalDateTime -> "yyyy-mm-dd"형식의 String 변환

@@ -25,7 +25,6 @@ public class AdminBoardApiController {
     @GetMapping("/community/activity/stats")
     public BaseResponse<CommunityActivityStatsResponse> communityActivityStats() {
         List<Long> findData = adminBoardService.findCommunityActivityStats();
-        log.info("조회된 데이터={}", findData);
         CommunityActivityStatsResponse data = CommunityActivityStatsResponse.builder()
                 .data(findData)
                 .build();

@@ -7,8 +7,6 @@ import com.devchw.gukmo.admin.service.AdminMemberService;
 import com.devchw.gukmo.config.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +23,6 @@ public class AdminMemberApiController {
     @GetMapping("/increase/stats")
     public BaseResponse<IncreaseStatsResponse> IncreaseStats() {
         List<Long> findData = adminMemberService.findIncreaseStats();
-        log.info("조회된 데이터={}", findData);
         IncreaseStatsResponse data = IncreaseStatsResponse.builder()
                 .data(findData)
                 .build();
@@ -34,15 +31,20 @@ public class AdminMemberApiController {
 
     /** 관리자 회원내역 조회 */
     @PostMapping
-    public BaseResponse<DataTableResponse> members(@RequestBody MultiValueMap<String, String> formData) {
+    public DataTableResponse members(@RequestBody MultiValueMap<String, String> formData) {
         int draw = Integer.parseInt(formData.get("draw").get(0));
         int start = Integer.parseInt(formData.get("start").get(0));
         int length = Integer.parseInt(formData.get("length").get(0));
 
-        log.info("formData={}", formData);
         List<MemberListDto> findData = adminMemberService.findAllMemberList(start, length, formData);
+        int total = (int) adminMemberService.findAllMemberListTotal(formData);
+
         DataTableResponse data = DataTableResponse.builder()
+                .draw(draw)
+                .recordsFiltered(total)
+                .recordsTotal(total)
+                .data(findData)
                 .build();
-        return new BaseResponse<>(data);
+        return data;
     }
 }

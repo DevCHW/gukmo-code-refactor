@@ -30,7 +30,6 @@ public class CommentsController {
     @PatchMapping("/{id}")
     public BaseResponse<String> edit(@PathVariable("id") Long id,
                                      @ModelAttribute UpdateRequest request) {
-        log.info("날아온 데이터={}", request);
         commentsService.edit(id, request);
         return new BaseResponse<>(SUCCESS);
     }

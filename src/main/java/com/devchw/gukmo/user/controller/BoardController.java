@@ -62,7 +62,6 @@ public class BoardController {
                          Model model) {
         //필독 공지사항 조회
         List<NoticeListDto> mustReadNotices = boardRepository.findMustReadNoticeList();
-        log.info("조회한 필독공지사항={}", mustReadNotices);
         List<Long> noticeIds = mustReadNotices.stream().map(n -> n.getId()).collect(Collectors.toList());
         List<BoardHashtagDto> noticeHashtags = boardService.findBoardHashtagByBoardId(noticeIds).stream()
                 .map(BoardHashtagDto::toDto).collect(Collectors.toList());
@@ -167,11 +166,9 @@ public class BoardController {
         Set<Advertisement> advertisements = advertisementService.findAdvertisement(currentDateTime, BOARD);
         List<AdvertisementDto> advertisementList = advertisements.stream().map(a -> new AdvertisementDto().toDto(a)).collect(Collectors.toList());
 
-        log.info("조회된 광고 5개={}", advertisementList);
         model.addAttribute("advertisementList", advertisementList);
 
         //게시글 조회
-        log.info("게시글 단건 조회 요청");
         BoardDto boardDto = boardService.findBoardById(id, session);
 
         if(boardDto.getSecondCategory().equals("국비학원")) {
@@ -223,7 +220,6 @@ public class BoardController {
             Long memberId = loginMemberDto.getId();
             AcademyMember findAcademyMember = memberRepository.findAcademyMemberById(memberId).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER)).getAcademyMember();
             AcademyMemberDto academyMember = new AcademyMemberDto().toDto(findAcademyMember);
-            log.info("조회한 데이터={}", academyMember);
 
             model.addAttribute("academyMember", academyMember);
         }
@@ -238,7 +234,6 @@ public class BoardController {
             Long memberId = loginMemberDto.getId();
             AcademyMember findAcademyMember = memberRepository.findAcademyMemberById(memberId).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER)).getAcademyMember();
             AcademyMemberDto academyMember = new AcademyMemberDto().toDto(findAcademyMember);
-            log.info("조회한 데이터={}", academyMember);
 
             model.addAttribute("academyMember", academyMember);
         }
@@ -352,7 +347,6 @@ public class BoardController {
     public String academyEdit(@PathVariable("id") Long id,
                               @ModelAttribute AcademyFormDto form,
                               Model model) {
-        log.info("AcademyFormDto={}", form);
         //글 저장
         Long editedId = boardService.editAcademy(id, form);
         MessageResponse messageResponse = MessageResponse.builder()
@@ -369,7 +363,6 @@ public class BoardController {
     public String academyEdit(@PathVariable("id") Long id,
                               @ModelAttribute CurriculumFormDto form,
                               Model model) {
-        log.info("CurriculumFormDto={}", form);
         //글 저장
         Long editedId = boardService.editCurriculum(id, form);
         MessageResponse messageResponse = MessageResponse.builder()

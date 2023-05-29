@@ -37,20 +37,17 @@ public class HelloController {
         LocalDateTime currentDateTime = LocalDateTime.now();
         Set<Advertisement> advertisements = advertisementService.findAdvertisement(currentDateTime, Type.MAIN);
         List<AdvertisementDto> advertisementList = advertisements.stream().map(a -> new AdvertisementDto().toDto(a)).collect(Collectors.toList());
-        log.info("조회된 광고 5개={}", advertisementList);
         model.addAttribute("advertisementList", advertisementList);
 
         //현재 모집중인 과정 조회
         List<Curriculum> curricula = boardRepository.findTop24ByRecruitmentStartDateLessThanAndRecruitmentEndDateGreaterThanOrderByIdDesc(currentDateTime, currentDateTime);
         List<IndexCurriculumListDto> curriculumList = curricula.stream().map(c -> new IndexCurriculumListDto().toDto(c)).collect(Collectors.toList());
-        log.info("현재 모집중인 과정={}", curriculumList);
         List<IndexCurriculumListDto> curriculumList1 = new ArrayList<>();
         List<IndexCurriculumListDto> curriculumList2 = new ArrayList<>();
         List<IndexCurriculumListDto> curriculumList3 = new ArrayList<>();
 
         //인기 해시태그 조회
         List<String> bestHashtags = hashtagService.getTop10BestHashtag();
-        log.info("조회된 인기 해시태그 10={}", bestHashtags);
         model.addAttribute("bestHashtags", bestHashtags);
 
         int count =1;
@@ -79,7 +76,6 @@ public class HelloController {
             for(int j=0; j<board.size(); j++) {
                 IndexBoardDto indexBoardDto = new IndexBoardDto().toDto(board.get(j));
                 indexBoardModelList.add(indexBoardDto);
-                log.info("조회한 게시물 5개={}", indexBoardDto);
             }
             model.addAttribute(modelNameArr[i], indexBoardModelList);
         }

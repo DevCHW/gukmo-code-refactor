@@ -81,9 +81,9 @@
 					<%-- 필터버튼클릭시 나올 상태 selectBox --%>
 		            <select id="status" class="selectpicker mr-4 mt-3 border rounded" data-style="btn-light border" data-width="120px">
 		            	<option>상태선택</option>
-		            	<option>활동</option>
-						<option>정지</option>
-					    <option>대기</option>
+		            	<option value="ACTIVE">ACTIVE</option>
+						<option value="SUSPENDED">SUSPENDED</option>
+					    <option value="WAIT">WAIT</option>
 					</select>
 
 				    <%-- 검색조건을 가입일자를 눌렀을 시에 나올 selectBox --%>
