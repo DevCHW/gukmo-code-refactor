@@ -14,19 +14,21 @@ import static com.devchw.gukmo.config.response.BaseResponseStatus.SUCCESS;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/comments")
+@RequestMapping("/api/v1/admin/comments")
 public class CommentsApiController {
     private final CommentsService adminCommentsService;
 
+    /** 댓글 블라인드 시키기 */
     @PatchMapping("/{id}/blind")
     public BaseResponse<String> blind(@PathVariable Long id) {
         Long blindId = adminCommentsService.blind(id);
         return new BaseResponse<>(SUCCESS);
     }
 
+    /** 댓글 블라인드 해제 */
     @PatchMapping("/{id}/blind/clear")
     public BaseResponse<String> clearBlind(@PathVariable Long id) {
-        Long blindId = adminCommentsService.blind(id);
+        Long blindId = adminCommentsService.clearBlind(id);
         return new BaseResponse<>(SUCCESS);
     }
 }

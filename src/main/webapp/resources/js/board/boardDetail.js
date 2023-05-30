@@ -158,31 +158,18 @@ $(document).ready(function(){
 
 
   // 댓글 블라인드 버튼 클릭시
-  $("span#commentBlind").click(e=>{
+  $("span.commentBlind").click(e=>{
 	const target = $(e.currentTarget);
-	const comment_num = target.parent().prev().val();
-	comment_blind(comment_num);
+	const commentId = target.prev().val();
+	comment_blind(commentId);
   });
 
-  //대댓글 블라인드 버튼 클릭시
-  $("span#bigCommentBlind").click(e=>{
-	const target = $(e.currentTarget);
-	const comment_num = target.parent().prev().val();
-	comment_blind(comment_num);
-  });
 
   //댓글 블라인드해제  버튼 클릭시
-  $("span#delCommentBlind").click(e=>{
+  $("span.delCommentBlind").click(e=>{
 	const target = $(e.currentTarget);
-	const comment_num = target.parent().prev().val();
-	del_comment_blind(comment_num);
-  });
-
-  //대댓글 블라인드 해제 버튼 클릭시
-  $("span#delBigCommentBlind").click(e=>{
-	const target = $(e.currentTarget);
-	const comment_num = target.parent().prev().val();
-	del_comment_blind(comment_num);
+	const commentId = target.prev().val();
+	del_comment_blind(commentId);
   });
 
 
@@ -300,14 +287,14 @@ function commentLikeClick(data, target){
 
 
 // 댓글,대댓글 블라인드 버튼 클릭시
-function comment_blind(comment_num) {
+function comment_blind(id) {
 	$.ajax({
-		url:getContextPath()+"/comment_blind.do",
-		data:{"comment_num":comment_num},
-		type:'POST',
+		url:"/api/v1/admin/comments/" + id + "/blind",
+		type:'patch',
 		dataType:"json",
-		success:function(json){
-			if(json.JavaData == 'blind') {
+		success:function(res){
+			if(res.success) {
+			    alert("블라인드 처리하였습니다.");
 				window.location.reload();
 			} else{
 				alert("블라인드 기능 오류");
@@ -318,22 +305,22 @@ function comment_blind(comment_num) {
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 		}
 	  });
-}
+}//end of method--
 
 
 //댓글,대댓글 블라인드 해제 버튼 클릭시
-function del_comment_blind(comment_num) {
+function del_comment_blind(id) {
 	$.ajax({
-		url:getContextPath()+"/del_comment_blind.do",
-		data:{"comment_num":comment_num},
-		type:'POST',
+		url:"/api/v1/admin/comments/" + id + "/blind/clear",
+		type:'patch',
 		dataType:"json",
-		success:function(json){
-			if(json.JavaData == 'del_blind') {
-				window.location.reload();
-			} else{
-				alert("블라인드 해제기능 오류");
-			}
+		success:function(res){
+			if(res.success) {
+                alert("블라인드를 해제하였습니다.");
+                window.location.reload();
+            } else{
+                alert("블라인드 기능 오류");
+            }
 		},// end of success
 		// success 대신 error가 발생하면 실행될 코드
 		error: function(request,error){

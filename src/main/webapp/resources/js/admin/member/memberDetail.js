@@ -259,46 +259,17 @@ $(document).ready(function(){
  * 회원에게 이메일전송하기
  */
 function sendEmail(email){
-  const message = $("textarea#email_message").val();
-  $.ajax({
-    url:getContextPath()+"/admin/member/sendEmail.do",
-    data:{"email": email,
-          "message":message},
-    type:"post",
-    dataType:"json",
-    success:function(json){
-      if(json.sendMailSuccess){	//이메일 전송에 성공했다면
-        $("button.sendEmailModal_close").trigger("click");  //닫기버튼 클릭
-        alert("이메일전송에 성공하였습니다.");
-      } else {	//이메일 전송에 실패했다면
-        alert("이메일전송에 실패하였습니다. 다시 시도해주세요");
-      }
-    },//end of success
-    //success 대신 error가 발생하면 실행될 코드
-    error: function(request,status,error){
-      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    }
-  });//end of $.ajax({})---
-}//end of method--
-
-
-/**
- * 회원에게 이메일전송하기
- */
-function sendEmail(email){
     const message = $("textarea#email_message").val();
 	$.ajax({
-	  url:"/api/v1/email/certificationCode",
-	  data:{"email": email},
+	  url:"/api/v1/admin/email/" + email,
+	  data:{"message":message},
 	  type:"post",
 	  dataType:"json",
 	  success:function(res){
 	    if(res.result.sendMailSuccess){	//이메일 전송에 성공했다면
           $("button.sendEmailModal_close").trigger("click");  //닫기버튼 클릭
-          alert("이메일전송에 성공하였습니다.");
-        } else {	//이메일 전송에 실패했다면
-          alert("이메일전송에 실패하였습니다. 다시 시도해주세요");
         }
+        alert(res.result.message);
 	  },//end of success
 	  //success 대신 error가 발생하면 실행될 코드
 	  error: function(request,status,error){

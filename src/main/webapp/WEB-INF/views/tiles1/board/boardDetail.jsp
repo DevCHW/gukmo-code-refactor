@@ -466,14 +466,15 @@
           	</div>
           	<span class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
           	    <c:if test ="${loginMember.id != comment.writer.id}">
-          	    <input type="hidden" id="comment_num" class="" name="" value="${comment.id}" />
           		<div class="border rounded px-3 py-2 comment_update_or_delete">
 	            	<c:if test ="${comment.blind == 'NO'}">
-	            		<span id="commentBlind">블라인드</span>
+          	            <input type="hidden" value="${comment.id}" />
+	            		<span class="commentBlind">블라인드</span>
 	            	</c:if>
 
 	            	<c:if test ="${comment.blind == 'YES'}">
-	            		<span id="delCommentBlind">블라인드 해제</span>
+	            	    <input type="hidden" value="${comment.id}" />
+	            		<span class="delCommentBlind">블라인드 해제</span>
 	            	</c:if>
           		</div>
           		</c:if>
@@ -497,7 +498,7 @@
 			</c:if>
 
 			<c:if test="${comment.blind == 'YES'}">
-			  <div class = "detail_comment" >관리자에 의해서 블라인드 처리 되었습니다.</div>
+			  <div class="detail_comment" style="color:gray; font-size:20px;">관리자에 의해서 블라인드 처리된 댓글입니다.</div>
 			</c:if>
 
 			<%-- 댓글수정 에디터 --%>
@@ -668,11 +669,13 @@
 		          		<c:if test ="${loginMember.nickname != childComment.writer.nickname}">
 		          			<div class="border rounded px-3 py-2 comment_update_or_delete">
 		          		    <c:if test ="${childComment.blind == 'NO'}">
-			            		<span id="bigCommentBlind">블라인드</span>
+		          		        <input type="hidden" value="${childComment.id}" />
+			            		<span class="commentBlind">블라인드</span>
 			            	</c:if>
 
 			            	<c:if test ="${childComment.blind == 'YES'}">
-			            		<span id="delBigCommentBlind">블라인드 해제</span>
+			            	    <input type="hidden" value="${childComment.id}" />
+			            		<span class="delCommentBlind">블라인드 해제</span>
 			            	</c:if>
 		          			</div>
 
@@ -698,7 +701,7 @@
 				  </c:if>
 
 				  <c:if test="${childComment.blind == 'YES'}">
-					<div class="detail_comment my-3" >관리자에 의해서 블라인드 처리 되었습니다.</div>
+					<div class="detail_comment my-3" style="color:gray; font-size:20px;">관리자에 의해서 블라인드 처리된 댓글입니다.</div>
 				  </c:if>
 
 				  <%-- 대댓글수정 에디터 --%>
