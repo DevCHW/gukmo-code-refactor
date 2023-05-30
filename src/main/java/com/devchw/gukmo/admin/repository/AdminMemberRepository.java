@@ -3,6 +3,7 @@ package com.devchw.gukmo.admin.repository;
 
 import com.devchw.gukmo.admin.repository.custom.AdminMemberRepositoryCustom;
 import com.devchw.gukmo.entity.member.Member;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -35,5 +36,6 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long>, Admi
                  " order by b.monthlydata", nativeQuery = true)
     List<Long> findIncreaseStats();
 
+    @EntityGraph(attributePaths = {"academyMember", "login"})
     Optional<Member> findByNickname(String nickname);
 }

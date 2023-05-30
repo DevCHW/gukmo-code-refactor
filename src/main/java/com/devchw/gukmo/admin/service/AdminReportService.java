@@ -25,7 +25,7 @@ public class AdminReportService {
     private final AdminReportRepository adminReportRepository;
 
     public List<ReportListDto> findAllReportList(int start, int length, MultiValueMap<String, String> formData) {
-        int end = start+length;
+        int end = length;
         DataTableReportFormDto form = new DataTableReportFormDto().toDto(formData);
         List<Report> findReportList = adminReportRepository.findAllReportList(start, end, form);
         return findReportList.stream().map(r -> new ReportListDto().toDto(r)).collect(Collectors.toList());

@@ -65,4 +65,6 @@ public interface AdminBoardRepository extends JpaRepository<Board, Long>, AdminB
             "              and first_category='커뮤니티'" +
             "    ) F", nativeQuery = true)
     CommunityActivityStatsQueryDto findCommunityActivityStats();
+
+    long countByMemberId(Long memberId);
 }

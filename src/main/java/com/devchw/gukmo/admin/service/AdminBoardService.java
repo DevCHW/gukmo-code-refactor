@@ -1,11 +1,16 @@
 package com.devchw.gukmo.admin.service;
 
+import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementListDto;
+import com.devchw.gukmo.admin.dto.api.advertisement.DataTableAdvertisementFormDto;
+import com.devchw.gukmo.admin.dto.board.BoardListDto;
 import com.devchw.gukmo.admin.dto.board.CommunityActivityStatsQueryDto;
 import com.devchw.gukmo.admin.dto.board.NoticeFormDto;
 import com.devchw.gukmo.admin.repository.AdminBoardHashtagRepository;
 import com.devchw.gukmo.admin.repository.AdminBoardRepository;
 import com.devchw.gukmo.admin.repository.AdminHashtagRepository;
 import com.devchw.gukmo.admin.repository.AdminMemberRepository;
+import com.devchw.gukmo.entity.advertisement.Advertisement;
+import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.Notice;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
 import com.devchw.gukmo.entity.hashtag.Hashtag;
@@ -15,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,5 +113,19 @@ public class AdminBoardService {
                 if(savedHashtag == null || savedBoardHashtag == null) throw new BaseException(INTERNAL_SERVER_ERROR);
             }
         }
+    }
+
+
+    /** Datatable boardList 조회 */
+    public List<BoardListDto> findAllBoardList(int start, int length, MultiValueMap<String, String> formData, Long id) {
+        int end = length;
+
+        List<Board> findBoardList = adminBoardRepository.findAllByMemberId(id, start, end);
+        List<BoardListDto> data = findBoardList.stream().map(b -> new BoardListDto().toDto(b)).collect(Collectors.toList());
+        return data;
+    }
+
+    public long findAllBoardListTotal(Long memberId) {
+        return adminBoardRepository.countByMemberId(memberId);
     }
 }

@@ -54,11 +54,6 @@ $(document).ready(function(){
 	  case "/admin/member/detail.do" :								//회원상세 URL일 경우
 		  	$("li.memberMenu").children(":first").trigger("click"); //메뉴 클릭시키기
 		    $("li.memberMenu").addClass("active");					//회원메뉴 활성화
-		    if("${requestScope.member.academy_name}" != ""){
-		    	$("a.acaMemberMenu").addClass("active");			//교육기관회원내역 메뉴 활성화
-		    } else {
-		    	$("a.normalMemberMenu").addClass("active")			//일반회원내역 메뉴 활성화
-		    }
 		    break;
 		    
 	  // ====================== 회원관련   끝  ========================== //
@@ -219,23 +214,7 @@ $(document).ready(function(){
 	
 	<%--------------------------------신고 영역 끝--------------------------------------%>
 	
-	
-    <%-- Divider --%>
-    <hr class="sidebar-divider">
 
-    <%-- Heading --%>
-    <div class="sidebar-heading">view</div>
-    
-    <%-------------------------------- 일정메뉴 영역 시작--------------------------------------%>
-
-    <%-- Nav Item - Member Collapse Menu --%>
-    <li class="nav-item calendarMenu">
-    	<a class="nav-link" href="<%=ctxPath %>/admin/calendar.do">
-            <i class="fa-solid fa-calendar-days"></i>
-            <span>일정</span></a>
-    </li>
-    <%-------------------------------- 일정메뉴 영역 끝--------------------------------------%>
-    
     
     <%-------------------------------- 공지사항 작성메뉴 영역 시작--------------------------------------%>
 	<%-- Divider --%>

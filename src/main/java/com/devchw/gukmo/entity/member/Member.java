@@ -93,7 +93,7 @@ public class Member {
     }
 
     public enum Status {
-        SUSPENDED, ACTIVE, WAIT
+        ACTIVE, SUSPENDED, WAIT
     }
 
     /** 회원 정보 수정 1.*/

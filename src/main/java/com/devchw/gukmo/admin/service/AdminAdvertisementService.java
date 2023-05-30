@@ -34,7 +34,7 @@ public class AdminAdvertisementService {
 
     /** 관리자 광고내역 조회 */
     public List<AdvertisementListDto> findAllAdvertisementList(int start, int length, MultiValueMap<String, String> formData) {
-        int end = start+length;
+        int end = length;
         DataTableAdvertisementFormDto form = new DataTableAdvertisementFormDto().toDto(formData);
         List<Advertisement> findAdvertisements = adminAdvertisementRepository.findAllAdvertisementList(start, end, form);
         return findAdvertisements.stream().map(a -> new AdvertisementListDto().toDto(a)).collect(Collectors.toList());

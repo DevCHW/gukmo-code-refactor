@@ -87,29 +87,20 @@ $(document).ready(function(){
 
     //다른영역 전부 display:none 시키는 함수 호출
     memberDetailAreaClear();
-
+    const id = $("input#hidden_member_id").val();
     switch (menu_name) {
-      case '활동내역':  //활동내역 메뉴 클릭시
-        activities_nav(sessionStorage.getItem("userid"));
-        break;
-      case '검색기록':  //검색기록 메뉴 클릭시
-        search_nav(sessionStorage.getItem("userid"));
-      break;
-      case '로그인기록':  //로그인기록 메뉴 클릭시
-        login_record_nav(sessionStorage.getItem("userid"));
-      break;
       case '작성게시물':  //작성게시물 메뉴 클릭시
-        write_board_list_nav(sessionStorage.getItem("nickname"));
+        write_board_list_nav(id);
       break;
       case '신고내역':  //신고내역 메뉴 클릭시
-        report_nav(sessionStorage.getItem("nickname"));
+        report_nav(id);
       break;
     }//end of switch-case
 
   });//end of Event--
 
-  //기본값 활동내역 네비바 클릭시키기
-  $("div#activities_nav").trigger("click");
+  //기본값 작성게시물 네비바 클릭시키기
+  $("div#write_board_list_nav").trigger("click");
 
   //정지사유등록 버튼 클릭시 클릭횟수 증가
   $("span#btn_insert_penalty_modal").click(()=>{btn_insert_penalty_modal_click++;})
@@ -133,8 +124,6 @@ $(document).ready(function(){
     	$("span#btn_insert_refuse_modal").hide();
     }
   });//end of Event--
-
-
 
 
 
@@ -450,290 +439,44 @@ function memberDetailAreaClear(){
 }//end of method--
 
 
-
-
-/**
- * 네비게이션 바에서 활동내역 클릭시 실행될 함수
- */
-function activities_nav(userid){
-  $("div#member_activities").css("display","block");
-  let table = $("#dataTable-activities").DataTable();
-  table.destroy();
-  $('#dataTable-activities').DataTable({
-		"serverSide": true,
-		"aaSorting": [],
-		"order" : [[ 0, "desc" ]],
-		"paging":true,
-	    "processing": true,
-	    "searching": false,
-	    "ajax": {
-	        "url": getContextPath()+"/admin/member/detail/activityList.do",
-	        "type": "POST",
-	        "data":{userid:userid},
-	        "dataSrc": function(res) {
-	            let data = res.data;
-	            return data;
-	        },
-	    },
-	    "columns" : [
-	        {"data": "activity_date"},
-	        {"data": "division"},
-	        {"data": "detail_category"},
-	        {"data": "fk_board_num"},
-	        {"data": "subject"},
-	    ],
-	  });//end of Event---
-  activitiesChart_nav(userid);	//차트함수 실행
-}//end of method--
-
-
-/**
- * 네비게이션 바에서 활동내역 클릭시 실행되는 차트 ajax
- */
-function activitiesChart_nav(userid) {
-	const sort =  $("select#sort").val();
-	if(sort != '일자별') {
-		$('input#fromDate').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-		$('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-		$(".datepicker").hide();
-	}
-	else if(sort == '일자별') {
-		$(".datepicker").show();
-	}
-
-	var fromDate = $("input#fromDate").val();
-	var toDate = $("input#toDate").val();
-
-	 $.ajax({
-         url:getContextPath()+"/admin/member/detail/activityCntList.do",
-         data:{"userid": userid,
-         	   "sort": sort,
-         	   "fromDate": fromDate,
-         	   "toDate": toDate},
-         type:"get",
-         dataType:"JSON",
-         success:function(json){ //활동내역을 가져오는데 성공했다면
-
-         	var dateArr = [];
-         	var cntArr = [];
-
-	            for(var i=0; i<json.length; i++) {
-	            	var obj;
-	        	    var obj2;
-
-         		obj = Number(json[i].cnt);
-         		obj2 = json[i].activity_date;
-
-	            	cntArr.push(obj); // 배열속에 객체를 넣기
-	            	dateArr.push(obj2); // 배열속에 객체를 넣기
-	            }// end of for------------------------------
-
-
-
-		        Highcharts.chart('activityChart_container',  {
-		            chart: {
-		                type: 'line'
-		            },
-		            title: {
-		                text: sort +' 활동내역 건수'
-		            },
-		            subtitle: {
-		                text: 'Source: <a href="http://localhost:9090/board/admin/chart/activityCntList.do" target="_blank">GUKMO Activity</a>'
-		            },
-		            xAxis: {
-		                categories: dateArr
-		            },
-		            yAxis: {
-		                title: {
-		                    text: '건'
-		                }
-		            },
-		            plotOptions: {
-		                line: {
-		                    dataLabels: {
-		                        enabled: true
-		                    },
-		                    enableMouseTracking: false
-		                }
-		            },
-		            series: [{
-		                name: '활동내역',
-		                data: cntArr
-		            }]
-		        });
-
-         },//end of success
-         //success 대신 error가 발생하면 실행될 코드
-         error: function(request,status,error){
-           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-         }
-       });//end of $.ajax({})---
-
-}
-
-
-
-
-/**
- * 네비게이션 바에서 검색기록 클릭시 실행될 함수
- */
-function search_nav(userid){
-  $("div#member_search").css("display","block");
-  $.ajax({
-    url:getContextPath()+"/admin/member/detail/searchCntList.do",
-    data:{"userid": userid},
-    type:"get",
-    dataType:"json",
-    success:function(json){ //검색기록을 가져오는데 성공했다면
-
-    	// 차트용
-     	var data = [];
-
-            for(var i=0; i<json.length; i++) {
-
-            	var obj;
-
-            	obj = {
-         				name:json[i].key,
-         				weight: Number(json[i].cnt)
-         			  };
-
-            	data.push(obj); // 배열속에 객체를 넣기
-
-	     }// end of for------------------------------
-        Highcharts.chart('searchChart_container', {
-            accessibility: {
-                screenReaderSection: {
-                    beforeChartFormat: '<h5>{chartTitle}</h5>' +
-                        '<div>{chartSubtitle}</div>' +
-                        '<div>{chartLongdesc}</div>' +
-                        '<div>{viewTableButton}</div>'
-                }
-            },
-            series: [{
-                type: 'wordcloud',
-                data,
-                name: '해당 키워드 검색횟수'
-            }],
-            tooltip: {
-                headerFormat: '<span style="font-size: 16px"><b>{point.key}</b></span><br>'
-            }
-        });
-    },//end of success
-    //success 대신 error가 발생하면 실행될 코드
-    error: function(request,status,error){
-      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    }
-  });//end of $.ajax({})---
-  tableDraw(userid);
-}//end of method--
-
-/**
- * 회원의 검색기록 찍기
- */
-function tableDraw(userid){
-  let table = $("#dataTable-keyword").DataTable();
-  table.destroy();
-  $('#dataTable-keyword').DataTable({
-	"serverSide": true,
-	"aaSorting": [],
-	"order" : [[ 0, "desc" ]],
-	"paging":true,
-    "processing": true,
-    "searching": false,
-    "ajax": {
-        "url": getContextPath()+"/admin/member/getSearchData.do",
-        "type": "POST",
-        "data":{userid:userid},
-        "dataSrc": function(res) {
-            let data = res.data;
-            return data;
-        },
-    },
-    "columns" : [
-        {"data": "SEARCH_NUM"},
-        {"data": "KEYWORD"},
-        {"data": "SEARCH_DATE"},
-    ],
-  });//end of Event---
-}
-
-
-
-/**
- * 네비게이션 바에서 로그인기록 클릭시 실행될 함수
- */
-function login_record_nav(userid){
-	$("div#member_login_record").css("display","block");
-
-	let table = $("#dataTable-login-record").DataTable();
-	table.destroy();
-	$('#dataTable-login-record').DataTable({
-	"serverSide": true,
-	"aaSorting": [],
-	"order" : [[ 0, "desc" ]],
-	"paging":true,
-	  "processing": true,
-	  "searching": false,
-	  "ajax": {
-	      "url": getContextPath()+"/admin/member/getLoginRecordData.do",
-	      "type": "POST",
-	      "data":{userid:userid},
-	      "dataSrc": function(res) {
-	          let data = res.data;
-	          return data;
-	      },
-	  },
-	  "columns" : [
-	  	  {"data": "R"},
-	      {"data": "LOGIN_DATE"},
-	      {"data": "LOGIN_IP"},
-	  ],
-	});//end of Event----
-}//end of method--
-
-
-
-
 /**
  * 네비게이션 바에서 작성게시물 클릭시 실행될 함수
  */
-function write_board_list_nav(nickname){
+function write_board_list_nav(id){
   $("div#member_write_board_list").css("display","block");
   let table = $("#dataTable-write-board").DataTable();
   table.destroy();
   $('#dataTable-write-board').DataTable({
 	"serverSide": true,
-	"aaSorting": [],
+//	"aaSorting": [],
 	"order" : [[ 0, "desc" ]],
 	"paging":true,
+	"pageLength": 10,
     "processing": true,
     "searching": false,
     "ajax": {
-        "url": getContextPath()+"/admin/member/getWriteBoardData.do",
-        "type": "POST",
-        "data":{nickname:nickname},
+        "url": "/api/v1/admin/boards/members/" + id,
+        "type": "post",
         "dataSrc": function(res) {
             let data = res.data;
             return data;
         },
     },
     "columns" : [
-        {"data": "BOARD_NUM"},
-        {"data": "CATEGORY"},
-        {"data": "DETAIL_CATEGORY"},
-        {"data": "SUBJECT"},
-        {"data": "WRITE_DATE"},
+        {"data": "id"},
+        {"data": "firstCategory"},
+        {"data": "secondCategory"},
+        {"data": "subject"},
+        {"data": "writeDate"},
     ],
   });//end of Event----
 }//end of method--
 
 
-
 /**
  * 네비게이션 바에서 신고내역 클릭시 실행될 함수
  */
-function report_nav(nickname){
+function report_nav(id){
   $("div#member_report_list").css("display","block");
 
   let table = $("#dataTable-report").DataTable();
@@ -743,10 +486,11 @@ function report_nav(nickname){
 	"aaSorting": [],
 	"order" : [[ 0, "desc" ]],
 	"paging":true,
+	"pageLength": 10,
     "processing": true,
     "searching": false,
     "ajax": {
-        "url": getContextPath()+"/admin/member/getReportData.do",
+        "url": "/admin/member/getReportData.do",
         "type": "POST",
         "data":{nickname:nickname},
         "dataSrc": function(res) {

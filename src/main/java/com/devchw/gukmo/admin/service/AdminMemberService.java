@@ -29,7 +29,7 @@ public class AdminMemberService {
 
     /** 관리자 회원내역 조회 */
     public List<MemberListDto> findAllMemberList(int start, int length, MultiValueMap<String, String> formData) {
-        int end = start+length;
+        int end = length;
         DataTableMemberFormDto form = new DataTableMemberFormDto().toDto(formData);
         List<Member> findMembers = adminMemberRepository.findAllMemberList(start, end, form);
         return findMembers.stream().map(m -> new MemberListDto().toDto(m)).collect(Collectors.toList());
