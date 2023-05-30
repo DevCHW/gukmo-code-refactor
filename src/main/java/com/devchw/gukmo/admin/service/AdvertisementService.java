@@ -1,6 +1,7 @@
 package com.devchw.gukmo.admin.service;
 
 import com.devchw.gukmo.admin.dto.advertisement.AdvertisementDto;
+import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementFormRequest;
 import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementListDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.DataTableAdvertisementFormDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.UpdateAdvertisementRequest;
@@ -76,5 +77,13 @@ public class AdvertisementService {
     public List<AdvertisementDto> findAll() {
         List<Advertisement> findAdvertisementList = adminAdvertisementRepository.findAll();
         return findAdvertisementList.stream().map(a -> new AdvertisementDto().toDto(a)).collect(Collectors.toList());
+    }
+
+    /** 광고 등록 */
+    @Transactional
+    public Advertisement save(AdvertisementFormRequest form, MultipartFile file) {
+        String savedFileName = fileManager.save(file); //새로운 파일 저장
+        Advertisement advertisement = form.toEntity(savedFileName);
+        return adminAdvertisementRepository.save(advertisement);
     }
 }

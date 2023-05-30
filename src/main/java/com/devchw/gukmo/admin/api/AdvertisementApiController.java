@@ -2,10 +2,12 @@ package com.devchw.gukmo.admin.api;
 
 import com.devchw.gukmo.admin.dto.DataTableResponse;
 import com.devchw.gukmo.admin.dto.advertisement.AdvertisementDto;
+import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementFormRequest;
 import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementListDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.UpdateAdvertisementRequest;
 import com.devchw.gukmo.admin.service.AdvertisementService;
 import com.devchw.gukmo.config.response.BaseResponse;
+import com.devchw.gukmo.entity.advertisement.Advertisement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.MultiValueMap;

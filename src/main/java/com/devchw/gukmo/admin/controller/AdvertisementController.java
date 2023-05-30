@@ -1,15 +1,19 @@
 package com.devchw.gukmo.admin.controller;
 
 import com.devchw.gukmo.admin.dto.advertisement.AdvertisementDto;
+import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementFormRequest;
 import com.devchw.gukmo.admin.service.AdvertisementService;
+import com.devchw.gukmo.config.response.BaseResponse;
 import com.devchw.gukmo.entity.advertisement.Advertisement;
+import com.devchw.gukmo.user.dto.MessageResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import static com.devchw.gukmo.config.response.BaseResponseStatus.SUCCESS;
 
 @Slf4j
 @Controller
@@ -50,4 +54,29 @@ public class AdvertisementController {
 //    public String advertisementDownload(@PathVariable Long id, Model model) {
 //        return "";
 //    }
+
+    /** 광고 등록 */
+    @PostMapping
+    public String save(@ModelAttribute AdvertisementFormRequest form,
+                       @RequestParam MultipartFile advertisementFile,
+                       Model model) {
+        System.out.println("form = " + form);
+        System.out.println("advertisementFile = " + advertisementFile);
+        Advertisement savedAdvertisement = adminAdvertisementService.save(form, advertisementFile);
+
+        if(savedAdvertisement != null) {
+            MessageResponse messageResponse = MessageResponse.builder()
+                    .message("광고 등록에 성공하였습니다!")
+                    .loc("/admin/advertisements/new")
+                    .build();
+            model.addAttribute("messageResponse", messageResponse);
+        } else {
+            MessageResponse messageResponse = MessageResponse.builder()
+                    .message("서버 오류입니다.")
+                    .loc("/admin/advertisements/new")
+                    .build();
+            model.addAttribute("messageResponse", messageResponse);
+        }
+        return "msg.tiles1";
+    }
 }
