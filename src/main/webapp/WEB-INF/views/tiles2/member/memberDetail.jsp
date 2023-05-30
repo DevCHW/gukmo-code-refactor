@@ -289,7 +289,7 @@
         <%-- 회원이 신고한내역 시작 --%>
         <div class="card shadow mb-4 mt-4">
         	<div class="card-header py-3">
-             	<h6 class="m-0 font-weight-bold text-primary">${member.nickname}회원 신고한 내역</h6>
+             	<h6 class="m-0 font-weight-bold text-primary">${member.nickname}님의 신고한 내역</h6>
           	</div>
 	       <div class="card-body">
 	       	 <%-- 데이터테이블 신고한내역 --%>
@@ -297,31 +297,10 @@
 	            <thead>
 	                <tr>
 	                  <th>구분</th>
-	                  <th>피신고자 닉네임</th>
 	                  <th>사유</th>
 	                  <th>신고일자</th>
-	                  <th>접수여부</th>
-	                </tr>
-	            </thead>
-	         </table>
-	       </div>
-	    </div>
-
-        <%-- 회원이 신고당한내역 시작 --%>
-        <div class="card shadow mb-4 mt-4">
-        	<div class="card-header py-3">
-             	<h6 class="m-0 font-weight-bold text-primary">${member.nickname}회원 신고당한내역</h6>
-          	</div>
-	       <div class="card-body">
-	       	 <%-- 데이터테이블 신고당한내역 --%>
-	         <table class="table table-bordered mt-3" id="dataTable-reported" width="100%">
-	            <thead>
-	                <tr>
-	                  <th>구분</th>
-	                  <th>신고자 닉네임</th>
-	                  <th>사유</th>
-	                  <th>신고일자</th>
-	                  <th>접수여부</th>
+	                  <th>게시글번호</th>
+	                  <th>댓글번호</th>
 	                </tr>
 	            </thead>
 	         </table>
@@ -329,8 +308,6 @@
 	    </div>
       </div>
       <%-- 신고내역 끝 --%>
-
-
   </div>
 </div>
 <%---------------------------------- 사이드바 오른쪽 컨텐츠(div#main) 끝 -------------------------------------%>
@@ -396,10 +373,6 @@
     </div>
   </div>
   <%--------------------- 정지 사유보기 모달 끝 -------------------%>
-
-
-
-
 
 
 

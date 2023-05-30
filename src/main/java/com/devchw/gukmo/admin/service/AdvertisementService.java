@@ -5,7 +5,6 @@ import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementListDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.DataTableAdvertisementFormDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.UpdateAdvertisementRequest;
 import com.devchw.gukmo.admin.repository.AdminAdvertisementRepository;
-import com.devchw.gukmo.config.response.BaseResponseStatus;
 import com.devchw.gukmo.entity.advertisement.Advertisement;
 import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.utils.DateUtil;
@@ -18,7 +17,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
@@ -27,7 +25,7 @@ import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AdminAdvertisementService {
+public class AdvertisementService {
 
     private final AdminAdvertisementRepository adminAdvertisementRepository;
     private final FileManager fileManager;

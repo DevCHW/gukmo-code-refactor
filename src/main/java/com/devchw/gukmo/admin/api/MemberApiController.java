@@ -3,7 +3,7 @@ package com.devchw.gukmo.admin.api;
 import com.devchw.gukmo.admin.dto.DataTableResponse;
 import com.devchw.gukmo.admin.dto.api.member.IncreaseStatsResponse;
 import com.devchw.gukmo.admin.dto.api.member.MemberListDto;
-import com.devchw.gukmo.admin.service.AdminMemberService;
+import com.devchw.gukmo.admin.service.MemberService;
 import com.devchw.gukmo.config.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +16,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/members")
-public class AdminMemberApiController {
-    private final AdminMemberService adminMemberService;
+public class MemberApiController {
+    private final MemberService adminMemberService;
 
     /** 관리자 사이트 이용자 수 증가 통계 */
     @GetMapping("/increase/stats")

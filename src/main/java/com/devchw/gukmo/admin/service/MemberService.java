@@ -20,7 +20,7 @@ import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AdminMemberService {
+public class MemberService {
     private final AdminMemberRepository adminMemberRepository;
 
     public List<Long> findIncreaseStats() {

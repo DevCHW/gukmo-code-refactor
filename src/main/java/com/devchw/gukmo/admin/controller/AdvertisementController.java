@@ -1,7 +1,7 @@
 package com.devchw.gukmo.admin.controller;
 
 import com.devchw.gukmo.admin.dto.advertisement.AdvertisementDto;
-import com.devchw.gukmo.admin.service.AdminAdvertisementService;
+import com.devchw.gukmo.admin.service.AdvertisementService;
 import com.devchw.gukmo.entity.advertisement.Advertisement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/advertisements")
-public class AdminAdvertisementController {
-    private final AdminAdvertisementService adminAdvertisementService;
+public class AdvertisementController {
+    private final AdvertisementService adminAdvertisementService;
 
     /** 관리자 광고내역 조회 */
     @GetMapping

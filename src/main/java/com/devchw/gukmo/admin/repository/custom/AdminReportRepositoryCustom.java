@@ -9,4 +9,8 @@ public interface AdminReportRepositoryCustom {
     List<Report> findAllReportList(int start, int end, DataTableReportFormDto form);
 
     long findAllReportListTotal(DataTableReportFormDto form);
+
+    List<Report> findAllReportListByMemberId(int start, int end, Long memberId);
+
+    long countAllReportListByMemberId(Long id);
 }

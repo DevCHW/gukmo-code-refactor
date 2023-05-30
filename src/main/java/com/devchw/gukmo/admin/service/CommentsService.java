@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AdminCommentsService {
+public class CommentsService {
     private final AdminCommentsRepository adminCommentsRepository;
 
     /** 댓글 블라인드 처리하기 */

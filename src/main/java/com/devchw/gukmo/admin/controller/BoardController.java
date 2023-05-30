@@ -3,7 +3,7 @@ package com.devchw.gukmo.admin.controller;
 import com.devchw.gukmo.admin.dto.board.NoticeFormDto;
 import com.devchw.gukmo.admin.repository.AdminBoardHashtagRepository;
 import com.devchw.gukmo.admin.repository.AdminBoardRepository;
-import com.devchw.gukmo.admin.service.AdminBoardService;
+import com.devchw.gukmo.admin.service.BoardService;
 import com.devchw.gukmo.entity.board.Notice;
 import com.devchw.gukmo.exception.BaseException;
 import com.devchw.gukmo.user.dto.MessageResponse;
@@ -21,9 +21,9 @@ import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_BOAR
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/boards")
-public class AdminBoardController {
+public class BoardController {
 
-    private final AdminBoardService adminBoardService;
+    private final BoardService adminBoardService;
     private final AdminBoardRepository adminBoardRepository;
     private final AdminBoardHashtagRepository adminBoardHashtagRepository;
 

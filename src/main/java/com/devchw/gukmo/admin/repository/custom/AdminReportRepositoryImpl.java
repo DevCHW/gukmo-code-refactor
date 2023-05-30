@@ -80,6 +80,38 @@ public class AdminReportRepositoryImpl implements AdminReportRepositoryCustom {
                 .fetchCount();
     }
 
+    /** 회원의 신고내역 조회 */
+    @Override
+    public List<Report> findAllReportListByMemberId(int start, int end, Long memberId) {
+        return queryFactory
+                .selectFrom(report)
+                .leftJoin(report.member, member)
+                .fetchJoin()
+                .leftJoin(report.board, board)
+                .fetchJoin()
+                .leftJoin(report.comments, comments)
+                .fetchJoin()
+                .where(report.member.id.eq(memberId))
+                .offset(start)
+                .limit(end)
+                .fetch();
+    }
+
+    /** 회원의 신고내역 조회 카운트 */
+    @Override
+    public long countAllReportListByMemberId(Long memberId) {
+         return queryFactory
+                .selectFrom(report)
+                .leftJoin(report.member, member)
+                .fetchJoin()
+                .leftJoin(report.board, board)
+                .fetchJoin()
+                .leftJoin(report.comments, comments)
+                .fetchJoin()
+                .where(report.member.id.eq(memberId))
+                .fetchCount();
+    }
+
 
     /**
      * BooleanExpressions

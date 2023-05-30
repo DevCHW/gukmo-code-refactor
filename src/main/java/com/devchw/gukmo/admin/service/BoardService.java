@@ -1,7 +1,5 @@
 package com.devchw.gukmo.admin.service;
 
-import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementListDto;
-import com.devchw.gukmo.admin.dto.api.advertisement.DataTableAdvertisementFormDto;
 import com.devchw.gukmo.admin.dto.board.BoardListDto;
 import com.devchw.gukmo.admin.dto.board.CommunityActivityStatsQueryDto;
 import com.devchw.gukmo.admin.dto.board.NoticeFormDto;
@@ -9,7 +7,6 @@ import com.devchw.gukmo.admin.repository.AdminBoardHashtagRepository;
 import com.devchw.gukmo.admin.repository.AdminBoardRepository;
 import com.devchw.gukmo.admin.repository.AdminHashtagRepository;
 import com.devchw.gukmo.admin.repository.AdminMemberRepository;
-import com.devchw.gukmo.entity.advertisement.Advertisement;
 import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.entity.board.Notice;
 import com.devchw.gukmo.entity.hashtag.BoardHashtag;
@@ -34,7 +31,7 @@ import static org.springframework.util.StringUtils.hasText;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AdminBoardService {
+public class BoardService {
     private final AdminBoardRepository adminBoardRepository;
     private final AdminMemberRepository adminMemberRepository;
     private final AdminHashtagRepository adminHashtagRepository;

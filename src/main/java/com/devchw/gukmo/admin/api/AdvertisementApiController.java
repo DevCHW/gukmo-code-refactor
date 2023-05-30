@@ -4,7 +4,7 @@ import com.devchw.gukmo.admin.dto.DataTableResponse;
 import com.devchw.gukmo.admin.dto.advertisement.AdvertisementDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementListDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.UpdateAdvertisementRequest;
-import com.devchw.gukmo.admin.service.AdminAdvertisementService;
+import com.devchw.gukmo.admin.service.AdvertisementService;
 import com.devchw.gukmo.config.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +20,9 @@ import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/advertisements")
-public class AdminAdvertisementApiController {
+public class AdvertisementApiController {
 
-    private final AdminAdvertisementService adminAdvertisementService;
+    private final AdvertisementService adminAdvertisementService;
 
     /** 관리자 광고내역 조회 */
     @PostMapping

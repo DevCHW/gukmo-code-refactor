@@ -1,13 +1,12 @@
 package com.devchw.gukmo;
 
-import org.apache.catalina.SessionListener;
+import com.devchw.gukmo.config.BeanNameConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import javax.servlet.http.HttpSessionListener;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(nameGenerator = BeanNameConfig.class)
 public class GukmoApplication {
 
 	public static void main(String[] args) {

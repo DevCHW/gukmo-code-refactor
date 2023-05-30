@@ -1,6 +1,6 @@
 package com.devchw.gukmo.admin.controller;
 
-import com.devchw.gukmo.admin.service.AdminReportService;
+import com.devchw.gukmo.admin.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/reports")
-public class AdminReportController {
+public class ReportController {
 
-    private final AdminReportService adminReportService;
+    private final ReportService adminReportService;
 
     /** 관리자 신고내역 조회 */
     @GetMapping

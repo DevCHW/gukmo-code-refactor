@@ -279,8 +279,33 @@ function sendEmail(email){
       alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });//end of $.ajax({})---
-
 }//end of method--
+
+
+/**
+ * 회원에게 이메일전송하기
+ */
+function sendEmail(email){
+    const message = $("textarea#email_message").val();
+	$.ajax({
+	  url:"/api/v1/email/certificationCode",
+	  data:{"email": email},
+	  type:"post",
+	  dataType:"json",
+	  success:function(res){
+	    if(res.result.sendMailSuccess){	//이메일 전송에 성공했다면
+          $("button.sendEmailModal_close").trigger("click");  //닫기버튼 클릭
+          alert("이메일전송에 성공하였습니다.");
+        } else {	//이메일 전송에 실패했다면
+          alert("이메일전송에 실패하였습니다. 다시 시도해주세요");
+        }
+	  },//end of success
+	  //success 대신 error가 발생하면 실행될 코드
+	  error: function(request,status,error){
+	  	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	  }
+    });//end of $.ajax({})---
+}//end of method---
 
 
 
@@ -448,7 +473,6 @@ function write_board_list_nav(id){
   table.destroy();
   $('#dataTable-write-board').DataTable({
 	"serverSide": true,
-//	"aaSorting": [],
 	"order" : [[ 0, "desc" ]],
 	"paging":true,
 	"pageLength": 10,
@@ -483,27 +507,25 @@ function report_nav(id){
   table.destroy();
   $('#dataTable-report').DataTable({
 	"serverSide": true,
-	"aaSorting": [],
 	"order" : [[ 0, "desc" ]],
 	"paging":true,
 	"pageLength": 10,
     "processing": true,
     "searching": false,
     "ajax": {
-        "url": "/admin/member/getReportData.do",
+        "url": "/api/v1/admin/reports/members/" + id,
         "type": "POST",
-        "data":{nickname:nickname},
         "dataSrc": function(res) {
             let data = res.data;
             return data;
         },
     },
     "columns" : [
-        {"data": "REPORT_TYPE"},
-        {"data": "REPORT_NICKNAME"},
-        {"data": "SIMPLE_REPORT_REASON"},
-        {"data": "REPORT_DATE"},
-        {"data": "RECEIPT"},
+        {"data": "reportType"},
+        {"data": "simpleReason"},
+        {"data": "reportDate"},
+        {"data": "boardId"},
+        {"data": "commentsId"},
     ],
   });//end of Event----
 

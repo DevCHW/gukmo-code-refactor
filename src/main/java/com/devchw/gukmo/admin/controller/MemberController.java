@@ -2,7 +2,7 @@ package com.devchw.gukmo.admin.controller;
 
 import com.devchw.gukmo.admin.dto.member.MemberDto;
 import com.devchw.gukmo.admin.repository.AdminOauthRepository;
-import com.devchw.gukmo.admin.service.AdminMemberService;
+import com.devchw.gukmo.admin.service.MemberService;
 import com.devchw.gukmo.entity.login.Oauth;
 import com.devchw.gukmo.entity.member.Member;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/members")
-public class AdminMemberController {
-    private final AdminMemberService adminMemberService;
+public class MemberController {
+    private final MemberService adminMemberService;
     private final AdminOauthRepository adminOauthRepository;
 
     /** 회원 리스트 페이지 */

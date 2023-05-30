@@ -1,12 +1,8 @@
 package com.devchw.gukmo.admin.service;
 
-import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementListDto;
-import com.devchw.gukmo.admin.dto.api.advertisement.DataTableAdvertisementFormDto;
-import com.devchw.gukmo.admin.dto.api.member.MemberListDto;
 import com.devchw.gukmo.admin.dto.api.report.DataTableReportFormDto;
 import com.devchw.gukmo.admin.dto.api.report.ReportListDto;
 import com.devchw.gukmo.admin.repository.AdminReportRepository;
-import com.devchw.gukmo.entity.advertisement.Advertisement;
 import com.devchw.gukmo.entity.report.Report;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +17,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AdminReportService {
+public class ReportService {
     private final AdminReportRepository adminReportRepository;
 
+    /** 신고내역 조회 */
     public List<ReportListDto> findAllReportList(int start, int length, MultiValueMap<String, String> formData) {
         int end = length;
         DataTableReportFormDto form = new DataTableReportFormDto().toDto(formData);
@@ -31,8 +28,22 @@ public class AdminReportService {
         return findReportList.stream().map(r -> new ReportListDto().toDto(r)).collect(Collectors.toList());
     }
 
+    /** 신고내역 총 갯수 */
     public long findAllReportListTotal(MultiValueMap<String, String> formData) {
         DataTableReportFormDto form = new DataTableReportFormDto().toDto(formData);
         return adminReportRepository.findAllReportListTotal(form);
+    }
+
+    /** 회원이 신고한 내역 조회 */
+    public List<ReportListDto> findAllReportListByMemberId(int start, int length, Long memberId) {
+        int end = length;
+        List<Report> findReportList = adminReportRepository.findAllReportListByMemberId(start, end, memberId);
+        return findReportList.stream().map(r -> new ReportListDto().toDto(r)).collect(Collectors.toList());
+
+    }
+
+    /** 회원이 신고한 내역 카운트 */
+    public long countAllReportListByMemberId(Long id) {
+        return adminReportRepository.countAllReportListByMemberId(id);
     }
 }
