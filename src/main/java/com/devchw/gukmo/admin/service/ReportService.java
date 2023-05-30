@@ -3,7 +3,9 @@ package com.devchw.gukmo.admin.service;
 import com.devchw.gukmo.admin.dto.api.report.DataTableReportFormDto;
 import com.devchw.gukmo.admin.dto.api.report.ReportListDto;
 import com.devchw.gukmo.admin.repository.AdminReportRepository;
+import com.devchw.gukmo.config.response.BaseResponseStatus;
 import com.devchw.gukmo.entity.report.Report;
+import com.devchw.gukmo.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import org.springframework.util.MultiValueMap;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_REPORT;
 
 @Slf4j
 @Service
@@ -45,5 +49,10 @@ public class ReportService {
     /** 회원이 신고한 내역 카운트 */
     public long countAllReportListByMemberId(Long id) {
         return adminReportRepository.countAllReportListByMemberId(id);
+    }
+
+    /** 신고 엔티티 1개 조회 */
+    public Report findById(Long id) {
+        return adminReportRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_REPORT));
     }
 }
