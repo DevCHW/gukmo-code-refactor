@@ -3,6 +3,7 @@ package com.devchw.gukmo.user.dto.member;
 import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.member.AcademyMember;
 import com.devchw.gukmo.entity.member.Member;
+import com.devchw.gukmo.utils.SHA256;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -55,7 +56,7 @@ public class AcademyMemberSignUpFormDto {
     public Member toEntity() {
         Login login = Login.builder()
                 .userId(userid)
-                .password(passwd)
+                .password(SHA256.encrypt(passwd))
                 .build();
         AcademyMember academyMember = AcademyMember.builder()
                 .academyName(academyName)

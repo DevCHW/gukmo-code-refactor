@@ -8,6 +8,7 @@ import com.devchw.gukmo.exception.LoginException;
 import com.devchw.gukmo.user.dto.api.login.PasswordRequest;
 import com.devchw.gukmo.user.repository.LoginRepository;
 import com.devchw.gukmo.user.repository.MemberRepository;
+import com.devchw.gukmo.utils.SHA256;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class LoginService {
     /** 로그인 처리 */
     public Member login(String userId, String password) throws LoginException {
         Long id = loginRepository.findByUserId(userId)
-                .filter(l -> l.getPassword().equals(password))
+                .filter(l -> l.getPassword().equals(SHA256.encrypt(password)))
                 .orElseThrow(LoginException::new)
                 .getId();
 

@@ -2,9 +2,12 @@ package com.devchw.gukmo.user.dto.member;
 
 import com.devchw.gukmo.entity.login.Login;
 import com.devchw.gukmo.entity.member.Member;
+import com.devchw.gukmo.utils.SHA256;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+
+import static com.devchw.gukmo.entity.member.Member.*;
 
 @Data
 public class SignUpFormDto {
@@ -27,33 +30,22 @@ public class SignUpFormDto {
     private String emailAccept;
 
     /**
-     * Dto -> Entity 변환
+     * Dto -> Entity
      */
-    public Login toLoginEntity(Member saveMember) {
-        return Login.builder()
-                .userId(userid)
-                .member(saveMember)
-                .password(passwd)
-                .build();
-    }
 
-    public Member toMemberEntity() {
-        if(emailAccept.equals("YES")) {
-            return Member.builder()
-                    .nickname(nickname)
-                    .username(username)
-                    .email(email)
-                    .emailAccept(Member.EmailAccept.YES)
-                    .userRole(Member.UserRole.MEMBER)
-                    .build();
-        } else {
-            return Member.builder()
-                    .nickname(nickname)
-                    .username(username)
-                    .email(email)
-                    .emailAccept(Member.EmailAccept.NO)
-                    .userRole(Member.UserRole.MEMBER)
-                    .build();
-        }
+    public Member toEntity() {
+        Login login = Login.builder()
+                .userId(userid)
+                .password(SHA256.encrypt(passwd))
+                .build();
+        EmailAccept emailAccept = this.emailAccept.equals("YES") ? EmailAccept.YES : EmailAccept.NO;
+        return builder()
+                .nickname(nickname)
+                .username(username)
+                .email(email)
+                .login(login)
+                .emailAccept(emailAccept)
+                .userRole(UserRole.MEMBER)
+                .build();
     }
 }

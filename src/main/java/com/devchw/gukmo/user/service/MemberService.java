@@ -13,8 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-
+import static com.devchw.gukmo.config.response.BaseResponseStatus.INTERNAL_SERVER_ERROR;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_MEMBER;
 
 
@@ -30,10 +29,9 @@ public class MemberService {
     /** 회원가입 */
     @Transactional
     public void signUp(SignUpFormDto form) {
-        Member member = form.toMemberEntity(); //Dto -> 엔티티 변환
+        Member member = form.toEntity(); //Dto -> 엔티티 변환
         Member saveMember = memberRepository.save(member);
-        Login login = form.toLoginEntity(saveMember);
-        loginRepository.save(login);
+        if(saveMember == null) throw new BaseException(INTERNAL_SERVER_ERROR);
     }
 
     /** 교육기관회원 회원가입 */
@@ -41,6 +39,7 @@ public class MemberService {
     public void signUpAcademyMember(AcademyMemberSignUpFormDto form) {
         Member newMember = form.toEntity();
         Member saveMember = memberRepository.save(newMember);
+        if(saveMember == null) throw new BaseException(INTERNAL_SERVER_ERROR);
     }
 
     /** 이메일 수정 */

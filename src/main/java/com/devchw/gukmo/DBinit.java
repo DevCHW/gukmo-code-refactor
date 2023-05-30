@@ -12,6 +12,7 @@ import com.devchw.gukmo.entity.member.AcademyMember;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.user.repository.MemberRepository;
 import com.devchw.gukmo.utils.DateUtil;
+import com.devchw.gukmo.utils.SHA256;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -49,17 +50,17 @@ public class DBinit {
 
             Login loginMember1 = Login.builder()
                     .userId("test123")
-                    .password("qwer1234")
+                    .password(SHA256.encrypt("qwer1234$"))
                     .build();
 
             Login loginMember2 = Login.builder()
                     .userId("ggoma003")
-                    .password("qwer1234")
+                    .password(SHA256.encrypt("qwer1234$"))
                     .build();
 
             Login loginMember3 = Login.builder()
                     .userId("admin")
-                    .password("qwer1234")
+                    .password(SHA256.encrypt("qwer1234$"))
                     .build();
 
             Member member1 = Member.builder()
