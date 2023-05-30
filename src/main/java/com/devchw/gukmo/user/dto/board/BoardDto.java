@@ -4,6 +4,7 @@ import com.devchw.gukmo.entity.board.Board;
 import com.devchw.gukmo.user.dto.comments.CommentsDto;
 import com.devchw.gukmo.user.dto.member.WriterDto;
 import com.devchw.gukmo.utils.DateUtil;
+import com.devchw.gukmo.utils.SecureCodeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,7 +37,7 @@ public class BoardDto {
         return BoardDto.builder()
                 .id(id)
                 .subject(board.getSubject())
-                .content(board.getContent())
+                .content(SecureCodeUtil.secureCode(board.getContent()))
                 .firstCategory(board.getFirstCategory())
                 .secondCategory(board.getSecondCategory())
                 .likeExist(likeExist)

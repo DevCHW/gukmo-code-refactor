@@ -105,7 +105,7 @@ $(document).ready(function() {
 	    	var sHTML;
 
 	    	switch (secondCategory) {
-	    	case "자유게시판":
+	    	case "자유":
 				sHTML =`자유게시판 유의사항<br>
 						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
 						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
@@ -202,7 +202,7 @@ $(document).ready(function() {
 	// 수정 버튼을 클릭했을시
     $("button#btn_modify").click(function() {
     	frm_check();
-    	if(all_ok){
+    	if(all_ok) {
 		    // 폼을 전송
     		const frm = document.writeFrm;
     		frm.method = "POST";
@@ -289,13 +289,6 @@ function frm_check(){
         alert("매크로 방지 봇 통과 후 진행해주세요.");
         return;
     }
-
-    // <p>태그 남발 방지
-    let contentVal = $("textarea#content").val();
-    contentVal = contentVal.replace(/&nbsp;/gi, "");
-    contentVal = contentVal.substring(contentVal.indexOf("<p>")+3);   // "             </p>"
-    contentVal = contentVal.substring(0, contentVal.indexOf("</p>")); // "
-
     all_ok = true;
 }//end of method--
 

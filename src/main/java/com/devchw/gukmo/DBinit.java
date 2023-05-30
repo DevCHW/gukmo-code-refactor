@@ -115,8 +115,8 @@ public class DBinit {
                 Member member = memberRepository.findById(4L).get();
 
                 Board board = Board.builder()
-                        .subject("테스트 글제목 자유게시판"+i)
-                        .content("테스트 글내용 자유게시판"+i)
+                        .subject("자유게시판"+i)
+                        .content("자유게시판"+i)
                         .firstCategory("커뮤니티")
                         .secondCategory("자유")
                         .member(member)
@@ -129,8 +129,8 @@ public class DBinit {
                 Member member = memberRepository.findById(4L).get();
 
                 Board board = Board.builder()
-                        .subject("테스트 글제목 QnA"+i)
-                        .content("테스트 글내용 QnA"+i)
+                        .subject("QnA"+i)
+                        .content("QnA"+i)
                         .firstCategory("커뮤니티")
                         .secondCategory("QnA")
                         .member(member)
@@ -143,8 +143,8 @@ public class DBinit {
                 Member member = memberRepository.findById(4L).get();
 
                 Board board = Board.builder()
-                        .subject("테스트 글제목 스터디"+i)
-                        .content("테스트 글내용 스터디"+i)
+                        .subject("스터디"+i)
+                        .content("스터디"+i)
                         .firstCategory("커뮤니티")
                         .secondCategory("스터디")
                         .member(member)
@@ -157,8 +157,8 @@ public class DBinit {
                 Member member = memberRepository.findById(6L).get();
 
                 Board board = Board.builder()
-                        .subject("테스트 글제목 취미모임"+i)
-                        .content("테스트 글내용 취미모임"+i)
+                        .subject("취미모임"+i)
+                        .content("취미모임"+i)
                         .firstCategory("커뮤니티")
                         .secondCategory("취미모임")
                         .member(member)
@@ -171,8 +171,8 @@ public class DBinit {
                 Member member = memberRepository.findById(6L).get();
 
                 Board board = Board.builder()
-                        .subject("테스트 글제목 수강/취업후기"+i)
-                        .content("테스트 글내용 수강/취업후기"+i)
+                        .subject("수강/취업후기"+i)
+                        .content("수강/취업후기"+i)
                         .firstCategory("커뮤니티")
                         .secondCategory("수강/취업후기")
                         .member(member)
@@ -185,16 +185,16 @@ public class DBinit {
             for(int i=1; i<=100; i++) {
                 Member member = memberRepository.findById(6L).get();
                 Academy academy = Academy.builder()
-                        .subject("테스트 글제목 국비학원"+i)
-                        .content("테스트 글내용 국비학원"+i)
+                        .subject("스프링교육센터"+i)
+                        .content("자바를 가르치는 학원입니다."+i)
                         .firstCategory("국비학원")
                         .secondCategory("국비학원")
                         .member(member)
                         .representativeName("최현우")
-                        .address("서울시 강북구 어쩌구")
+                        .address("서울시 강북구 한천로 404길 Java빌딩 500호")
                         .phone("01012345678")
                         .academyImage("쌍용강북교육센터.PNG")
-                        .homepage("https://www.naver.com/")
+                        .homepage("https://github.com/DevCHW/gukmo-code-refactor")
                         .build();
                 em.persist(academy);
             }//end of for--
@@ -203,12 +203,12 @@ public class DBinit {
             for(int i=1; i<=100; i++) {
                 Member member = memberRepository.findById(6L).get();
                 Curriculum curriculum = Curriculum.builder()
-                        .subject("테스트 글제목 교육과정"+i)
-                        .content("테스트 글내용 교육과정"+i)
+                        .subject("자바 백엔드과정"+i)
+                        .content("자바 백엔드과정"+i)
                         .firstCategory("국비학원")
                         .secondCategory("교육과정")
                         .member(member)
-                        .coreTechnology("Java")
+                        .coreTechnology("Java, Spring, JPA")
                         .academyName("쌍용강북교육센터"+i)
                         .curriculumStartDate(DateUtil.stringToLocalDateTimeConverter("2023-06-03"))
                         .curriculumEndDate(DateUtil.stringToLocalDateTimeConverter("2023-12-30"))
@@ -226,8 +226,8 @@ public class DBinit {
             for(int i=1; i<=100; i++) {
                 Member member = memberRepository.findById(6L).get();
                 Notice notice = Notice.builder()
-                        .subject("테스트 글제목 공지사항"+i)
-                        .content("테스트 글내용 공지사항"+i)
+                        .subject("공지사항"+i)
+                        .content("공지사항 글내용" + i)
                         .firstCategory("공지사항")
                         .secondCategory("공지사항")
                         .member(member)
@@ -236,11 +236,11 @@ public class DBinit {
             }//end of for--
 
             // 공지사항 데이터 넣기
-            for(int i=1; i<=5; i++) {
+            for(int i=1; i<=3; i++) {
                 Member member = memberRepository.findById(6L).get();
                 Notice notice = Notice.builder()
-                        .subject("필독공지사항"+i)
-                        .content("필독공지사항"+i)
+                        .subject("[필독!] 안녕하세요! 최현우입니다."+i)
+                        .content("안녕하세요! 해당 게시판 개발자 최현우입니다. 모든 소스코드는 https://github.com/DevCHW/gukmo-code-refactor 에서 확인하실 수 있습니다. 감사합니다!")
                         .firstCategory("공지사항")
                         .secondCategory("공지사항")
                         .member(member)
@@ -257,19 +257,19 @@ public class DBinit {
             Member member = memberRepository.findById(6L).get();
 
             Board board = Board.builder()
-                    .subject("해시태그가 있는 글제목")
-                    .content("해시태그가 있는 글내용")
+                    .subject("국비의 모든것에 오신것을 환영합니다!")
+                    .content("재미있게 둘러봐주세요. 테스트계정은 아이디 test123, 비밀번호 qwer1234$ 입니다.")
                     .firstCategory("커뮤니티")
                     .secondCategory("자유")
                     .member(member)
                     .build();
 
             Hashtag hashtag1 = Hashtag.builder()
-                    .tagName("테스트해시태그1")
+                    .tagName("Java")
                     .build();
 
             Hashtag hashtag2 = Hashtag.builder()
-                    .tagName("테스트해시태그2")
+                    .tagName("Spring")
                     .build();
 
             BoardHashtag boardHashtag1 = BoardHashtag.builder()
@@ -295,7 +295,7 @@ public class DBinit {
             for(int i=1; i<=3; i++) {
                 Advertisement advertisement1 = Advertisement.builder()
                         .type(Advertisement.Type.MAIN)
-                        .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
+                        .url("https://github.com/DevCHW/gukmo-code-refactor")
                         .startDate(DateUtil.stringToLocalDateTimeConverter("2023-01-01"))
                         .endDate(DateUtil.stringToLocalDateTimeConverter("2025-12-31"))
                         .fileName("fake_main_banner0"+i+".png")
@@ -303,7 +303,7 @@ public class DBinit {
 
                 Advertisement advertisement2 = Advertisement.builder()
                         .type(Advertisement.Type.BOARD)
-                        .url("https://www.sist.co.kr/employment/gangbuk/index.jsp")
+                        .url("https://github.com/DevCHW/gukmo-code-refactor")
                         .startDate(DateUtil.stringToLocalDateTimeConverter("2023-01-01"))
                         .endDate(DateUtil.stringToLocalDateTimeConverter("2025-12-31"))
                         .fileName("fake_main_banner0"+i+".png")
