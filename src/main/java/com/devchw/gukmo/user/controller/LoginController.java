@@ -1,6 +1,7 @@
 package com.devchw.gukmo.user.controller;
 
 import com.devchw.gukmo.config.SessionConst;
+import com.devchw.gukmo.config.key.ApiKey;
 import com.devchw.gukmo.config.response.BaseResponseStatus;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
@@ -34,6 +35,7 @@ import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 public class LoginController {
 
     private final LoginService loginService;
+    private final ApiKey apiKey;
 
     /**
      * 로그인페이지
@@ -42,6 +44,16 @@ public class LoginController {
     public String loginForm(@ModelAttribute("loginForm") LoginFormDto form,
                             @RequestParam(defaultValue = "/") String redirectURL,
                             Model model) {
+
+        //Login API 키 주입받기.
+        String kakaoLoginJavascriptKey = apiKey.getKakaoLoginJavascriptKey();
+        String googleLoginClient = apiKey.getGoogleLoginClient();
+        String facebookLoginAppId = apiKey.getFacebookLoginAppId();
+
+        model.addAttribute("kakaoLoginJavascriptKey", kakaoLoginJavascriptKey);
+        model.addAttribute("googleLoginClient", googleLoginClient);
+        model.addAttribute("facebookLoginAppId", facebookLoginAppId);
+
         model.addAttribute("redirectURL", redirectURL);
         return "login/loginForm.tiles1";
     }

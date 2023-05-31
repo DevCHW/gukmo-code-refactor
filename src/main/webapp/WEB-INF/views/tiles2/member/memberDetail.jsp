@@ -15,12 +15,9 @@
     $(document).ready(function(){
       let html = "";
       let statusArr = ['ACTIVE','SUSPENDED','WAIT'];
-      if("${member.status}" == 'SUSPENDED'){
-    	  statusArr[statusArr.length] = '승인거부';
-      }
 
       const currentStatus = "${member.status}";
-      const authorityArr = ['MEMBER','ACADEMY', 'ADMIN'];
+      const authorityArr = ['MEMBER', 'ACADEMY', 'ADMIN'];
       const currentAuthority = "${member.userRole}";
 
       //회원상태 select태그에 값 넣기
@@ -427,7 +424,7 @@
 
               <%-- 정지간단사유 --%>
               <label for="simple_penalty_reason">정지사유</label>
-              <select name="simple_penalty_reason" id="simple_penalty_reason" class="border rounded my-2" style="height:40px;">
+              <select name="simpleReason" id="simple_penalty_reason" class="border rounded my-2" style="height:40px;">
                 <option>욕설/비방</option>
                 <option>허위글게시</option>
                 <option>정치적인글</option>
@@ -437,12 +434,12 @@
               <%-- 정지상세사유 --%>
               <div id="detail_penalty_reason_area" class="flex-column">
                 <label for="detail_penalty_reason">상세사유 작성</label>
-                <textarea name="detail_penalty_reason" id="detail_penalty_reason" cols="30" rows="10" placeholder="정지 사유를 상세하게 작성하세요." class="border rounded px-2 py-2 my-2"></textarea>
+                <textarea name="detailReason" id="detail_penalty_reason" cols="30" rows="10" placeholder="정지 사유를 상세하게 작성하세요." class="border rounded px-2 py-2 my-2"> </textarea>
               </div>
 
               <%-- 정지기간 --%>
               <label for="penalty_period">정지기간</label>
-              <select name="penalty_period" id="penalty_period" class="border rounded my-2" style="height:40px;">
+              <select name="period" id="penalty_period" class="border rounded my-2" style="height:40px;">
                 <option>7일</option>
                 <option>30일</option>
                 <option>90일</option>
@@ -450,6 +447,7 @@
                 <option>300일</option>
               </select>
             </div>
+          <input type="hidden" name="memberId" value="${member.id}"/>
           </form>
         </div>
 
@@ -458,7 +456,6 @@
           <button type="button" class="btn border insert_penalty_modal_close" data-dismiss="modal">저장</button>
         </div>
       </div>
-
     </div>
   </div>
   <%--------------------- 정지등록 폼 모달 끝 -------------------------%>
@@ -467,3 +464,4 @@
   <%------------------------------------------------- modal끝 --------------------------------%>
   <input type="hidden" id="hidden_member_id" value="${member.id}"/>
   <input type="hidden" id="hidden_member_status" value="${member.status}"/>
+  <input type="hidden" id="hidden_member_userRole" value="${member.userRole}"/>

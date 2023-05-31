@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.persistence.Entity;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -38,4 +39,7 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long>, Admi
 
     @EntityGraph(attributePaths = {"academyMember", "login"})
     Optional<Member> findByNickname(String nickname);
+
+    @EntityGraph(attributePaths = {"academyMember"})
+    Optional<Member> findWithAcademyMemberById(Long id);
 }

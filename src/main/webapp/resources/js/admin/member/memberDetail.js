@@ -5,11 +5,6 @@ function getContextPath(){
   return contextPath;
 }
 
-
-/**
- * js 파일은 전부 필드선언 - 이벤트(document.ready) - 함수선언 의 구성으로 이루어져 있음
- */
-
 // == Field Declaration == //
 let btn_insert_penalty_modal_click = 0;
 
@@ -122,6 +117,18 @@ $(document).ready(function(){
     }
   });//end of Event--
 
+  //회원정보수정을 정지로 선택하였으면 정지사유등록 모달버튼 보여주기
+    $("select#select_authority").change(function(){
+      const editUserRoleVal = $("select#select_authority").val();
+      const originUserRole = $("input#hidden_member_userRole").val();
+
+      if(editUserRoleVal == 'ACADEMY'&&
+         originUserRole != 'ACADEMY'){
+         alert("교육기관회원으로는 변경할 수 없습니다.");
+         $("select#select_authority").val(originUserRole);
+      }
+    });//end of Event--
+
 
 
   //회원정보수정 버튼 클릭시
@@ -140,20 +147,28 @@ $(document).ready(function(){
       target.text("완료");
 
     } else if (btnText == '완료'){  //완료버튼을 눌렀다면
+      const editStatusVal = $("select#select_status").val();
       if(editStatusVal == 'SUSPENDED') {  //회원 상태를 정지로 변경하고자 했다면
-    	if($("input#hidden_member_status") != 'SUSPENDED'){	//기존에 정지인 회원이 아니라면
+    	if($("input#hidden_member_status").val() != 'SUSPENDED'){	//기존에 정지인 회원이 아니라면
     	  if(btn_insert_penalty_modal_click == 0){	//정지사유 등록 클릭을 한번도 하지 않았다면
     	    alert("정지사유를 등록해주세요.");
     	    return;
+    	  } else {  //정지 사유도 등록하고 정지회원 등록하려 했다면,
+    	    const status = $("select#select_status").val();
+            const authority = $("select#select_authority").val();
+            const id = $("input#hidden_member_id").val();
+            const data = {"userRole" : authority, "status" : editStatusVal};
+            penaltyRegister();
+            editMemberInfo(data, id);
+            return;
     	  }
     	}
-    	const status = $("select#select_status").val();
-        const authority = $("select#select_authority").val();
-        const id = $("input#hidden_member_id");
-        const data = {"userRole" : authority, "status" : editStatusVal};
-
-    	editMemberInfo(data, id);
       }
+      const status = $("select#select_status").val();
+      const authority = $("select#select_authority").val();
+      const id = $("input#hidden_member_id").val();
+      const data = {"userRole" : authority, "status" : editStatusVal};
+      editMemberInfo(data, id);
     }//end of else--
   });//end of Event--
 
@@ -271,19 +286,16 @@ function editMemberInfo(data, id){
 /**
  * 정지내역등록하기
  */
-function penaltyRegister(nickname,status,authority,userid){
+function penaltyRegister(){
   let queryString = $("form[name=penaltyRegisterFrm]").serialize();
   $("form[name=penaltyRegisterFrm]").ajaxForm({
-    url : getContextPath()+"/admin/member/penalty/new.do",
+    url : "/api/v1/admin/penalty",
     data:queryString,
-    enctype:"multipart/form-data",
     type:"POST",
     dataType:"JSON",
-    success:function(json) {
-      if(json.result){ //정지내역 등록에 성공했다면
-        editMemberInfo(status,authority,userid)
-      } else{ //정지내역 등록에 실패했다면
-        alert("회원수정 실패하였습니다. 다시 시도해주세요");
+    success:function(res) {
+      if(!res.success){ //정지내역 등록에 성공했다면
+        alert("회원수정에 실패하였습니다. 다시 시도해주세요");
       }
     },
     error: function(request, status, error){
@@ -293,94 +305,6 @@ function penaltyRegister(nickname,status,authority,userid){
   $("form[name=penaltyRegisterFrm]").submit();
 
 }//end of method---
-
-
-/**
- * 기존에 승인거부였던 회원을 다른상태로 바꾸려고 하였다면 거부내역 지워주기
- */
-function deleteRefuse(userid,status,authority){
-	$.ajax({
-		url:getContextPath()+"/admin/member/refuse/delete.do",
-	    data:{"userid": userid},
-	    type:"post",
-	    dataType:"json",
-	    async:false,
-	    success:function(json){
-	      if(json.result){	//회원정보 수정에 성공했다면
-	    	editMemberInfo(status,authority,userid)
-	      } else {	//회원정보 수정에 실패했다면
-	        alert("회원정보 수정에 실패하였습니다.다시 시도해주세요!");
-	      }
-	    },//end of success
-	    //success 대신 error가 발생하면 실행될 코드
-	    error: function(request,status,error){
-	      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	    }
-	});
-}//end of method--
-
-
-
-/**
- * 기존에 정지인회원을 다른상태로 바꾸려고 하였다면 정지내역에서 지워주기
- */
-function deletePenalty(nickname,status,authority,userid){
-  $.ajax({
-    url:getContextPath()+"/admin/member/penalty/delete.do",
-    data:{"nickname": nickname},
-    type:"post",
-    dataType:"json",
-    async:false,
-    success:function(json){
-      if(json.result){	//회원정보 수정에 성공했다면
-    	editMemberInfo(status,authority,userid)
-      } else {	//회원정보 수정에 실패했다면
-        alert("회원정보 수정에 실패하였습니다.다시 시도해주세요!");
-      }
-    },//end of success
-    //success 대신 error가 발생하면 실행될 코드
-    error: function(request,status,error){
-      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    }
-  });//end of $.ajax({})---
-}//end of method--
-
-
-/**
- * 승인 거부 등록하기
- */
-function refuseRegister(status,authority,userid){
-	let queryString = $("form[name=refuseRegisterFrm]").serialize();
-	  $("form[name=refuseRegisterFrm]").ajaxForm({
-	    url : getContextPath()+"/admin/member/refuse/new.do",
-	    data:queryString,
-	    async:false,
-	    enctype:"multipart/form-data",
-	    type:"POST",
-	    dataType:"JSON",
-	    success:function(json) {
-	      if(json.result){ //승인거부 등록에 성공했다면
-	        editMemberInfo(status,authority,userid)
-	      } else{ //승인거부 등록에 실패했다면
-	        alert("승인거부 실패했습니다. 다시 시도해주세요");
-	      }
-	    },
-	    error: function(request, status, error){
-	      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	    }
-	  });//end of ajax--
-	  $("form[name=refuseRegisterFrm]").submit();
-}
-
-
-
-
-
-
-
-
-
-
 
 
 

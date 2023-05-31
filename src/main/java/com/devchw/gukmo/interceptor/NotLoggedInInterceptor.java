@@ -17,7 +17,7 @@ public class NotLoggedInInterceptor implements HandlerInterceptor {
 
         if(session != null && session.getAttribute(SessionConst.LOGIN_MEMBER) != null) {
             log.info("이미 인증된 사용자 요청");
-            //로그인 중이 아니라면 로그인 페이지로 redirect.
+            //로그인중이라면 메인페이지로 redirect
             response.sendRedirect("/");
             return false;
         }

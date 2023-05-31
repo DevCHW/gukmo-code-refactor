@@ -1,21 +1,11 @@
 
-window.onload = function () {
-    google.accounts.id.initialize({
-      client_id: "1009243602481-q3hk5769gab0ucfqbsf3r1abj4cg8av5.apps.googleusercontent.com",
-      callback: handleCredentialResponse
-    });
-//    google.accounts.id.prompt();
-   // One Tap 기능을 사용하지 않기 때문에 주석처리하였다.
-};
+
 
 $(document).ready(function(){
-	// 카카오 로그인 초기화
-	Kakao.init("7643955cb5fbab2b0481e4b321cff247");
-	
 	//아이디에서 엔터입력이벤트
 	$("input#userId").keydown(function(e){	//아이디에서 값 입력시 이벤트
 	  if(e.keyCode == 13){	//엔터를 했1을 경우
-		$("button#btn_login").trigger("click");  
+		$("button#btn_login").trigger("click");
 	  }
 	});
 	
@@ -131,7 +121,7 @@ function kakaoLogin(){
  */
 function viewNaverLoginFrm(){
 	let url="/login";
-	const redirectURL = {redirectURL:$("input#returnURL")};
+	const redirectURL = {redirectURL:$("input#returnURL").val()};
 	$.ajax({
 		type : 'get',
 		url : '/api/v1/oauth/naver/url',
@@ -200,48 +190,7 @@ function parseJwt (token) {
 };
 
 
-// 페이스북 로그인
 
-//기존 로그인 상태를 가져오기 위해 Facebook에 대한 호출
-function statusChangeCallback(res){
-	statusChangeCallback(response);
-}
-
-function fnFbCustomLogin(){
-	FB.login(function(response) {
-		if (response.status === 'connected') {
-			FB.api('/me', 'get', {fields: 'id,name,email,picture'},
-			function(response) {
-				let fb_data = jQuery.parseJSON(JSON.stringify(response));
-
-				const userInfo = {authId:fb_data.id
-								 ,email:fb_data.email
-								 ,profileImage:fb_data.picture.data.url
-			  		 			 ,username:fb_data.name
-			  		 			 ,redirectURL:$("input#returnURL").val()
-			  		 			 ,type:'FACEBOOK'};
-				//페이스북 로그인 처리 메소드 호출
-				facebookLoginPro(userInfo);
-			})
-		} else if (response.status === 'not_authorized') {
-			// 사람은 Facebook에 로그인했지만 앱에는 로그인하지 않았습니다.
-			alert('앱에 로그인해야 이용가능한 기능입니다.');
-		} else {
-			// 그 사람은 Facebook에 로그인하지 않았으므로이 앱에 로그인했는지 여부는 확실하지 않습니다.
-			alert('페이스북에 로그인해야 이용가능한 기능입니다.');
-		}
-	}, {scope: 'public_profile,email'});
-}
-
-window.fbAsyncInit = function() {
-	FB.init({
-		appId      : '5826169730780578', // 내 앱 ID를 입력한다.
-		cookie     : true,
-		xfbml      : true,
-		version    : 'v10.0'
-	});
-	FB.AppEvents.logPageView();   
-};
 
 
 

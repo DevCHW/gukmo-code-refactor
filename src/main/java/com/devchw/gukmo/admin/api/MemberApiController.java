@@ -58,6 +58,7 @@ public class MemberApiController {
     @PatchMapping("/{id}")
     public BaseResponse<String> edit(@PathVariable Long id,
                                      @ModelAttribute MemberInfoRequest request) {
+        log.info("MemberInfoRequest={}", request);
         Member editMember = memberService.edit(id, request);
         return new BaseResponse<>(SUCCESS);
     }

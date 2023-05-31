@@ -3,6 +3,7 @@ package com.devchw.gukmo.admin.service;
 import com.devchw.gukmo.admin.dto.api.member.MemberInfoRequest;
 import com.devchw.gukmo.admin.dto.api.member.MemberListDto;
 import com.devchw.gukmo.admin.dto.api.member.DataTableMemberFormDto;
+import com.devchw.gukmo.admin.repository.AdminAcademyMemberRepository;
 import com.devchw.gukmo.admin.repository.AdminMemberRepository;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.exception.BaseException;
@@ -23,6 +24,7 @@ import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 @Transactional(readOnly = true)
 public class MemberService {
     private final AdminMemberRepository adminMemberRepository;
+    private final AdminAcademyMemberRepository adminAcademyMemberRepository;
 
     public List<Long> findIncreaseStats() {
         return adminMemberRepository.findIncreaseStats();
@@ -50,7 +52,11 @@ public class MemberService {
     /** 회원정보 수정 */
     @Transactional
     public Member edit(Long id, MemberInfoRequest request) {
-        Member findMember = adminMemberRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+        Member findMember = adminMemberRepository.findWithAcademyMemberById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+        if(findMember.getUserRole().equals(Member.UserRole.ACADEMY) && !request.getUserRole().equals("ACADEMY")) {
+            Long academyMemberId = findMember.getAcademyMember().getId();
+            adminAcademyMemberRepository.deleteById(academyMemberId);
+        }
         findMember.changeMemberInfo(request.getStatus(), request.getUserRole());
         return findMember;
     }

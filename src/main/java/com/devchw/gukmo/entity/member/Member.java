@@ -118,7 +118,7 @@ public class Member {
 
     /** 회원 정보 수정 4.*/
     public void changeMemberInfo(String status, String userRole) {
-        if (status.equals("SUSPENSION")) {
+        if (status.equals("SUSPENDED")) {
             this.status = Status.SUSPENDED;
         } else if (status.equals("ACTIVE")) {
             this.status = Status.ACTIVE;
