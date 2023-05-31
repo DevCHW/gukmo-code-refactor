@@ -26,6 +26,7 @@ public class CommentsDto {
     private boolean likeExist;      //좋아요 여부
     private String writeDate;    //작성일자
     private Long parentId;      //부모댓글번호
+    @Builder.Default
     private List<CommentsDto> children = new ArrayList<>();   //자식댓글들
     private WriterDto writer;   //작성자정보
     private Long likeCount; //좋아요 개수

@@ -69,18 +69,23 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Oauth> oauth;
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Board> boards = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Activity> activities = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Comments> comments = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Report> reports = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Penalty> penalties = new ArrayList<>();
 

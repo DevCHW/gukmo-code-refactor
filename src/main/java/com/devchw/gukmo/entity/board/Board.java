@@ -34,9 +34,11 @@ public class Board {
     @JoinColumn(name = "member_id")
     private Member member; //작성자
 
+    @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Comments> comments = new ArrayList<>(); //댓글
 
+    @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<BoardHashtag> boardHashtags = new ArrayList<>(); //해시태그
 
@@ -64,9 +66,11 @@ public class Board {
     @ColumnDefault("sysdate")
     private LocalDateTime writeDate;
 
+    @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Activity> activities = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Report> reports = new ArrayList<>();
 

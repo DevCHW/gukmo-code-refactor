@@ -22,7 +22,9 @@ public class CurriculumFormDto {
     private Long memberId;
     private String subject;
     private String content;
+    @Builder.Default
     private String firstCategory = "국비학원";
+    @Builder.Default
     private String secondCategory = "교육과정";
     private String coreTechnology;			        //핵심기술
     private String academyName;			            //학원명

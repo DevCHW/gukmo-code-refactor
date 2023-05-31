@@ -30,10 +30,10 @@ public class DBinit {
 
     @PostConstruct
     public void init() {
-        initService.dbInit1(); //테스트용 아이디 추가
-        initService.dbInit2(); //테스트 해시태그가 있는 게시물 넣기
-        initService.dbInit3(); //테스트 게시글 넣기
-        initService.dbInit4(); //테스트 광고 넣기
+//        initService.dbInit1(); //테스트용 아이디 추가
+//        initService.dbInit2(); //테스트 해시태그가 있는 게시물 넣기
+//        initService.dbInit3(); //테스트 게시글 넣기
+//        initService.dbInit4(); //테스트 광고 넣기
     }
 
     @Component
@@ -240,7 +240,7 @@ public class DBinit {
                 Member member = memberRepository.findById(6L).get();
                 Notice notice = Notice.builder()
                         .subject("[필독!] 안녕하세요! 최현우입니다."+i)
-                        .content("안녕하세요! 해당 게시판 개발자 최현우입니다. 모든 소스코드는 https://github.com/DevCHW/gukmo-code-refactor 에서 확인하실 수 있습니다. 감사합니다!")
+                        .content("안녕하세요! 해당 게시판 개발자 최현우입니다. <br> 모든 소스코드는 https://github.com/DevCHW/gukmo-code-refactor 에서 확인하실 수 있습니다. <br>감사합니다!")
                         .firstCategory("공지사항")
                         .secondCategory("공지사항")
                         .member(member)

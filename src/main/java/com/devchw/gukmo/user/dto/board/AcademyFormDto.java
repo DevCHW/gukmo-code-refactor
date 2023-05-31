@@ -16,7 +16,9 @@ public class AcademyFormDto {
     private Long memberId;
     private String subject;
     private String content;
+    @Builder.Default
     private String firstCategory = "국비학원";
+    @Builder.Default
     private String secondCategory = "국비학원";
     private String hashtags;
     private String address;

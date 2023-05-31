@@ -49,14 +49,17 @@ public class Comments {
     @JoinColumn(name = "parent_id")
     private Comments parent; //부모댓글번호
 
+    @Builder.Default
     @OneToMany(mappedBy = "parent")
     @OnDelete(action = OnDeleteAction.CASCADE)  //DB에서 처리됨.
     private List<Comments> child = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "comments")
     @OnDelete(action = OnDeleteAction.CASCADE) //DB에서 처리됨.
     private List<CommentsLike> commentsLikes = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "comments")
     @OnDelete(action = OnDeleteAction.CASCADE) //DB에서 처리됨.
     private List<Activity> activities = new ArrayList<>();
@@ -64,6 +67,7 @@ public class Comments {
     @ColumnDefault("0")
     private Long likeCount; //좋아요 개수
 
+    @Builder.Default
     @OneToMany(mappedBy = "comments")
     @OnDelete(action = OnDeleteAction.CASCADE) //DB에서 처리됨.
     private List<Report> reports = new ArrayList<>();

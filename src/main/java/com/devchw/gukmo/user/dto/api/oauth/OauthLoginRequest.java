@@ -13,6 +13,7 @@ public class OauthLoginRequest {
     private String email;
     private String profileImage;
     private String username;
+    @Builder.Default
     private String redirectURL = "/";
     private String type;
 

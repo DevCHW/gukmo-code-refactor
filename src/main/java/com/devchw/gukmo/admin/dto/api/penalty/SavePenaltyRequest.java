@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class SavePenaltyRequest {
     private Long memberId;
     private String simpleReason;
+    @Builder.Default
     private String detailReason = "";
     private String period;
 

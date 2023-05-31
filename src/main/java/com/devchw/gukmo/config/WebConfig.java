@@ -20,7 +20,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/oauth/**", "/api/v1/oauth/**") //소셜로그인
                 .excludePathPatterns("/boards", "/boards/*") //게시판 리스트, 게시판 상세보기
                 .excludePathPatterns("/api/v1/recaptcha/**") //recaptcha
-                .excludePathPatterns("/resources/**"); //자원들
+                .excludePathPatterns("/resources/**", "/META-INF/**"); //자원들
+
 
         registry.addInterceptor(new AdminCheckInterceptor())    //관리자체크 인터셉터 등록
                 .order(2)

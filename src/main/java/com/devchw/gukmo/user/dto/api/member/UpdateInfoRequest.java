@@ -12,7 +12,6 @@ public class UpdateInfoRequest {
 
     private Long id;
 
-    @Nullable
     private MultipartFile profileImage;
 
     private String username;
