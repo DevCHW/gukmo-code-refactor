@@ -48,7 +48,7 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'ACTIVE'")
-    private Status status; //상태 {REST, SUSPENSION, ACTIVE, WAIT}
+    private Status status; //상태 SUSPENSION, ACTIVE, WAIT
 
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'NO'")
@@ -114,6 +114,25 @@ public class Member {
     /** 회원 정보 수정 3.*/
     public void changeMemberInfo(String email) {
         this.email = email;
+    }
+
+    /** 회원 정보 수정 4.*/
+    public void changeMemberInfo(String status, String userRole) {
+        if (status.equals("SUSPENSION")) {
+            this.status = Status.SUSPENDED;
+        } else if (status.equals("ACTIVE")) {
+            this.status = Status.ACTIVE;
+        } else if (status.equals("WAIT")) {
+            this.status = Status.WAIT;
+        }
+        // ADMIN, MEMBER, ACADEMY
+        if (userRole.equals("ADMIN")) {
+            this.userRole = UserRole.ADMIN;
+        } else if (userRole.equals("MEMBER")) {
+            this.userRole = UserRole.MEMBER;
+        } else if (userRole.equals("ACADEMY")) {
+            this.userRole = UserRole.ACADEMY;
+        }
     }
 
     /** 활동점수 증가 */

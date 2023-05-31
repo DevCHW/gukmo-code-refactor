@@ -77,9 +77,6 @@
         <span id="passwd_error" class="login_error pl-1 mt-2">비밀번호를 입력해주세요.</span>
       </div>
 
-      <%-- findId --%>
-      <div id="find_id" class="ml-auto my-4" onclick="location.href='/members/findId.do'">계정찾기</div>
-
       <%-- btn_login --%>
       <button id="btn_login" type="button" class="btn border rounded">로그인</button>
       <div class="mx-auto my-4">아직 회원이 아니신가요?&nbsp;<span id="btn_signup">회원가입</span></div>

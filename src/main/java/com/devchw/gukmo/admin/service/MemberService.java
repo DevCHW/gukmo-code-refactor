@@ -1,5 +1,6 @@
 package com.devchw.gukmo.admin.service;
 
+import com.devchw.gukmo.admin.dto.api.member.MemberInfoRequest;
 import com.devchw.gukmo.admin.dto.api.member.MemberListDto;
 import com.devchw.gukmo.admin.dto.api.member.DataTableMemberFormDto;
 import com.devchw.gukmo.admin.repository.AdminMemberRepository;
@@ -44,5 +45,13 @@ public class MemberService {
     /** 닉네임으로 회원 조회 */
     public Member findByNickname(String nickname) {
         return adminMemberRepository.findByNickname(nickname).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+    }
+
+    /** 회원정보 수정 */
+    @Transactional
+    public Member edit(Long id, MemberInfoRequest request) {
+        Member findMember = adminMemberRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_MEMBER));
+        findMember.changeMemberInfo(request.getStatus(), request.getUserRole());
+        return findMember;
     }
 }

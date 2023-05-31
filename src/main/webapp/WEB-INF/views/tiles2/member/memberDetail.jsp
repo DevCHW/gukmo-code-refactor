@@ -14,16 +14,14 @@
 <script type="text/javascript">
     $(document).ready(function(){
       let html = "";
-      let statusArr = ['활동','정지','휴면','대기'];
-      if("${member.status}" == '대기'){
+      let statusArr = ['ACTIVE','SUSPENDED','WAIT'];
+      if("${member.status}" == 'SUSPENDED'){
     	  statusArr[statusArr.length] = '승인거부';
       }
 
-      /**
       const currentStatus = "${member.status}";
-      const authorityArr = ['일반회원','관리자'];
+      const authorityArr = ['MEMBER','ACADEMY', 'ADMIN'];
       const currentAuthority = "${member.userRole}";
-      */
 
       //회원상태 select태그에 값 넣기
       for(let i = 0; i<statusArr.length ;i++){
@@ -144,7 +142,6 @@
 		         </select>
 		         <span class="mr-2">${member.status}</span>
 		         <span id="btn_insert_penalty_modal" data-toggle="modal" data-target="#insert_penalty_modal" data-dismiss="modal">정지사유등록</span>
-		         <span id="btn_insert_refuse_modal" data-toggle="modal" data-target="#insert_refuse_modal" data-dismiss="modal">승인거부사유 등록</span>
 		         <%-- 회원상태가 정지일경우 정지사유보기 버튼 --%>
 		         <c:if test="${member.status == 'SUSPENDED'}">
 		           <span id="view_reason" data-toggle="modal" data-target="#penalty_reason" data-dismiss="modal">정지사유보기</span>
@@ -466,45 +463,7 @@
   </div>
   <%--------------------- 정지등록 폼 모달 끝 -------------------------%>
 
-  <div class="modal fade" id="insert_refuse_modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-        <%-- Modal header --%>
-        <div class="modal-header">
-          <h5 class="modal-title">승인거부사유</h5>
-          <button type="button" class="close email_certificationClose" data-dismiss="modal">&times;</button>
-        </div>
-
-        <%-- Modal body --%>
-        <div class="modal-body d-flex flex-column">
-          <form name="refuseRegisterFrm">
-
-            <div class="d-flex flex-column py-3 px-3">
-              <%-- 닉네임 --%>
-              <label for="nickname">승인거부닉네임</label>
-              <input type="text" id="nickname" name="nickname" value="${member.nickname}" class="border rounded my-2 pl-2" style="height:40px; outline:none;" readonly>
-
-              <%-- 정지상세사유 --%>
-              <div class="d-flex flex-column mt-2">
-                <label for="refuse_reason">승인거부사유 작성</label>
-                <textarea name="refuse_reason" id="refuse_reason" cols="30" rows="10" placeholder="거부 사유를 작성해주세요." class="border rounded px-2 py-2" maxlength="200"></textarea>
-              </div>
-            </div>
-            <input type="hidden" name="userid" value="${member.userId}">
-          </form>
-        </div>
-
-        <%-- Modal footer --%>
-        <div class="modal-footer">
-          <button type="button" class="btn border insert_penalty_modal_close" data-dismiss="modal">저장</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <%--------------------- 승인거부사유 등록 폼 모달 끝 -------------------------%>
 
   <%------------------------------------------------- modal끝 --------------------------------%>
   <input type="hidden" id="hidden_member_id" value="${member.id}"/>
+  <input type="hidden" id="hidden_member_status" value="${member.status}"/>
