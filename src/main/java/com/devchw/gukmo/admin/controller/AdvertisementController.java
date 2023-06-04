@@ -3,7 +3,6 @@ package com.devchw.gukmo.admin.controller;
 import com.devchw.gukmo.admin.dto.advertisement.AdvertisementDto;
 import com.devchw.gukmo.admin.dto.api.advertisement.AdvertisementFormRequest;
 import com.devchw.gukmo.admin.service.AdvertisementService;
-import com.devchw.gukmo.config.response.BaseResponse;
 import com.devchw.gukmo.entity.advertisement.Advertisement;
 import com.devchw.gukmo.user.dto.MessageResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import static com.devchw.gukmo.config.response.BaseResponseStatus.SUCCESS;
 
 @Slf4j
 @Controller

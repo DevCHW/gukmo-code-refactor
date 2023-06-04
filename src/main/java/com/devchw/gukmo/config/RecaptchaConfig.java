@@ -2,7 +2,6 @@ package com.devchw.gukmo.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import javax.json.Json;
 import javax.json.JsonObject;

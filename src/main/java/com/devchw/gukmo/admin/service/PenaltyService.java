@@ -3,7 +3,6 @@ package com.devchw.gukmo.admin.service;
 import com.devchw.gukmo.admin.dto.api.penalty.SavePenaltyRequest;
 import com.devchw.gukmo.admin.repository.AdminMemberRepository;
 import com.devchw.gukmo.admin.repository.AdminPenaltyRepository;
-import com.devchw.gukmo.config.response.BaseResponseStatus;
 import com.devchw.gukmo.entity.member.Member;
 import com.devchw.gukmo.entity.penalty.Penalty;
 import com.devchw.gukmo.exception.BaseException;

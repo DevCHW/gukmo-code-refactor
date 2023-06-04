@@ -1,7 +1,6 @@
 package com.devchw.gukmo.admin.repository.custom;
 
 import com.devchw.gukmo.entity.board.Board;
-import com.devchw.gukmo.entity.board.QBoard;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,9 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 import static com.devchw.gukmo.entity.board.QBoard.board;
-import static com.devchw.gukmo.entity.comment.QComments.comments;
 import static com.devchw.gukmo.entity.member.QMember.member;
-import static com.devchw.gukmo.entity.report.QReport.report;
 
 @Slf4j
 @RequiredArgsConstructor

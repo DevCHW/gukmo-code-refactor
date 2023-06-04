@@ -1,11 +1,6 @@
 package com.devchw.gukmo.admin.repository.custom;
 
-import com.devchw.gukmo.admin.dto.api.advertisement.DataTableAdvertisementFormDto;
 import com.devchw.gukmo.admin.dto.api.report.DataTableReportFormDto;
-import com.devchw.gukmo.entity.advertisement.Advertisement;
-import com.devchw.gukmo.entity.board.QBoard;
-import com.devchw.gukmo.entity.comment.QComments;
-import com.devchw.gukmo.entity.report.QReport;
 import com.devchw.gukmo.entity.report.Report;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -13,13 +8,11 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.devchw.gukmo.entity.advertisement.QAdvertisement.advertisement;
 import static com.devchw.gukmo.entity.board.QBoard.board;
 import static com.devchw.gukmo.entity.comment.QComments.comments;
 import static com.devchw.gukmo.entity.member.QMember.member;

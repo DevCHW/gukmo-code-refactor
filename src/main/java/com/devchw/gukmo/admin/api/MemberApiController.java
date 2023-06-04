@@ -6,7 +6,6 @@ import com.devchw.gukmo.admin.dto.api.member.MemberInfoRequest;
 import com.devchw.gukmo.admin.dto.api.member.MemberListDto;
 import com.devchw.gukmo.admin.service.MemberService;
 import com.devchw.gukmo.config.response.BaseResponse;
-import com.devchw.gukmo.config.response.BaseResponseStatus;
 import com.devchw.gukmo.entity.member.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
