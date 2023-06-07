@@ -46,4 +46,5 @@ public class NoticeListDto {
         this.mustRead = mustRead;
     }
 
+
 }

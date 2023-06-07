@@ -245,6 +245,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private long getTotal(BoardRequestDto request) {
         String firstCategory = request.getFirstCategory();
         String secondCategory = request.getSecondCategory();
+
         if(hasText(firstCategory)) {
             if(firstCategory.equals("커뮤니티")) {
                 return getCommunityTotalCount(request);
@@ -358,6 +359,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     /** 정렬 */
     private OrderSpecifier[] createOrderSpecifierForCommunity(BoardRequestDto request) {
         List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
+
         if(request.getSort().equals("최신순")) {
             orderSpecifiers.add(new OrderSpecifier(Order.DESC, board.id));
         } else if(request.getSort().equals("추천순")) {

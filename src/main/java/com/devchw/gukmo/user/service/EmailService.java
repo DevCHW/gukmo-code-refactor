@@ -4,17 +4,17 @@ import com.devchw.gukmo.config.email.GoogleMail;
 import com.devchw.gukmo.user.dto.api.member.SendEmailResponse;
 import com.devchw.gukmo.utils.NumberUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmailService {
 
     private final GoogleMail mail;
 
-    /**
-     * 회원가입이메일 인증코드 전송
-     */
+    /** 회원가입이메일 인증코드 전송 */
     public SendEmailResponse sendEmail(String email) {
         boolean sendMailSuccess = false; // 메일이 정상적으로 전송되었는지 유무를 알아오기 위한 용도
 

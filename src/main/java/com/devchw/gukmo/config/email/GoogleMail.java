@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class GoogleMail{
+public class GoogleMail {
 
     private final Authenticator smtpAuth;    //만든 SMTPAuthenticator 주입
 

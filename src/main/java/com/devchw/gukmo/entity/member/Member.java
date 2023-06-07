@@ -26,7 +26,6 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @DynamicInsert  //insert 시 명시해주지 않아도 기본값 적용되도록 하기.
 public class Member {
-
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;    //회원 식별자

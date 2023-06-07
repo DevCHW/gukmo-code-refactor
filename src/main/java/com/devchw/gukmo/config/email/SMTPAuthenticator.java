@@ -18,5 +18,4 @@ public class SMTPAuthenticator extends Authenticator{
         // 두번째 파라미터에는 발급받은 앱 비밀번호를 입력한다.
         return new PasswordAuthentication(sender, password);
     }
-
 }

@@ -21,6 +21,7 @@ import static javax.persistence.FetchType.LAZY;
 public class Login {
 
     @Id @GeneratedValue
+    @Column(name = "login_id")
     private Long id; //PK
 
     private String userId; //유저아이디

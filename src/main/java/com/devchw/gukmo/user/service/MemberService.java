@@ -22,7 +22,6 @@ import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_MEMB
 @Transactional(readOnly = true)
 public class MemberService {
 
-    private final LoginRepository loginRepository;
     private final MemberRepository memberRepository;
     private final FileManager fileManager;
 
@@ -64,7 +63,7 @@ public class MemberService {
         String savedFileName = fileManager.save(request.getProfileImage());
 
         // DB 반영
-        if(request.getProfileImage().isEmpty()) {   //프로필이미지가 없을 때
+        if(savedFileName == null) {   //프로필이미지가 없을 때
             if(request.getEmailAccept().equals("YES")) {
                 loginMember.changeMemberInfo(request.getUsername(), request.getNickname(), Member.EmailAccept.YES);
             } else {

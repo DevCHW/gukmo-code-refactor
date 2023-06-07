@@ -139,7 +139,7 @@ $(document).ready(function(){
 
 //Function Declaration
 /**
- * 정보수정한 회원 수정해주기
+ * 회원 정보 수정
  */
 function saveMember(){
     let id = sessionStorage.getItem("id");

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 
@@ -40,7 +41,7 @@ public class MemberApiController {
     /** 회원 정보 수정 */
     @PatchMapping("/{id}")
     public BaseResponse<String> updateInfo(@PathVariable Long id,
-                                            @ModelAttribute UpdateInfoRequest request) {
+                                           @Valid @ModelAttribute UpdateInfoRequest request) {
         memberService.changeInfo(id, request);
         return new BaseResponse<>(MEMBER_INFO_CHANGE_SUCCESS);
     }

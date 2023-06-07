@@ -30,10 +30,10 @@ public class DBinit {
 
     @PostConstruct
     public void init() {
-//        initService.dbInit1(); //테스트용 아이디 추가
-//        initService.dbInit2(); //테스트 해시태그가 있는 게시물 넣기
-//        initService.dbInit3(); //테스트 게시글 넣기
-//        initService.dbInit4(); //테스트 광고 넣기
+        initService.dbInit1(); //테스트용 아이디 추가
+        initService.dbInit2(); //테스트 해시태그가 있는 게시물 넣기
+        initService.dbInit3(); //테스트 게시글 넣기
+        initService.dbInit4(); //테스트 광고 넣기
     }
 
     @Component

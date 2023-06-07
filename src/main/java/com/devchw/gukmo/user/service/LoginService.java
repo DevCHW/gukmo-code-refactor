@@ -33,7 +33,7 @@ public class LoginService {
     /** 변경하려는 비밀번호가 기존 비밀번호와 같은지 확인(암호화 필요) */
     public boolean EqualsOriginPasswordCheck(Long id, String password) {
         String findPassword = loginRepository.findPasswordById(id);
-        return findPassword.equals(password);
+        return findPassword.equals(SHA256.encrypt(password));
     }
 
     /** 비밀번호 변경 */
