@@ -20,6 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
@@ -53,38 +56,28 @@ public class BoardService {
         return boardHashtagRepository.findBoardHashtagByBoardIdList(boardIds);
     }
 
-    /** 게시글 상세보기 페이지에 맞춘 단건조회(추후 광고리스트 조회도 추가 예정)*/
+    /** 게시글 상세보기 페이지에 맞춘 단건조회*/
     public BoardDto findBoardById(Long id, HttpSession session) {
         boolean likeExist = false;  //게시글 좋아요 여부
         // 게시물 조회
         Board board = boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
 
-        // 조회수 증가(추후 개발)
-
         // 이전글, 다음글 조회
         String firstCategory = board.getFirstCategory();
         String secondCategory = board.getSecondCategory();
 
-        PrevAndNextBoardDto prevAndNextBoardDto = null;
-        if(secondCategory != null) {
-            prevAndNextBoardDto = boardRepository.findPrevAndNextBoardDto(id, firstCategory, secondCategory);
-        } else {
-            prevAndNextBoardDto = boardRepository.findPrevAndNextBoardDto(id, firstCategory);
-        }
+        PrevAndNextBoardDto prevAndNextBoardDto = boardRepository.findPrevAndNextBoardDto(id, firstCategory, secondCategory);
 
         // 해시태그 조회
         List<String> hashtags = boardHashtagRepository.findTagNamesByBoardId(id);
 
-        // 현재 광고 리스트 조회(추후 개발)
-
         // 댓글 조회
-        List<Comments> comments = commentsRepository.findAllWithMemberAndParentByBoardIdOrderByParentIdAscNullsFirstCommentIdAsc(id);
+        List<Comments> comments = commentsRepository.findCommentListByBoardId(id);
         List<CommentsDto> commentsDtoList = null;
+
         // 로그인중이라면 좋아요 여부 알아오기.
         if(isLogin(session)) { //로그인 중이라면
-
             LoginMemberDto loginMemberDto = (LoginMemberDto) session.getAttribute(SessionConst.LOGIN_MEMBER);
-
             Long loginMemberId = loginMemberDto.getId();
             likeExist = boardLikeRepository.existsByBoardIdAndMemberId(id,loginMemberId);
 
@@ -95,7 +88,6 @@ public class BoardService {
                 List<Long> commentsLikeList = commentsLikeRepository.findMyLikeCommentIdsByCommentsIdListAndMemberId(commentIds, loginMemberId);
 
                 commentsDtoList = CommentsDto.convertHierarchy(comments, commentsLikeList);
-
             }
         } else {    //로그인중이 아니라면.
             commentsDtoList = CommentsDto.convertHierarchy(comments);
@@ -103,6 +95,39 @@ public class BoardService {
 
         // 조회된 데이터들을 Dto로 조합
         return new BoardDto().toDto(id, likeExist, board, prevAndNextBoardDto, hashtags, commentsDtoList);
+    }
+
+    /** 게시물 조회 수 증가 */
+    @Transactional
+    public void viewCountUp(Long id, HttpServletResponse response, HttpServletRequest request) {
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("boardView")) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+
+        //게시물 조회 수 증가
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + id.toString() + "]")) {
+                Board board = boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+                board.viewCountPlus();
+                oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60 * 60 * 24);
+                response.addCookie(oldCookie);
+            }
+        } else {
+            Board board = boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
+            board.viewCountPlus();
+            Cookie newCookie = new Cookie("boardView","[" + id + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60 * 60 * 24);
+            response.addCookie(newCookie);
+        }
     }
 
     /** 커뮤니티 게시글 작성 */
@@ -305,12 +330,5 @@ public class BoardService {
             }
         }
         return curriculum.getId();
-    }
-
-    /** 게시물 조회 수 증가 */
-    @Transactional
-    public void viewCountUp(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
-        board.viewCountPlus();
     }
 }

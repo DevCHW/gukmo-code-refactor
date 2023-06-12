@@ -41,6 +41,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_ACTIVITY(false, 3005, "활동내역을 찾을 수 없습니다."),
     NOT_FOUND_ADVERTISEMENT(false, 3006, "없는 광고입니다."),
     NOT_FOUND_REPORT(false, 3006, "없는 신고건입니다."),
+    NOT_FOUND_BOARD_LIKE(false, 3007, "없는 추천입니다."),
 
 
     /**

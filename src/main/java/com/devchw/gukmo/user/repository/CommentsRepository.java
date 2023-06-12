@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public interface CommentsRepository extends JpaRepository<Comments, Long> {
 
-    @Query("select c from Comments c join c.member left join fetch c.parent where c.board.id = :boardId order by c.parent.id asc nulls first, c.id asc")
-    List<Comments> findAllWithMemberAndParentByBoardIdOrderByParentIdAscNullsFirstCommentIdAsc(@Param("boardId") Long boardId);
+    @Query("select c from Comments c join fetch c.member left join fetch c.parent where c.board.id = :boardId order by c.parent.id asc nulls first, c.id asc")
+    List<Comments> findCommentListByBoardId(@Param("boardId") Long boardId);
 
     @EntityGraph(attributePaths = {"board"})
     Optional<Comments> findWithBoardById(Long commentsId);

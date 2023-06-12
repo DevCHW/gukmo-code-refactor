@@ -20,5 +20,4 @@ public class NumberUtil {
         }
         return buffer.toString();
     }
-
 }

@@ -41,12 +41,11 @@ public class CommentsDto {
         for (Comments comment : comments) {
             CommentsDto dto = toCommentsDto(comment, false);
 
-            if (comment.getParent() != null) { //부모가 있다면 Map에서 부모Dto 꺼내서 List에 자식댓글 담기.
-                Long parentId = comment.getParent().getId();
-                dto.setParentId(parentId);  //부모댓글번호 넣기
+            if (dto.getParentId() != null) { //부모댓글이 있다면 Map에서 부모Dto 꺼내서 List에 자식댓글 담기.
+                Long parentId = dto.getParentId();
                 CommentsDto parentDto = map.get(parentId);
                 parentDto.getChildren().add(dto);
-            } else {    //부모가 없다면
+            } else {    //부모댓글이 없다면
                 roots.add(dto);
             }
             map.put(comment.getId(), dto);
@@ -87,6 +86,8 @@ public class CommentsDto {
      * Entity -> Dto
      */
     public static CommentsDto toCommentsDto(Comments comments, boolean likeExist) {
+        Long parentId = null;
+        if(comments.getParent() != null) parentId = comments.getParent().getId();
         return CommentsDto.builder()
                 .id(comments.getId())
                 .content(comments.getContent())
@@ -94,6 +95,7 @@ public class CommentsDto {
                 .likeExist(likeExist)
                 .writeDate(DateUtil.calculateTime(comments.getWriteDate()))
                 .writer(WriterDto.toWriterDto(comments.getMember()))
+                .parentId(parentId)
                 .children(new ArrayList<>())
                 .likeCount(comments.getLikeCount())
                 .build();

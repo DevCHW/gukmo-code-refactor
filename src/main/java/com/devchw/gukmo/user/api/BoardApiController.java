@@ -18,6 +18,7 @@ import static com.devchw.gukmo.config.response.BaseResponseStatus.*;
 public class BoardApiController {
 
     private final BoardService boardService;
+
     @DeleteMapping("/{id}")
     public BaseResponse<String> delete(@PathVariable("id") Long id) {
         boardService.delete(id);

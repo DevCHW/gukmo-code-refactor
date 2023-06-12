@@ -16,8 +16,5 @@ public interface ActivityRepository extends JpaRepository<Activity, Long>, Activ
     @EntityGraph(attributePaths = {"member", "board"})
     Activity findByMemberIdAndBoardIdAndDivision(Long memberId, Long boardId, Division division);
 
-    @EntityGraph(attributePaths = {"comments", "member"})
-    Activity findWithCommentsWithMemberByCommentsIdAndMemberId(Long id, Long memberId);
-
     Optional<Activity> findByMemberIdAndCommentsIdAndDivision(Long memberId, Long commentsId, Division commentLike);
 }

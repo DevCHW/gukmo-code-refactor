@@ -28,7 +28,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,7 +40,6 @@ import java.util.stream.Collectors;
 import static com.devchw.gukmo.config.SessionConst.LOGIN_MEMBER;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_BOARD;
 import static com.devchw.gukmo.config.response.BaseResponseStatus.NOT_FOUND_MEMBER;
-import static com.devchw.gukmo.entity.advertisement.Advertisement.Type.*;
 import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j
@@ -56,7 +54,7 @@ public class BoardController {
     private final AdvertisementService advertisementService;
 
     /** 게시글 리스트 조회(페이징) */
-    @GetMapping()
+    @GetMapping
     public String boards(@ModelAttribute BoardRequestDto boardRequest,
                          Pageable pageable,
                          Model model) {
@@ -68,6 +66,7 @@ public class BoardController {
         model.addAttribute("mustReadNotices", mustReadNotices);
         model.addAttribute("noticeHashtags", noticeHashtags);
 
+        //게시판 조회
         List<Long> boardIds = new ArrayList<>();
         int totalPage = 0;
         int totalElements = 0;
@@ -148,22 +147,12 @@ public class BoardController {
     /** 게시글 단건 조회 */
     @GetMapping("/{id}")
     public String board(@PathVariable Long id, HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) {
-        Cookie oldCookie = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("boardView")) {
-                    oldCookie = cookie;
-                }
-            }
-        }
-
         //조회 수 증가
-        viewCountUp(id, response, oldCookie);
+        boardService.viewCountUp(id, response, request);
 
         // 조건에 맞는 게시물 페이지 광고 5개 조회
         LocalDateTime currentDateTime = LocalDateTime.now();
-        Set<Advertisement> advertisements = advertisementService.findAdvertisement(currentDateTime, BOARD);
+        Set<Advertisement> advertisements = advertisementService.findAdvertisement(currentDateTime, Advertisement.Type.BOARD);
         List<AdvertisementDto> advertisementList = advertisements.stream().map(a -> new AdvertisementDto().toDto(a)).collect(Collectors.toList());
 
         model.addAttribute("advertisementList", advertisementList);
@@ -171,39 +160,10 @@ public class BoardController {
         //게시글 조회
         BoardDto boardDto = boardService.findBoardById(id, session);
 
-        if(boardDto.getSecondCategory().equals("국비학원")) {
-            Academy findAcademy = (Academy) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
-            AcademyDto academy = new AcademyDto().toDto(findAcademy);
-            model.addAttribute("academy", academy);
-        } else if(boardDto.getSecondCategory().equals("교육과정")) {
-            Curriculum findCurriculum = (Curriculum) boardRepository.findById(id).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
-            CurriculumDto curriculum = new CurriculumDto().toDto(findCurriculum);
-            model.addAttribute("curriculum", curriculum);
-        }
-
         model.addAttribute("board", boardDto);
         return "board/boardDetail.tiles1";
     }
 
-    /** 게시물 조회 수 증가 */
-    private void viewCountUp(Long id, HttpServletResponse response, Cookie oldCookie) {
-        //게시물 조회 수 증가
-        if (oldCookie != null) {
-            if (!oldCookie.getValue().contains("[" + id.toString() + "]")) {
-                boardService.viewCountUp(id);
-                oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
-                oldCookie.setPath("/");
-                oldCookie.setMaxAge(60 * 60 * 24);
-                response.addCookie(oldCookie);
-            }
-        } else {
-            boardService.viewCountUp(id);
-            Cookie newCookie = new Cookie("boardView","[" + id + "]");
-            newCookie.setPath("/");
-            newCookie.setMaxAge(60 * 60 * 24);
-            response.addCookie(newCookie);
-        }
-    }
 
     /** 커뮤니티 작성 폼 */
     @GetMapping("/community/new")

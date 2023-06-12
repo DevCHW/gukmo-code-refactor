@@ -39,13 +39,11 @@ public class CommunityFormDto {
      * Entity -> Dto
      */
     public CommunityFormDto toDto(Board board) {
-
         return CommunityFormDto.builder()
                 .id(board.getId())
                 .subject(board.getSubject())
                 .content(board.getContent())
                 .firstCategory(board.getFirstCategory())
-                .secondCategory(board.getSecondCategory())
                 .build();
 
     }

@@ -33,6 +33,9 @@ public class BoardDto {
     private WriterDto writer;   //작성자 정보
 
 
+    /**
+     * Entity -> Dto
+     */
     public BoardDto toDto(Long id, boolean likeExist, Board board, PrevAndNextBoardDto prevAndNextBoardDto, List<String> hashtags, List<CommentsDto> commentsDtoList) {
         return BoardDto.builder()
                 .id(id)

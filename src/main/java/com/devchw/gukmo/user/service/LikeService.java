@@ -32,10 +32,12 @@ public class LikeService {
     @Transactional
     public String boardLike(Long memberId, Long boardId) {
         Boolean exist = boardLikeRepository.existsByBoardIdAndMemberId(boardId, memberId);
+
         if(exist) { // 추천 삭제
-            Long id = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).getId();
-            Board board = boardRepository.findById(boardId).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD));
-            boardLikeRepository.deleteById(id);
+            BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).orElseThrow(() -> new BaseException(NOT_FOUND_BOARD_LIKE));
+            System.out.println("여기서 한번더 쿼리가 나가나?");
+            Board board = boardLike.getBoard();
+            boardLikeRepository.deleteById(boardLike.getId());
 
             //활동내역 삭제
             Long activityId = activityRepository.findByMemberIdAndBoardIdAndDivision(memberId, boardId, BOARD_LIKE).getId();
